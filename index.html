@@ -115,12 +115,13 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  nav { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+  nav { padding: 16px 20px; }
   nav.scrolled { padding: 12px 20px; }
-  nav > div:last-child { display: none; }
-  .logo-text { font-size: 1.1rem; }
+  nav > div:last-child { display: none !important; }
+  .logo-box { width: 32px; height: 32px; font-size: 0.45rem; }
+  .logo-text { font-size: 1rem; }
   section { padding: 60px 20px; }
-  .hero { padding: 100px 20px 60px; }
+  .hero { padding: 120px 20px 60px; min-height: 90vh; }
   h1 { font-size: 2.2rem; }
   h2 { font-size: 1.8rem; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
