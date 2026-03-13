@@ -507,4 +507,11 @@ document.querySelectorAll('.fade').forEach(el => observer.observe(el));
     animFrame = requestAnimationFrame(draw);
   }
 
-  w
+  window.addEventListener('resize', resize);
+  resize();
+  createNodes();
+  draw();
+})();
+</script>
+</body>
+</html>
