@@ -14,16 +14,25 @@ export default async function handler(req, res) {
 
   try {
     const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
-    const API_KEY = process.env.GOOGLE_CALENDAR_API_KEY;
+    const SERVICE_ACCOUNT_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
 
-    if (!CALENDAR_ID || !API_KEY) {
+    if (!CALENDAR_ID || !SERVICE_ACCOUNT_KEY) {
       return res.status(200).json({ 
         error: 'Calendar configuration missing',
         fallback: 'Book a Call'
       });
     }
 
-    const calendar = google.calendar({ version: 'v3', auth: API_KEY });
+    // Set up service account authentication
+    const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
+    
+    const auth = new google.auth.JWT({
+      email: serviceAccountKey.client_email,
+      key: serviceAccountKey.private_key,
+      scopes: ['https://www.googleapis.com/auth/calendar.readonly']
+    });
+
+    const calendar = google.calendar({ version: 'v3', auth });
     
     // Get current time and 14 days ahead
     const now = new Date();
