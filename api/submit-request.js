@@ -1,7 +1,7 @@
 // Vercel Serverless Function: Submit Booking Request
 // Path: /api/submit-request.js
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   // CORS headers

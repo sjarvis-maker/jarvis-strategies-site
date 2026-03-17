@@ -1,7 +1,7 @@
 // Vercel Serverless Function: Suggest Alternate Time
 // Path: /api/suggest-alternate.js
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   const { data, alternateTime } = req.query;

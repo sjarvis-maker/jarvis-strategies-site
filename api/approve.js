@@ -1,8 +1,8 @@
 // Vercel Serverless Function: Approve Booking Request
 // Path: /api/approve.js
 
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

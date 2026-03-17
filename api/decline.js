@@ -1,7 +1,7 @@
 // Vercel Serverless Function: Decline Booking Request
 // Path: /api/decline.js
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

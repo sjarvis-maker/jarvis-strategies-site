@@ -1,7 +1,7 @@
 // Vercel Serverless Function: Get Next Available Time from Google Calendar
 // Path: /api/get-availability.js
 
-const { google } = require('googleapis');
+import { google } from 'googleapis';
 
 export default async function handler(req, res) {
   // CORS headers
