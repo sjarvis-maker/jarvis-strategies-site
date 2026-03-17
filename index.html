@@ -158,7 +158,7 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
   <div class="fade d1"><h1 style="max-width:800px;margin-bottom:32px">Your competitors are starting to <span class="accent-i">figure this out.</span><br>Don't be the last one in.</h1></div>
   <div class="fade d2"><p style="font-size:1.15rem;color:var(--secondary);line-height:1.7;max-width:600px;margin-bottom:48px">69% of businesses say they can't find a clear use case for AI. That's exactly where I start. I help companies in Western Canada figure out where AI fits, implement it properly, and make sure the right governance is in place so it doesn't create new problems.</p></div>
   <div class="fade d3" style="display:flex;gap:16px;flex-wrap:wrap">
-    <a href="#contact" class="btn btn-primary">Contact</a>
+    <a href="#contact" class="btn btn-primary">Available</a>
     <a href="#services" class="btn btn-outline">See How It Works</a>
   </div>
 </div>
@@ -389,13 +389,14 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
           <h3 style="font-size:1.4rem;margin-bottom:12px">Book a Call</h3>
           <p style="font-size:0.95rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">30 minutes. I'll ask a few direct questions about how your business runs. If there's a fit, we'll talk next steps. If not, I'll tell you honestly.</p>
-          <a href="https://calendar.app.google/UG8zQKTSRPR8qBTcA" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.95rem">Book a Free 30-Min Call</a>
+          <button id="bookingBtn" class="btn btn-primary" style="font-size:0.95rem;border:none;cursor:pointer" onclick="openBookingModal()">
+            <span id="availabilityText">Book a Free 30-Min Call</span>
+          </button>
         </div>
       </div>
     </div>
     <div class="fade d4"><p style="font-size:0.85rem;color:var(--muted);margin-top:24px;text-align:center">No pitch. No pressure. Just a conversation.</p></div>
   </div>
-</section>
 </section>
 
 <!-- FOOTER -->
@@ -407,6 +408,49 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
   <div class="mono" style="font-size:0.7rem;color:var(--muted)">© 2026</div>
 </footer>
 </div><!-- end #page-content -->
+
+<!-- Booking Modal -->
+<div id="bookingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:1000;padding:20px;overflow-y:auto">
+  <div style="max-width:500px;margin:50px auto;background:var(--dark);border-radius:8px;padding:40px;border:1px solid var(--border)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <h2 style="margin:0;color:var(--white)">Request a Discovery Call</h2>
+      <button onclick="closeBookingModal()" style="background:none;border:none;color:var(--secondary);font-size:24px;cursor:pointer;padding:0;line-height:1">&times;</button>
+    </div>
+
+    <form id="bookingForm" onsubmit="submitBooking(event)">
+      <div style="margin-bottom:20px">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Name *</label>
+        <input type="text" name="name" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px">
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Email *</label>
+        <input type="email" name="email" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px">
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Company *</label>
+        <input type="text" name="company" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px">
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Preferred Date & Time *</label>
+        <input type="datetime-local" id="requestedTime" name="requestedTime" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px">
+      </div>
+
+      <div style="margin-bottom:24px">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Brief Context (Optional)</label>
+        <textarea name="context" rows="4" style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px;resize:vertical"></textarea>
+      </div>
+
+      <div id="formMessage" style="margin-bottom:20px;padding:12px;border-radius:4px;display:none"></div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;border:none;cursor:pointer;font-size:16px">
+        Submit Request
+      </button>
+    </form>
+  </div>
+</div>
 
 <script>
 // Nav scroll effect
@@ -503,7 +547,7 @@ document.querySelectorAll('.fade').forEach(el => observer.observe(el));
       if (n.y < 0 || n.y > height) n.vy *= -1;
     }
 
-    // Vertical data streams (like the image)
+    // Vertical data streams
     for (let i = 0; i < 12; i++) {
       const x = (width / 12) * i + Math.sin(Date.now() * 0.001 + i) * 20;
       const streamHeight = height * (0.3 + Math.sin(Date.now() * 0.0005 + i * 0.7) * 0.2);
@@ -523,11 +567,101 @@ document.querySelectorAll('.fade').forEach(el => observer.observe(el));
     animFrame = requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', resize);
   resize();
   createNodes();
   draw();
+  window.addEventListener('resize', () => { resize(); createNodes(); });
 })();
+
+// Booking System Functions
+async function updateAvailability() {
+  try {
+    const response = await fetch('/api/get-availability');
+    const data = await response.json();
+
+    const textEl = document.getElementById('availabilityText');
+    if (data.available && !data.fallback) {
+      textEl.textContent = data.text;
+      if (data.datetime) {
+        const localTime = new Date(data.datetime).toISOString().slice(0, 16);
+        document.getElementById('requestedTime').value = localTime;
+      }
+    } else {
+      textEl.textContent = 'Book a Free 30-Min Call';
+    }
+  } catch (error) {
+    console.error('Failed to fetch availability:', error);
+    document.getElementById('availabilityText').textContent = 'Book a Free 30-Min Call';
+  }
+}
+
+function openBookingModal() {
+  document.getElementById('bookingModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  document.getElementById('bookingForm').reset();
+  document.getElementById('formMessage').style.display = 'none';
+}
+
+async function submitBooking(event) {
+  event.preventDefault();
+
+  const formMessage = document.getElementById('formMessage');
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+
+  const formData = new FormData(event.target);
+  const data = {
+    name: formData.get('name'),
+    email: formData.get('email'),
+    company: formData.get('company'),
+    requestedTime: new Date(formData.get('requestedTime')).toISOString(),
+    context: formData.get('context')
+  };
+
+  try {
+    const response = await fetch('/api/submit-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      formMessage.style.display = 'block';
+      formMessage.style.background = 'var(--accent-glow)';
+      formMessage.style.color = 'var(--accent)';
+      formMessage.textContent = 'Request submitted! You\'ll hear back within 24 hours.';
+
+      setTimeout(() => {
+        closeBookingModal();
+      }, 3000);
+    } else {
+      throw new Error(result.error || 'Submission failed');
+    }
+  } catch (error) {
+    formMessage.style.display = 'block';
+    formMessage.style.background = '#f44336';
+    formMessage.style.color = 'white';
+    formMessage.textContent = 'Failed to submit request. Please email directly.';
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Request';
+  }
+}
+
+// Update availability when page loads
+window.addEventListener('load', updateAvailability);
+
+// Refresh availability every 10 minutes
+setInterval(updateAvailability, 10 * 60 * 1000);
 </script>
 </body>
 </html>
