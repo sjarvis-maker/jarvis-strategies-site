@@ -1,0 +1,9 @@
+{
+  "name": "jarvis-strategies-site",
+  "version": "1.0.0",
+  "description": "Jarvis Strategies website with booking system",
+  "dependencies": {
+    "googleapis": "^128.0.0",
+    "nodemailer": "^6.9.7"
+  }
+}
