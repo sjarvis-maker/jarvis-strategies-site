@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const { name, email, company } = requestData;
 
     // Send rejection email to prospect
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
       secure: true,

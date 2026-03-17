@@ -61,7 +61,7 @@ export default async function handler(req, res) {
 
   // Alternate time was provided, send email to prospect
   try {
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
       secure: true,

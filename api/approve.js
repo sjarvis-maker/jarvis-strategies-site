@@ -20,11 +20,16 @@ export default async function handler(req, res) {
     const requestData = JSON.parse(Buffer.from(data, 'base64').toString());
     const { name, email, company, requestedTime, context } = requestData;
 
-    // Create calendar event
-    const calendar = google.calendar({ 
-      version: 'v3', 
-      auth: process.env.GOOGLE_CALENDAR_API_KEY 
+    // Set up Google Calendar with service account
+    const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+    
+    const auth = new google.auth.JWT({
+      email: serviceAccountKey.client_email,
+      key: serviceAccountKey.private_key,
+      scopes: ['https://www.googleapis.com/auth/calendar']
     });
+
+    const calendar = google.calendar({ version: 'v3', auth });
 
     const event = {
       summary: `Discovery Call: ${company}`,
@@ -38,7 +43,7 @@ export default async function handler(req, res) {
         timeZone: 'America/Vancouver'
       },
       attendees: [
-        { email: 'sjarvis@jarvisstrategies.com' },
+        { email: process.env.SMTP_USER },
         { email }
       ],
       conferenceData: {
@@ -64,7 +69,7 @@ export default async function handler(req, res) {
     });
 
     // Send confirmation email to prospect
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
       secure: true,
