@@ -1,6 +1,7 @@
 {
   "name": "jarvis-strategies-site",
   "version": "1.0.0",
+  "type": "module",
   "description": "Jarvis Strategies website with booking system",
   "dependencies": {
     "googleapis": "^128.0.0",
