@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     const event = {
       summary: `Discovery Call: ${company}`,
-      description: `Discovery call with ${name} from ${company}\n\nEmail: ${email}\n\nContext: ${context || 'None provided'}`,
+      description: `Discovery call with ${name} from ${company}\n\nEmail: ${email}\n\nContext: ${context || 'None provided'}\n\nGoogle Meet: https://meet.google.com/new`,
       start: {
         dateTime: requestedTime,
         timeZone: 'America/Vancouver'
@@ -41,13 +41,6 @@ export default async function handler(req, res) {
       end: {
         dateTime: new Date(new Date(requestedTime).getTime() + 30 * 60000).toISOString(),
         timeZone: 'America/Vancouver'
-      },
-      // Don't use attendees - service accounts can't invite external people
-      conferenceData: {
-        createRequest: {
-          requestId: `${Date.now()}`,
-          conferenceSolutionKey: { type: 'hangoutsMeet' }
-        }
       },
       reminders: {
         useDefault: false,
@@ -60,11 +53,11 @@ export default async function handler(req, res) {
 
     const calendarResponse = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
-      resource: event,
-      conferenceDataVersion: 1
+      resource: event
     });
 
-    const meetLink = calendarResponse.data.hangoutLink || 'TBD';
+    // Generate a simple meet link (you'll create it when you join)
+    const meetLink = 'https://meet.google.com/new';
 
     // Send confirmation email to prospect
     const transporter = nodemailer.createTransport({
@@ -103,14 +96,15 @@ export default async function handler(req, res) {
           <div style="background: #f2f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p style="margin: 8px 0;"><strong>Date & Time:</strong> ${formattedTime}</p>
             <p style="margin: 8px 0;"><strong>Duration:</strong> 30 minutes</p>
-            <p style="margin: 8px 0;"><strong>Google Meet Link:</strong> <a href="${meetLink}" style="color: #2196F3;">${meetLink}</a></p>
           </div>
           
-          <p><strong>Add to your calendar:</strong></p>
+          <p>A Google Meet link will be shared with you closer to the meeting time via email.</p>
+          
+          <p><strong>Please add this to your calendar:</strong></p>
           <ul>
-            <li>Save the Google Meet link above</li>
-            <li>Add an event to your calendar for ${formattedTime}</li>
-            <li>Include the Meet link in your calendar event</li>
+            <li>Create a calendar event for ${formattedTime}</li>
+            <li>Set duration to 30 minutes</li>
+            <li>You'll receive the meeting link separately</li>
           </ul>
           
           <p>Looking forward to speaking with you.</p>
@@ -140,8 +134,8 @@ export default async function handler(req, res) {
           </div>
           <div class="details">
             <p><strong>Time:</strong> ${formattedTime}</p>
-            <p><strong>Google Meet:</strong> <a href="${meetLink}" target="_blank">${meetLink}</a></p>
             <p><strong>Event created in your calendar</strong></p>
+            <p><strong>Next step:</strong> Add a Google Meet link to the calendar event and send it to the prospect</p>
           </div>
         </body>
       </html>
