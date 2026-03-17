@@ -83,54 +83,60 @@ export default async function handler(req, res) {
 }
 
 function findNextAvailableSlot(startTime, endTime, busySlots) {
-  const BUSINESS_START = 9; // 9 AM
-  const BUSINESS_END = 17;  // 5 PM
+  const BUSINESS_START = 9; // 9 AM Pacific
+  const BUSINESS_END = 17;  // 5 PM Pacific
   const SLOT_DURATION = 30; // minutes
   const DAYS_TO_CHECK = 14;
+  const PACIFIC_OFFSET = -7; // PDT is UTC-7
 
-  let currentCheck = new Date(startTime);
+  // Get current time in Pacific
+  const now = new Date();
+  const pacificNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
   
-  // Round up to next 30min increment
-  currentCheck.setMinutes(Math.ceil(currentCheck.getMinutes() / 30) * 30, 0, 0);
+  let checkDate = new Date(pacificNow);
+  checkDate.setMinutes(Math.ceil(checkDate.getMinutes() / 30) * 30, 0, 0);
 
   for (let day = 0; day < DAYS_TO_CHECK; day++) {
-    const dayOfWeek = currentCheck.getDay();
+    const dayOfWeek = checkDate.getDay();
     
     // Skip weekends
     if (dayOfWeek === 0 || dayOfWeek === 6) {
-      currentCheck.setDate(currentCheck.getDate() + 1);
-      currentCheck.setHours(BUSINESS_START, 0, 0, 0);
+      checkDate.setDate(checkDate.getDate() + 1);
+      checkDate.setHours(BUSINESS_START, 0, 0, 0);
       continue;
     }
 
     // Check each 30min slot during business hours
     for (let hour = BUSINESS_START; hour < BUSINESS_END; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const slotStart = new Date(currentCheck);
-        slotStart.setHours(hour, minute, 0, 0);
+        // Create slot time in Pacific
+        const slotTime = new Date(checkDate);
+        slotTime.setHours(hour, minute, 0, 0);
         
-        const slotEnd = new Date(slotStart);
-        slotEnd.setMinutes(slotEnd.getMinutes() + SLOT_DURATION);
+        // Skip if in the past
+        if (slotTime <= pacificNow) continue;
 
-        // Check if slot is in the past
-        if (slotStart < new Date()) continue;
+        // Convert to UTC for comparison with Google Calendar
+        const slotStartUTC = new Date(slotTime.getTime() - (PACIFIC_OFFSET * 60 * 60 * 1000));
+        const slotEndUTC = new Date(slotStartUTC.getTime() + SLOT_DURATION * 60 * 1000);
 
         // Check if slot conflicts with busy times
         const isConflict = busySlots.some(busy => {
           const busyStart = new Date(busy.start);
           const busyEnd = new Date(busy.end);
-          return (slotStart < busyEnd && slotEnd > busyStart);
+          return (slotStartUTC < busyEnd && slotEndUTC > busyStart);
         });
 
         if (!isConflict) {
-          return slotStart;
+          // Return as UTC ISO string
+          return slotStartUTC;
         }
       }
     }
 
     // Move to next day
-    currentCheck.setDate(currentCheck.getDate() + 1);
-    currentCheck.setHours(BUSINESS_START, 0, 0, 0);
+    checkDate.setDate(checkDate.getDate() + 1);
+    checkDate.setHours(BUSINESS_START, 0, 0, 0);
   }
 
   return null;
