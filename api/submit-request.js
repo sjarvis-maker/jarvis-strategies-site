@@ -51,9 +51,7 @@ export default async function handler(req, res) {
     });
 
     // Base URL for action links
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://jarvisstrategies.com';
+    const baseUrl = 'https://jarvisstrategies.com';
 
     // Format requested time nicely
     const formattedTime = new Date(requestedTime).toLocaleString('en-US', {

@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     const event = {
       summary: `Discovery Call: ${company}`,
-      description: `Discovery call with ${name} from ${company}\n\nContext: ${context || 'None provided'}`,
+      description: `Discovery call with ${name} from ${company}\n\nEmail: ${email}\n\nContext: ${context || 'None provided'}`,
       start: {
         dateTime: requestedTime,
         timeZone: 'America/Vancouver'
@@ -42,10 +42,7 @@ export default async function handler(req, res) {
         dateTime: new Date(new Date(requestedTime).getTime() + 30 * 60000).toISOString(),
         timeZone: 'America/Vancouver'
       },
-      attendees: [
-        { email: process.env.SMTP_USER },
-        { email }
-      ],
+      // Don't use attendees - service accounts can't invite external people
       conferenceData: {
         createRequest: {
           requestId: `${Date.now()}`,
@@ -61,12 +58,13 @@ export default async function handler(req, res) {
       }
     };
 
-    await calendar.events.insert({
+    const calendarResponse = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       resource: event,
-      conferenceDataVersion: 1,
-      sendUpdates: 'all'
+      conferenceDataVersion: 1
     });
+
+    const meetLink = calendarResponse.data.hangoutLink || 'TBD';
 
     // Send confirmation email to prospect
     const transporter = nodemailer.createTransport({
@@ -103,17 +101,23 @@ export default async function handler(req, res) {
           <p>Your discovery call with Jarvis Strategies has been confirmed.</p>
           
           <div style="background: #f2f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Date & Time:</strong> ${formattedTime}</p>
-            <p><strong>Duration:</strong> 30 minutes</p>
+            <p style="margin: 8px 0;"><strong>Date & Time:</strong> ${formattedTime}</p>
+            <p style="margin: 8px 0;"><strong>Duration:</strong> 30 minutes</p>
+            <p style="margin: 8px 0;"><strong>Google Meet Link:</strong> <a href="${meetLink}" style="color: #2196F3;">${meetLink}</a></p>
           </div>
           
-          <p>You should receive a calendar invitation shortly with meeting details.</p>
+          <p><strong>Add to your calendar:</strong></p>
+          <ul>
+            <li>Save the Google Meet link above</li>
+            <li>Add an event to your calendar for ${formattedTime}</li>
+            <li>Include the Meet link in your calendar event</li>
+          </ul>
           
           <p>Looking forward to speaking with you.</p>
           
           <p>Scott Jarvis<br/>
           Jarvis Strategies<br/>
-          <a href="mailto:sjarvis@jarvisstrategies.com">sjarvis@jarvisstrategies.com</a></p>
+          <a href="mailto:${process.env.SMTP_USER}">${process.env.SMTP_USER}</a></p>
         </div>
       `
     });
@@ -126,13 +130,18 @@ export default async function handler(req, res) {
           <style>
             body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
             .success { background: #4CAF50; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+            .details { background: #f2f4f8; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: left; }
           </style>
         </head>
         <body>
           <div class="success">
             <h1>✓ Booking Approved</h1>
-            <p>Calendar invitation sent to ${email}</p>
-            <p>Event created: ${formattedTime}</p>
+            <p>Confirmation email sent to ${email}</p>
+          </div>
+          <div class="details">
+            <p><strong>Time:</strong> ${formattedTime}</p>
+            <p><strong>Google Meet:</strong> <a href="${meetLink}" target="_blank">${meetLink}</a></p>
+            <p><strong>Event created in your calendar</strong></p>
           </div>
         </body>
       </html>

@@ -88,9 +88,7 @@ export default async function handler(req, res) {
       requestedTime: new Date(alternateTime).toISOString()
     })).toString('base64');
 
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://jarvisstrategies.com';
+    const baseUrl = 'https://jarvisstrategies.com';
 
     await transporter.sendMail({
       from: process.env.SMTP_USER,
