@@ -583,15 +583,22 @@ async function updateAvailability() {
     if (data.available && !data.fallback) {
       textEl.textContent = data.text;
       if (data.datetime) {
-        const localTime = new Date(data.datetime).toISOString().slice(0, 16);
+        // Convert UTC to local time for datetime-local input
+        const date = new Date(data.datetime);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const localTime = `${year}-${month}-${day}T${hours}:${minutes}`;
         document.getElementById('requestedTime').value = localTime;
       }
     } else {
-      textEl.textContent = 'Book a Free 30-Min Call';
+      textEl.textContent = 'Book a Call';
     }
   } catch (error) {
     console.error('Failed to fetch availability:', error);
-    document.getElementById('availabilityText').textContent = 'Book a Free 30-Min Call';
+    document.getElementById('availabilityText').textContent = 'Book a Call';
   }
 }
 
