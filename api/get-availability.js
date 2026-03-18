@@ -1,4 +1,4 @@
-// Vercel Serverless Function: Get Next Available Time from Google Calendar
+// Vercel Serverless Function: Get Next Available Appointment Slot
 // Path: /api/get-availability.js
 
 import { google } from 'googleapis';
@@ -36,24 +36,24 @@ export default async function handler(req, res) {
 
     const calendar = google.calendar({ version: 'v3', auth });
     
-    // Get current time and 14 days ahead in UTC
+    // Get current time and 14 days ahead
     const now = new Date();
     const twoWeeksOut = new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-    // Query free/busy
-    const freeBusy = await calendar.freebusy.query({
-      requestBody: {
-        timeMin: now.toISOString(),
-        timeMax: twoWeeksOut.toISOString(),
-        items: [{ id: CALENDAR_ID }],
-        timeZone: 'America/Vancouver'
-      }
+    // List all events in the next 2 weeks
+    const eventsResponse = await calendar.events.list({
+      calendarId: CALENDAR_ID,
+      timeMin: now.toISOString(),
+      timeMax: twoWeeksOut.toISOString(),
+      singleEvents: true,
+      orderBy: 'startTime',
+      maxResults: 250
     });
 
-    const busySlots = freeBusy.data.calendars[CALENDAR_ID]?.busy || [];
+    const events = eventsResponse.data.items || [];
     
-    // Find next available slot
-    const nextAvailable = findNextAvailableSlot(now, busySlots);
+    // Find next available appointment slot
+    const nextAvailable = findNextAppointmentSlot(events, now);
     
     if (!nextAvailable) {
       return res.status(200).json({
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     }
 
     // Format for display
-    const formatted = nextAvailable.toLocaleString('en-US', {
+    const formatted = new Date(nextAvailable).toLocaleString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     
     return res.status(200).json({
       available: true,
-      datetime: nextAvailable.toISOString(),
+      datetime: nextAvailable,
       text: `Next Available: ${formatted}`,
       fallback: false
     });
@@ -92,57 +92,35 @@ export default async function handler(req, res) {
   }
 }
 
-function findNextAvailableSlot(startTime, busySlots) {
-  const BUSINESS_START = 9; // 9 AM
-  const BUSINESS_END = 17;  // 5 PM  
-  const SLOT_DURATION_MS = 30 * 60 * 1000; // 30 minutes
-  const DAYS_TO_CHECK = 14;
-
-  // Start checking from now
-  let checkTime = new Date(startTime);
+function findNextAppointmentSlot(events, now) {
+  // Look for appointment slot events
+  // These are typically titled like "30 min with Scott" or similar
+  // and are available if they don't have attendees or are marked as available
   
-  // Round up to next 30-minute increment
-  const minutes = checkTime.getMinutes();
-  const roundedMinutes = Math.ceil(minutes / 30) * 30;
-  checkTime.setMinutes(roundedMinutes, 0, 0);
-  
-  const endTime = new Date(startTime.getTime() + (DAYS_TO_CHECK * 24 * 60 * 60 * 1000));
-
-  while (checkTime < endTime) {
-    // Get hour in Pacific timezone
-    const pacificHour = parseInt(checkTime.toLocaleString('en-US', {
-      timeZone: 'America/Vancouver',
-      hour: '2-digit',
-      hour12: false
-    }));
+  for (const event of events) {
+    const eventStart = new Date(event.start.dateTime || event.start.date);
     
-    // Get day of week in Pacific timezone
-    const pacificDay = new Date(checkTime.toLocaleString('en-US', {
-      timeZone: 'America/Vancouver'
-    })).getDay();
+    // Skip events in the past
+    if (eventStart <= now) continue;
     
-    // Skip weekends (0 = Sunday, 6 = Saturday)
-    if (pacificDay !== 0 && pacificDay !== 6) {
-      // Check if within business hours
-      if (pacificHour >= BUSINESS_START && pacificHour < BUSINESS_END) {
-        const slotEnd = new Date(checkTime.getTime() + SLOT_DURATION_MS);
-        
-        // Check if this slot conflicts with any busy time
-        const isConflict = busySlots.some(busy => {
-          const busyStart = new Date(busy.start);
-          const busyEnd = new Date(busy.end);
-          return checkTime < busyEnd && slotEnd > busyStart;
-        });
-        
-        if (!isConflict) {
-          return checkTime;
-        }
-      }
+    // Check if this is an appointment slot event
+    const isAppointmentSlot = 
+      (event.summary && event.summary.toLowerCase().includes('min with scott')) ||
+      (event.summary && event.summary.toLowerCase().includes('appointment')) ||
+      (event.eventType === 'workingLocation') ||
+      (event.transparency === 'transparent');
+    
+    if (!isAppointmentSlot) continue;
+    
+    // Check if slot is still available (no attendees or only organizer)
+    const attendees = event.attendees || [];
+    const hasBooking = attendees.some(a => a.email !== event.organizer?.email && a.responseStatus !== 'declined');
+    
+    if (!hasBooking) {
+      // This slot is available
+      return eventStart.toISOString();
     }
-    
-    // Move to next 30-minute slot
-    checkTime = new Date(checkTime.getTime() + SLOT_DURATION_MS);
   }
-
+  
   return null;
 }
