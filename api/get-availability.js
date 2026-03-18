@@ -1,4 +1,4 @@
-// Vercel Serverless Function: Get Next Available Appointment Slot
+// Vercel Serverless Function: Find Next Free 30-Min Slot
 // Path: /api/get-availability.js
 
 import { google } from 'googleapis';
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
 
     if (!CALENDAR_ID || !SERVICE_ACCOUNT_KEY) {
       return res.status(200).json({ 
-        error: 'Calendar configuration missing',
         available: false,
         text: 'Book a Call',
         fallback: true
@@ -40,32 +39,31 @@ export default async function handler(req, res) {
     const now = new Date();
     const twoWeeksOut = new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-    // List all events in the next 2 weeks
-    const eventsResponse = await calendar.events.list({
-      calendarId: CALENDAR_ID,
-      timeMin: now.toISOString(),
-      timeMax: twoWeeksOut.toISOString(),
-      singleEvents: true,
-      orderBy: 'startTime',
-      maxResults: 250
+    // Query free/busy to see when you're actually busy
+    const freeBusy = await calendar.freebusy.query({
+      requestBody: {
+        timeMin: now.toISOString(),
+        timeMax: twoWeeksOut.toISOString(),
+        items: [{ id: CALENDAR_ID }],
+        timeZone: 'America/Vancouver'
+      }
     });
 
-    const events = eventsResponse.data.items || [];
+    const busySlots = freeBusy.data.calendars[CALENDAR_ID]?.busy || [];
     
-    // Find next available appointment slot
-    const result = findNextAppointmentSlot(events, now);
+    // Find next free 30-min slot during business hours
+    const nextAvailable = findNextFreeSlot(now, busySlots);
     
-    if (!result.slot) {
+    if (!nextAvailable) {
       return res.status(200).json({
         available: false,
         text: 'Book a Call',
-        fallback: true,
-        debug: result.debug
+        fallback: true
       });
     }
 
     // Format for display
-    const formatted = new Date(result.slot).toLocaleString('en-US', {
+    const formatted = nextAvailable.toLocaleString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -77,78 +75,71 @@ export default async function handler(req, res) {
     
     return res.status(200).json({
       available: true,
-      datetime: result.slot,
+      datetime: nextAvailable.toISOString(),
       text: `Next Available: ${formatted}`,
-      fallback: false,
-      debug: result.debug
+      fallback: false
     });
 
   } catch (error) {
-    console.error('Calendar API Error:', error);
     return res.status(200).json({
       available: false,
       text: 'Book a Call',
       fallback: true,
-      error: error.message,
-      debug: {
-        errorDetails: error.toString()
-      }
+      error: error.message
     });
   }
 }
 
-function findNextAppointmentSlot(events, now) {
-  const debugInfo = {
-    totalEvents: events.length,
-    eventsChecked: [],
-    foundSlot: null
-  };
-  
-  for (const event of events) {
-    const eventStart = new Date(event.start.dateTime || event.start.date);
+function findNextFreeSlot(startTime, busySlots) {
+  const BUSINESS_START = 9;  // 9 AM Pacific
+  const BUSINESS_END = 17;   // 5 PM Pacific
+  const SLOT_DURATION_MS = 30 * 60 * 1000; // 30 minutes
+  const DAYS_TO_CHECK = 14;
+
+  // Start from now, round up to next 30-min mark
+  let checkTime = new Date(startTime);
+  const minutes = checkTime.getMinutes();
+  const roundedMinutes = Math.ceil(minutes / 30) * 30;
+  checkTime.setMinutes(roundedMinutes, 0, 0);
+
+  const endTime = new Date(startTime.getTime() + (DAYS_TO_CHECK * 24 * 60 * 60 * 1000));
+
+  while (checkTime < endTime) {
+    // Convert to Pacific time to check business hours
+    const pacificTimeStr = checkTime.toLocaleString('en-US', {
+      timeZone: 'America/Vancouver',
+      hour12: false
+    });
     
-    const eventInfo = {
-      summary: event.summary,
-      start: eventStart.toISOString(),
-      eventType: event.eventType,
-      transparency: event.transparency,
-      attendeesCount: event.attendees?.length || 0,
-      organizer: event.organizer?.email
-    };
+    const pacificDate = new Date(checkTime.toLocaleString('en-US', {
+      timeZone: 'America/Vancouver'
+    }));
     
-    debugInfo.eventsChecked.push(eventInfo);
+    const dayOfWeek = pacificDate.getDay();
+    const hour = pacificDate.getHours();
     
-    // Skip events in the past
-    if (eventStart <= now) {
-      eventInfo.skipped = 'past event';
-      continue;
+    // Skip weekends
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      // Check if within business hours
+      if (hour >= BUSINESS_START && hour < BUSINESS_END) {
+        const slotEnd = new Date(checkTime.getTime() + SLOT_DURATION_MS);
+        
+        // Check if this slot conflicts with any busy time
+        const isConflict = busySlots.some(busy => {
+          const busyStart = new Date(busy.start);
+          const busyEnd = new Date(busy.end);
+          return checkTime < busyEnd && slotEnd > busyStart;
+        });
+        
+        if (!isConflict) {
+          return checkTime;
+        }
+      }
     }
     
-    // Check if this is an appointment slot event
-    const isAppointmentSlot = 
-      (event.summary && event.summary.toLowerCase().includes('min with scott')) ||
-      (event.summary && event.summary.toLowerCase().includes('30 min')) ||
-      (event.eventType === 'workingLocation') ||
-      (event.visibility === 'public' && event.summary && event.summary.includes('Scott'));
-    
-    eventInfo.isAppointmentSlot = isAppointmentSlot;
-    
-    if (!isAppointmentSlot) {
-      eventInfo.skipped = 'not an appointment slot';
-      continue;
-    }
-    
-    // Check if slot is still available (no attendees or only organizer)
-    const attendees = event.attendees || [];
-    const hasBooking = attendees.some(a => a.email !== event.organizer?.email && a.responseStatus !== 'declined');
-    
-    eventInfo.hasBooking = hasBooking;
-    
-    if (!hasBooking) {
-      debugInfo.foundSlot = eventInfo;
-      return { slot: eventStart.toISOString(), debug: debugInfo };
-    }
+    // Move to next 30-minute slot
+    checkTime = new Date(checkTime.getTime() + SLOT_DURATION_MS);
   }
-  
-  return { slot: null, debug: debugInfo };
+
+  return null;
 }
