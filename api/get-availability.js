@@ -19,7 +19,9 @@ export default async function handler(req, res) {
     if (!CALENDAR_ID || !SERVICE_ACCOUNT_KEY) {
       return res.status(200).json({ 
         error: 'Calendar configuration missing',
-        fallback: 'Book a Call'
+        available: false,
+        text: 'Book a Call',
+        fallback: true
       });
     }
 
@@ -34,7 +36,7 @@ export default async function handler(req, res) {
 
     const calendar = google.calendar({ version: 'v3', auth });
     
-    // Get current time and 14 days ahead
+    // Get current time and 14 days ahead in UTC
     const now = new Date();
     const twoWeeksOut = new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
 
@@ -44,14 +46,14 @@ export default async function handler(req, res) {
         timeMin: now.toISOString(),
         timeMax: twoWeeksOut.toISOString(),
         items: [{ id: CALENDAR_ID }],
-        timeZone: 'America/Vancouver' // Pacific Time
+        timeZone: 'America/Vancouver'
       }
     });
 
-    const busySlots = freeBusy.data.calendars[CALENDAR_ID].busy || [];
+    const busySlots = freeBusy.data.calendars[CALENDAR_ID]?.busy || [];
     
-    // Find next available slot (30min duration, business hours only)
-    const nextAvailable = findNextAvailableSlot(now, twoWeeksOut, busySlots);
+    // Find next available slot
+    const nextAvailable = findNextAvailableSlot(now, busySlots);
     
     if (!nextAvailable) {
       return res.status(200).json({
@@ -61,8 +63,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // Format the date/time nicely
-    const formatted = formatAvailability(nextAvailable);
+    // Format for display
+    const formatted = nextAvailable.toLocaleString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZone: 'America/Vancouver',
+      timeZoneName: 'short'
+    });
     
     return res.status(200).json({
       available: true,
@@ -82,76 +92,57 @@ export default async function handler(req, res) {
   }
 }
 
-function findNextAvailableSlot(startTime, endTime, busySlots) {
-  const BUSINESS_START = 9; // 9 AM Pacific
-  const BUSINESS_END = 17;  // 5 PM Pacific
-  const SLOT_DURATION = 30; // minutes
+function findNextAvailableSlot(startTime, busySlots) {
+  const BUSINESS_START = 9; // 9 AM
+  const BUSINESS_END = 17;  // 5 PM  
+  const SLOT_DURATION_MS = 30 * 60 * 1000; // 30 minutes
   const DAYS_TO_CHECK = 14;
-  const PACIFIC_OFFSET = -7; // PDT is UTC-7
 
-  // Get current time in Pacific
-  const now = new Date();
-  const pacificNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
+  // Start checking from now
+  let checkTime = new Date(startTime);
   
-  let checkDate = new Date(pacificNow);
-  checkDate.setMinutes(Math.ceil(checkDate.getMinutes() / 30) * 30, 0, 0);
+  // Round up to next 30-minute increment
+  const minutes = checkTime.getMinutes();
+  const roundedMinutes = Math.ceil(minutes / 30) * 30;
+  checkTime.setMinutes(roundedMinutes, 0, 0);
+  
+  const endTime = new Date(startTime.getTime() + (DAYS_TO_CHECK * 24 * 60 * 60 * 1000));
 
-  for (let day = 0; day < DAYS_TO_CHECK; day++) {
-    const dayOfWeek = checkDate.getDay();
+  while (checkTime < endTime) {
+    // Get hour in Pacific timezone
+    const pacificHour = parseInt(checkTime.toLocaleString('en-US', {
+      timeZone: 'America/Vancouver',
+      hour: '2-digit',
+      hour12: false
+    }));
     
-    // Skip weekends
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      checkDate.setDate(checkDate.getDate() + 1);
-      checkDate.setHours(BUSINESS_START, 0, 0, 0);
-      continue;
-    }
-
-    // Check each 30min slot during business hours
-    for (let hour = BUSINESS_START; hour < BUSINESS_END; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        // Create slot time in Pacific
-        const slotTime = new Date(checkDate);
-        slotTime.setHours(hour, minute, 0, 0);
+    // Get day of week in Pacific timezone
+    const pacificDay = new Date(checkTime.toLocaleString('en-US', {
+      timeZone: 'America/Vancouver'
+    })).getDay();
+    
+    // Skip weekends (0 = Sunday, 6 = Saturday)
+    if (pacificDay !== 0 && pacificDay !== 6) {
+      // Check if within business hours
+      if (pacificHour >= BUSINESS_START && pacificHour < BUSINESS_END) {
+        const slotEnd = new Date(checkTime.getTime() + SLOT_DURATION_MS);
         
-        // Skip if in the past
-        if (slotTime <= pacificNow) continue;
-
-        // Convert to UTC for comparison with Google Calendar
-        const slotStartUTC = new Date(slotTime.getTime() - (PACIFIC_OFFSET * 60 * 60 * 1000));
-        const slotEndUTC = new Date(slotStartUTC.getTime() + SLOT_DURATION * 60 * 1000);
-
-        // Check if slot conflicts with busy times
+        // Check if this slot conflicts with any busy time
         const isConflict = busySlots.some(busy => {
           const busyStart = new Date(busy.start);
           const busyEnd = new Date(busy.end);
-          return (slotStartUTC < busyEnd && slotEndUTC > busyStart);
+          return checkTime < busyEnd && slotEnd > busyStart;
         });
-
+        
         if (!isConflict) {
-          // Return as UTC ISO string
-          return slotStartUTC;
+          return checkTime;
         }
       }
     }
-
-    // Move to next day
-    checkDate.setDate(checkDate.getDate() + 1);
-    checkDate.setHours(BUSINESS_START, 0, 0, 0);
+    
+    // Move to next 30-minute slot
+    checkTime = new Date(checkTime.getTime() + SLOT_DURATION_MS);
   }
 
   return null;
-}
-
-function formatAvailability(datetime) {
-  const options = { 
-    weekday: 'short', 
-    month: 'short', 
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: 'America/Vancouver',
-    timeZoneName: 'short'
-  };
-  
-  return datetime.toLocaleString('en-US', options);
 }
