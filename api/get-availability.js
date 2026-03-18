@@ -53,18 +53,19 @@ export default async function handler(req, res) {
     const events = eventsResponse.data.items || [];
     
     // Find next available appointment slot
-    const nextAvailable = findNextAppointmentSlot(events, now);
+    const result = findNextAppointmentSlot(events, now);
     
-    if (!nextAvailable) {
+    if (!result.slot) {
       return res.status(200).json({
         available: false,
         text: 'Book a Call',
-        fallback: true
+        fallback: true,
+        debug: result.debug
       });
     }
 
     // Format for display
-    const formatted = new Date(nextAvailable).toLocaleString('en-US', {
+    const formatted = new Date(result.slot).toLocaleString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -76,9 +77,10 @@ export default async function handler(req, res) {
     
     return res.status(200).json({
       available: true,
-      datetime: nextAvailable,
+      datetime: result.slot,
       text: `Next Available: ${formatted}`,
-      fallback: false
+      fallback: false,
+      debug: result.debug
     });
 
   } catch (error) {
@@ -87,40 +89,66 @@ export default async function handler(req, res) {
       available: false,
       text: 'Book a Call',
       fallback: true,
-      error: error.message
+      error: error.message,
+      debug: {
+        errorDetails: error.toString()
+      }
     });
   }
 }
 
 function findNextAppointmentSlot(events, now) {
-  // Look for appointment slot events
-  // These are typically titled like "30 min with Scott" or similar
-  // and are available if they don't have attendees or are marked as available
+  const debugInfo = {
+    totalEvents: events.length,
+    eventsChecked: [],
+    foundSlot: null
+  };
   
   for (const event of events) {
     const eventStart = new Date(event.start.dateTime || event.start.date);
     
+    const eventInfo = {
+      summary: event.summary,
+      start: eventStart.toISOString(),
+      eventType: event.eventType,
+      transparency: event.transparency,
+      attendeesCount: event.attendees?.length || 0,
+      organizer: event.organizer?.email
+    };
+    
+    debugInfo.eventsChecked.push(eventInfo);
+    
     // Skip events in the past
-    if (eventStart <= now) continue;
+    if (eventStart <= now) {
+      eventInfo.skipped = 'past event';
+      continue;
+    }
     
     // Check if this is an appointment slot event
     const isAppointmentSlot = 
       (event.summary && event.summary.toLowerCase().includes('min with scott')) ||
-      (event.summary && event.summary.toLowerCase().includes('appointment')) ||
+      (event.summary && event.summary.toLowerCase().includes('30 min')) ||
       (event.eventType === 'workingLocation') ||
-      (event.transparency === 'transparent');
+      (event.visibility === 'public' && event.summary && event.summary.includes('Scott'));
     
-    if (!isAppointmentSlot) continue;
+    eventInfo.isAppointmentSlot = isAppointmentSlot;
+    
+    if (!isAppointmentSlot) {
+      eventInfo.skipped = 'not an appointment slot';
+      continue;
+    }
     
     // Check if slot is still available (no attendees or only organizer)
     const attendees = event.attendees || [];
     const hasBooking = attendees.some(a => a.email !== event.organizer?.email && a.responseStatus !== 'declined');
     
+    eventInfo.hasBooking = hasBooking;
+    
     if (!hasBooking) {
-      // This slot is available
-      return eventStart.toISOString();
+      debugInfo.foundSlot = eventInfo;
+      return { slot: eventStart.toISOString(), debug: debugInfo };
     }
   }
   
-  return null;
+  return { slot: null, debug: debugInfo };
 }
