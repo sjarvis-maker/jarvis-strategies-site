@@ -91,10 +91,14 @@ export default async function handler(req, res) {
 }
 
 function findNextFreeSlot(startTime, busySlots) {
-  const BUSINESS_START = 9;  // 9 AM Pacific
-  const BUSINESS_END = 17;   // 5 PM Pacific
   const SLOT_DURATION_MS = 30 * 60 * 1000; // 30 minutes
   const DAYS_TO_CHECK = 14;
+
+  // Business hours: 9:30 AM - 12:00 PM and 1:30 PM - 3:00 PM Pacific
+  const MORNING_START = { hour: 9, minute: 30 };
+  const MORNING_END = { hour: 12, minute: 0 };
+  const AFTERNOON_START = { hour: 13, minute: 30 };
+  const AFTERNOON_END = { hour: 15, minute: 0 };
 
   // Start from now, round up to next 30-min mark
   let checkTime = new Date(startTime);
@@ -106,22 +110,26 @@ function findNextFreeSlot(startTime, busySlots) {
 
   while (checkTime < endTime) {
     // Convert to Pacific time to check business hours
-    const pacificTimeStr = checkTime.toLocaleString('en-US', {
-      timeZone: 'America/Vancouver',
-      hour12: false
-    });
-    
     const pacificDate = new Date(checkTime.toLocaleString('en-US', {
       timeZone: 'America/Vancouver'
     }));
     
     const dayOfWeek = pacificDate.getDay();
     const hour = pacificDate.getHours();
+    const minute = pacificDate.getMinutes();
     
     // Skip weekends
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
       // Check if within business hours
-      if (hour >= BUSINESS_START && hour < BUSINESS_END) {
+      const inMorningWindow = 
+        (hour > MORNING_START.hour || (hour === MORNING_START.hour && minute >= MORNING_START.minute)) &&
+        (hour < MORNING_END.hour || (hour === MORNING_END.hour && minute < MORNING_END.minute));
+      
+      const inAfternoonWindow = 
+        (hour > AFTERNOON_START.hour || (hour === AFTERNOON_START.hour && minute >= AFTERNOON_START.minute)) &&
+        (hour < AFTERNOON_END.hour || (hour === AFTERNOON_END.hour && minute < AFTERNOON_END.minute));
+      
+      if (inMorningWindow || inAfternoonWindow) {
         const slotEnd = new Date(checkTime.getTime() + SLOT_DURATION_MS);
         
         // Check if this slot conflicts with any busy time
