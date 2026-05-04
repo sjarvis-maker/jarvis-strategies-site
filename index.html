@@ -621,6 +621,14 @@ function openBookingModal() {
   document.body.style.overflow = 'hidden';
 }
 
+// Auto-open modal if ?booking=true is in URL
+window.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('booking') === 'true') {
+    openBookingModal();
+  }
+});
+
 function closeBookingModal() {
   document.getElementById('bookingModal').style.display = 'none';
   document.body.style.overflow = 'auto';
