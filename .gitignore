@@ -18,3 +18,12 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Service account key files — never commit these
+JSON KEYS/
+
+# Internal documents
+Survey/
+
+# gstack security reports and local tooling state
+.gstack/

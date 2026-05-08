@@ -3,6 +3,35 @@
 
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
+import crypto from 'crypto';
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function verifyPayload(data, sig) {
+  if (!process.env.APPROVE_SECRET) {
+    console.warn('APPROVE_SECRET not set — skipping signature verification.');
+    return true;
+  }
+  if (!sig) return false;
+  try {
+    const expected = Buffer.from(
+      crypto.createHmac('sha256', process.env.APPROVE_SECRET).update(data).digest('hex'),
+      'hex'
+    );
+    const provided = Buffer.from(sig, 'hex');
+    if (expected.length !== provided.length) return false;
+    return crypto.timingSafeEqual(expected, provided);
+  } catch {
+    return false;
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -10,10 +39,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { data } = req.query;
-    
+    const { data, sig } = req.query;
+
     if (!data) {
       return res.status(400).send('Invalid request data');
+    }
+
+    if (!verifyPayload(data, sig)) {
+      return res.status(403).send('Invalid or expired approval link');
     }
 
     // Decode request data
@@ -22,7 +55,7 @@ export default async function handler(req, res) {
 
     // Set up Google Calendar with service account
     const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-    
+
     const auth = new google.auth.JWT({
       email: serviceAccountKey.client_email,
       key: serviceAccountKey.private_key,
@@ -51,18 +84,15 @@ export default async function handler(req, res) {
       }
     };
 
-    const calendarResponse = await calendar.events.insert({
+    await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       resource: event
     });
 
-    // Generate a simple meet link (you'll create it when you join)
-    const meetLink = 'https://meet.google.com/new';
-
     // Send confirmation email to prospect
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      port: parseInt(process.env.SMTP_PORT, 10),
       secure: true,
       auth: {
         user: process.env.SMTP_USER,
@@ -88,27 +118,27 @@ export default async function handler(req, res) {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1a2332;">Discovery Call Confirmed</h2>
-          
-          <p>Hi ${name},</p>
-          
+
+          <p>Hi ${escapeHtml(name)},</p>
+
           <p>Your discovery call with Jarvis Strategies has been confirmed.</p>
-          
+
           <div style="background: #f2f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 8px 0;"><strong>Date & Time:</strong> ${formattedTime}</p>
+            <p style="margin: 8px 0;"><strong>Date &amp; Time:</strong> ${formattedTime}</p>
             <p style="margin: 8px 0;"><strong>Duration:</strong> 30 minutes</p>
           </div>
-          
+
           <p>A Google Meet link will be shared with you closer to the meeting time via email.</p>
-          
+
           <p><strong>Please add this to your calendar:</strong></p>
           <ul>
             <li>Create a calendar event for ${formattedTime}</li>
             <li>Set duration to 30 minutes</li>
             <li>You'll receive the meeting link separately</li>
           </ul>
-          
+
           <p>Looking forward to speaking with you.</p>
-          
+
           <p>Scott Jarvis<br/>
           Jarvis Strategies<br/>
           <a href="mailto:${process.env.SMTP_USER}">${process.env.SMTP_USER}</a></p>
@@ -116,7 +146,7 @@ export default async function handler(req, res) {
       `
     });
 
-    // Return success page
+    // Return success page — escape user data before rendering in HTML
     return res.status(200).send(`
       <html>
         <head>
@@ -129,8 +159,8 @@ export default async function handler(req, res) {
         </head>
         <body>
           <div class="success">
-            <h1>✓ Booking Approved</h1>
-            <p>Confirmation email sent to ${email}</p>
+            <h1>&#10003; Booking Approved</h1>
+            <p>Confirmation email sent to ${escapeHtml(email)}</p>
           </div>
           <div class="details">
             <p><strong>Time:</strong> ${formattedTime}</p>
@@ -147,7 +177,7 @@ export default async function handler(req, res) {
       <html>
         <body style="font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px;">
           <h1 style="color: #f44336;">Error</h1>
-          <p>Failed to approve booking: ${error.message}</p>
+          <p>Failed to approve booking. Please try again or contact support.</p>
         </body>
       </html>
     `);

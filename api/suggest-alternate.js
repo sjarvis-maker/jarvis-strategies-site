@@ -2,12 +2,50 @@
 // Path: /api/suggest-alternate.js
 
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function signPayload(data) {
+  return crypto.createHmac('sha256', process.env.APPROVE_SECRET || '').update(data).digest('hex');
+}
+
+function verifyPayload(data, sig) {
+  if (!process.env.APPROVE_SECRET) {
+    console.warn('APPROVE_SECRET not set — skipping signature verification.');
+    return true;
+  }
+  if (!sig) return false;
+  try {
+    const expected = Buffer.from(signPayload(data), 'hex');
+    const provided = Buffer.from(sig, 'hex');
+    if (expected.length !== provided.length) return false;
+    return crypto.timingSafeEqual(expected, provided);
+  } catch {
+    return false;
+  }
+}
 
 export default async function handler(req, res) {
-  const { data, alternateTime } = req.query;
-  
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { data, sig, alternateTime } = req.query;
+
   if (!data) {
     return res.status(400).send('Invalid request data');
+  }
+
+  if (!verifyPayload(data, sig)) {
+    return res.status(403).send('Invalid or expired link');
   }
 
   // Decode request data
@@ -33,22 +71,23 @@ export default async function handler(req, res) {
         </head>
         <body>
           <h1>Suggest Alternate Time</h1>
-          
+
           <div class="info">
-            <p><strong>Prospect:</strong> ${name} from ${company}</p>
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Prospect:</strong> ${escapeHtml(name)} from ${escapeHtml(company)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           </div>
 
           <form method="GET" action="/api/suggest-alternate">
-            <input type="hidden" name="data" value="${data}" />
-            
+            <input type="hidden" name="data" value="${escapeHtml(data)}" />
+            <input type="hidden" name="sig" value="${escapeHtml(sig || '')}" />
+
             <div class="form-group">
-              <label for="alternateTime">Propose Alternate Date & Time:</label>
-              <input 
-                type="datetime-local" 
-                id="alternateTime" 
-                name="alternateTime" 
-                required 
+              <label for="alternateTime">Propose Alternate Date &amp; Time:</label>
+              <input
+                type="datetime-local"
+                id="alternateTime"
+                name="alternateTime"
+                required
               />
             </div>
 
@@ -63,7 +102,7 @@ export default async function handler(req, res) {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      port: parseInt(process.env.SMTP_PORT, 10),
       secure: true,
       auth: {
         user: process.env.SMTP_USER,
@@ -82,11 +121,13 @@ export default async function handler(req, res) {
       timeZoneName: 'short'
     });
 
-    // Create new request data with alternate time
+    // Create new request data with alternate time and sign it
     const updatedData = Buffer.from(JSON.stringify({
       ...requestData,
       requestedTime: new Date(alternateTime).toISOString()
     })).toString('base64');
+
+    const updatedSig = signPayload(updatedData);
 
     const baseUrl = 'https://jarvisstrategies.com';
 
@@ -97,34 +138,34 @@ export default async function handler(req, res) {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1a2332;">Alternate Time Proposed</h2>
-          
-          <p>Hi ${name},</p>
-          
+
+          <p>Hi ${escapeHtml(name)},</p>
+
           <p>Thank you for your interest in Jarvis Strategies. I'd like to propose an alternate time for our discovery call:</p>
-          
+
           <div style="background: #f2f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Proposed Time:</strong> ${formattedTime}</p>
             <p><strong>Duration:</strong> 30 minutes</p>
           </div>
-          
+
           <p>Does this time work for you?</p>
-          
+
           <div style="margin: 30px 0;">
-            <a href="${baseUrl}/api/approve?data=${encodeURIComponent(updatedData)}" 
-               style="display: inline-block; background: #4CAF50; color: white; padding: 12px 30px; 
+            <a href="${baseUrl}/api/approve?data=${encodeURIComponent(updatedData)}&sig=${updatedSig}"
+               style="display: inline-block; background: #4CAF50; color: white; padding: 12px 30px;
                       text-decoration: none; border-radius: 4px; margin-right: 10px;">
               Yes, Confirm This Time
             </a>
-            
-            <a href="mailto:sjarvis@jarvisstrategies.com?subject=Re: Discovery Call - Alternate Time Needed" 
-               style="display: inline-block; background: #666; color: white; padding: 12px 30px; 
+
+            <a href="mailto:sjarvis@jarvisstrategies.com?subject=Re: Discovery Call - Alternate Time Needed"
+               style="display: inline-block; background: #666; color: white; padding: 12px 30px;
                       text-decoration: none; border-radius: 4px;">
               No, Suggest Another Time
             </a>
           </div>
-          
+
           <p>Looking forward to speaking with you.</p>
-          
+
           <p>Scott Jarvis<br/>
           Jarvis Strategies<br/>
           <a href="mailto:sjarvis@jarvisstrategies.com">sjarvis@jarvisstrategies.com</a></p>
@@ -143,8 +184,8 @@ export default async function handler(req, res) {
         </head>
         <body>
           <div class="success">
-            <h1>✓ Alternate Time Sent</h1>
-            <p>Email sent to ${email}</p>
+            <h1>&#10003; Alternate Time Sent</h1>
+            <p>Email sent to ${escapeHtml(email)}</p>
             <p>Proposed time: ${formattedTime}</p>
           </div>
         </body>
@@ -157,7 +198,7 @@ export default async function handler(req, res) {
       <html>
         <body style="font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px;">
           <h1 style="color: #f44336;">Error</h1>
-          <p>Failed to send alternate time: ${error.message}</p>
+          <p>Failed to send alternate time. Please try again or contact support.</p>
         </body>
       </html>
     `);
