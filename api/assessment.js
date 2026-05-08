@@ -1,9 +1,5 @@
-// Vercel Serverless Function: Process AI Readiness Assessment
-// Path: /api/assessment.js
-
 import nodemailer from 'nodemailer';
-import fs from 'fs';
-import path from 'path';
+import Anthropic from '@anthropic-ai/sdk';
 
 const TIERS = [
   { max: 30,  label: 'Foundation Stage' },
@@ -33,6 +29,113 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+async function generateReport({ name, company, score, tier, answers }) {
+  const client = new Anthropic();
+
+  const answersSummary = answers.map((a, i) =>
+    `${QUESTION_LABELS[i] || a.key}: "${a.answer}" (${a.points} points out of a possible ${getMaxPoints(i)})`
+  ).join('\n');
+
+  const prompt = `You are writing a personalized AI Readiness Assessment report on behalf of Scott Jarvis at Jarvis Strategies, an AI implementation consultancy serving small and mid-size businesses in Western Canada. Write in a professional, direct, and encouraging tone — like a trusted advisor, not a salesperson.
+
+ASSESSMENT RESULTS:
+Name: ${name}
+Company: ${company || 'their company'}
+Overall Score: ${score}/100
+Tier: ${tier}
+
+QUESTION-BY-QUESTION BREAKDOWN:
+${answersSummary}
+
+TIER CONTEXT:
+- Foundation Stage (0-30): Just starting to explore AI. Focus on education, identifying quick wins, governance basics.
+- Building Momentum (31-55): Some exposure, ready to move from experimentation to structured implementation.
+- AI Ready (56-80): Strong foundation. Ready for meaningful AI projects with measurable ROI.
+- Advanced Adopter (81-100): Leading the curve. Focus on scaling, governance, and competitive differentiation.
+
+Write a personalized assessment report with exactly these four sections. Return ONLY valid JSON with no markdown formatting or code fences:
+
+{
+  "executiveSummary": "2-3 sentences. Name their tier. Be specific about what their score means for their business right now — what they are positioned to do and what gaps are worth addressing first. Avoid generic language.",
+  "areaAnalysis": [
+    {"area": "AI Experience", "insight": "1-2 sentences of specific commentary based on their actual answer. Acknowledge where they are and what it means practically."},
+    {"area": "Process Maturity", "insight": "..."},
+    {"area": "Data Accessibility", "insight": "..."},
+    {"area": "Team Readiness", "insight": "..."},
+    {"area": "Urgency / Driver", "insight": "..."},
+    {"area": "Budget Range", "insight": "..."}
+  ],
+  "recommendations": [
+    "Specific, actionable recommendation — prioritized based on their lowest-scoring areas. Name the action, not just the category.",
+    "Second recommendation.",
+    "Third recommendation."
+  ],
+  "closingParagraph": "2-3 sentences on what a discovery call with Scott Jarvis would specifically help them accomplish, tied directly to their results. Make it feel worth 30 minutes of their time."
+}`;
+
+  const message = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1200,
+    messages: [{ role: 'user', content: prompt }]
+  });
+
+  let text = message.content[0].text.trim();
+  // Strip markdown code fences if the model wraps its response
+  text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+  return JSON.parse(text);
+}
+
+function getMaxPoints(questionIndex) {
+  // Max points per question — matches assessment.html option values
+  return [20, 20, 15, 15, 15, 15][questionIndex] || 20;
+}
+
+function buildReportHtml(report) {
+  const areasHtml = report.areaAnalysis.map(a => `
+    <tr>
+      <td style="padding: 10px 14px; color: #1a2332; font-size: 0.83rem; font-weight: 600; white-space: nowrap; vertical-align: top; border-bottom: 1px solid #e8edf3; width: 130px;">${escapeHtml(a.area)}</td>
+      <td style="padding: 10px 14px; color: #555; font-size: 0.85rem; line-height: 1.6; border-bottom: 1px solid #e8edf3;">${escapeHtml(a.insight)}</td>
+    </tr>
+  `).join('');
+
+  const recsHtml = report.recommendations.map((r, i) => `
+    <p style="margin: 0 0 10px; color: #444; font-size: 0.88rem; line-height: 1.6;">
+      <strong style="color: #e8a44d;">${i + 1}.</strong> ${escapeHtml(r)}
+    </p>
+  `).join('');
+
+  return `
+    <div style="margin-bottom: 28px;">
+      <h2 style="font-family: Georgia, serif; font-size: 1.05rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Executive Summary</h2>
+      <p style="margin: 0; color: #444; font-size: 0.9rem; line-height: 1.7;">${escapeHtml(report.executiveSummary)}</p>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <h2 style="font-family: Georgia, serif; font-size: 1.05rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Area-by-Area Analysis</h2>
+      <table style="width: 100%; border-collapse: collapse; border: 1px solid #e0e6ed;">
+        <tbody>${areasHtml}</tbody>
+      </table>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <h2 style="font-family: Georgia, serif; font-size: 1.05rem; color: #1a2332; margin: 0 0 14px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Top Recommendations</h2>
+      ${recsHtml}
+    </div>
+
+    <div style="border-left: 3px solid #e8a44d; padding: 12px 16px; background: #fffbf5; border-radius: 0 4px 4px 0; margin-bottom: 4px;">
+      <p style="margin: 0; color: #555; font-size: 0.9rem; line-height: 1.7;">${escapeHtml(report.closingParagraph)}</p>
+    </div>
+  `;
+}
+
+function buildFallbackReportHtml() {
+  return `
+    <div style="border-left: 3px solid #e8a44d; padding: 12px 16px; background: #fffbf5; border-radius: 0 4px 4px 0; margin-bottom: 4px;">
+      <p style="margin: 0; color: #555; font-size: 0.9rem; line-height: 1.7;">A discovery call is the best next step — we'll walk through your results together and map out exactly where AI can deliver the fastest ROI for your firm.</p>
+    </div>
+  `;
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -52,6 +155,16 @@ export default async function handler(req, res) {
     const score = answers.reduce((sum, a) => sum + (Number(a.points) || 0), 0);
     const tier = getTier(score);
 
+    // Generate personalized report via Claude — fall back gracefully if it fails
+    let reportHtml;
+    try {
+      const report = await generateReport({ name, company, score, tier, answers });
+      reportHtml = buildReportHtml(report);
+    } catch (reportError) {
+      console.error('Report generation failed, using fallback:', reportError);
+      reportHtml = buildFallbackReportHtml();
+    }
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT, 10),
@@ -59,62 +172,43 @@ export default async function handler(req, res) {
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
     });
 
-    // Attach PDF report if the file has been dropped into the project root
-    const pdfPath = path.join(process.cwd(), 'ai-readiness-report.pdf');
-    const attachments = [];
-    if (fs.existsSync(pdfPath)) {
-      attachments.push({
-        filename: 'AI-Readiness-Report-Jarvis-Strategies.pdf',
-        path: pdfPath,
-        contentType: 'application/pdf'
-      });
-    }
-
     const safeName    = escapeHtml(name);
     const safeCompany = escapeHtml(company);
     const safeEmail   = escapeHtml(email);
     const safePhone   = escapeHtml(phone);
 
     // ── Email to user ─────────────────────────────────────────────────────────
-    const pdfLine = attachments.length
-      ? '<p>Your AI Readiness Report is attached to this email.</p>'
-      : '<p>Your detailed AI Readiness Report will follow shortly in a separate email.</p>';
-
     await transporter.sendMail({
       from: `"Jarvis Strategies" <${process.env.SMTP_USER}>`,
       to: email,
       subject: `Your AI Readiness Score: ${score}/100 — ${tier}`,
-      attachments,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 580px; margin: 0 auto; color: #333;">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
           <div style="background: #1a2332; padding: 32px; border-radius: 6px 6px 0 0;">
             <p style="font-family: Georgia, serif; font-size: 1.1rem; color: #e8a44d; font-style: italic; margin: 0 0 4px;">Jarvis Strategies</p>
-            <p style="color: #a8bcc8; font-size: 0.8rem; margin: 0;">AI Readiness Assessment</p>
+            <p style="color: #a8bcc8; font-size: 0.8rem; margin: 0;">AI Readiness Assessment Report</p>
           </div>
           <div style="background: #f7f9fc; padding: 32px; border-radius: 0 0 6px 6px; border: 1px solid #e0e6ed; border-top: none;">
-            <p style="margin: 0 0 8px; color: #555;">Hi ${safeName},</p>
-            <p style="margin: 0 0 24px; color: #555; line-height: 1.6;">Thank you for completing the AI Readiness Assessment. Here are your results:</p>
 
-            <div style="background: #1a2332; border-radius: 6px; padding: 28px; text-align: center; margin-bottom: 24px;">
+            <p style="margin: 0 0 8px; color: #555;">Hi ${safeName},</p>
+            <p style="margin: 0 0 24px; color: #555; line-height: 1.6;">Thank you for completing the AI Readiness Assessment. Your personalized report is below.</p>
+
+            <div style="background: #1a2332; border-radius: 6px; padding: 28px; text-align: center; margin-bottom: 28px;">
               <div style="font-family: Georgia, serif; font-size: 4rem; color: #fff; line-height: 1; margin-bottom: 4px;">${score}</div>
               <div style="color: #7a8fa3; font-size: 0.85rem; margin-bottom: 14px;">out of 100</div>
               <div style="display: inline-block; background: rgba(232,164,77,0.15); color: #e8a44d; border: 1px solid rgba(232,164,77,0.3); padding: 5px 16px; border-radius: 3px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: monospace;">${tier}</div>
             </div>
 
-            ${pdfLine}
+            ${reportHtml}
 
-            <div style="border-left: 3px solid #e8a44d; padding: 12px 16px; background: #fffbf5; margin-bottom: 24px; border-radius: 0 4px 4px 0;">
-              <p style="margin: 0; color: #666; font-size: 0.9rem; line-height: 1.6;">A discovery call is the best next step — we'll walk through your results together and map out exactly where AI can deliver the fastest ROI for your firm.</p>
-            </div>
-
-            <div style="text-align: center; margin-bottom: 28px;">
+            <div style="text-align: center; margin-top: 28px; margin-bottom: 8px;">
               <a href="https://jarvisstrategies.com/?booking=true"
                  style="display: inline-block; background: #e8a44d; color: #1a2332; padding: 13px 28px; border-radius: 3px; font-weight: 700; text-decoration: none; font-size: 0.95rem;">
                 Book a Free Discovery Call &rarr;
               </a>
             </div>
 
-            <p style="color: #999; font-size: 0.78rem; border-top: 1px solid #e0e6ed; padding-top: 16px; margin: 0; line-height: 1.6;">
+            <p style="color: #999; font-size: 0.78rem; border-top: 1px solid #e0e6ed; padding-top: 16px; margin: 28px 0 0; line-height: 1.6;">
               Scott Jarvis &nbsp;&middot;&nbsp; Jarvis Strategies &nbsp;&middot;&nbsp;
               <a href="mailto:sjarvis@jarvisstrategies.com" style="color: #999;">sjarvis@jarvisstrategies.com</a>
             </p>
@@ -157,7 +251,7 @@ export default async function handler(req, res) {
               <div style="display: inline-block; background: rgba(232,164,77,0.15); color: #e8a44d; border: 1px solid rgba(232,164,77,0.3); padding: 4px 14px; border-radius: 3px; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: monospace;">${tier}</div>
             </div>
 
-            <table style="width:100%; border-collapse:collapse; border: 1px solid #e0e6ed; border-radius: 4px; overflow: hidden; margin-bottom: 24px;">
+            <table style="width:100%; border-collapse:collapse; border: 1px solid #e0e6ed; margin-bottom: 24px;">
               <thead>
                 <tr style="background: #edf0f5;">
                   <th style="padding: 8px 12px; text-align:left; font-size:0.78rem; color:#555; font-weight:600;">Area</th>
