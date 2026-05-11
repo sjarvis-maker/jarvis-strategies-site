@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Readiness Assessment — Jarvis Strategies</title>
-<meta name="description" content="Find out how ready your construction firm is for AI. 6 questions, 2 minutes. Get your personalized AI Readiness Score and a free detailed report.">
+<meta name="description" content="Find out how ready your construction firm is for AI. 7 questions, 2 minutes. Get your personalized AI Readiness Score and a free detailed report.">
 <link rel="canonical" href="https://jarvisstrategies.com/assessment">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -247,7 +247,7 @@ footer a:hover { color: var(--accent); }
       <div class="tag">AI Readiness Assessment</div>
       <h1>How ready is your firm<br><em style="color:var(--accent)">for AI?</em></h1>
       <div class="intro-meta">
-        <div class="intro-stat"><div class="intro-stat-dot"></div>6 questions</div>
+        <div class="intro-stat"><div class="intro-stat-dot"></div>7 questions</div>
         <div class="intro-stat"><div class="intro-stat-dot"></div>2 minutes</div>
         <div class="intro-stat"><div class="intro-stat-dot"></div>Free personalized report</div>
       </div>
@@ -348,6 +348,16 @@ footer a:hover { color: var(--accent); }
 // ─── Assessment Data ────────────────────────────────────────────────────────
 
 const QUESTIONS = [
+  {
+    key: 'industry',
+    text: 'What best describes your business?',
+    options: [
+      { label: 'Construction / Trades', points: 0 },
+      { label: 'Manufacturing / Industrial', points: 0 },
+      { label: 'Professional Services', points: 0 },
+      { label: 'Other', points: 0 }
+    ]
+  },
   {
     key: 'ai_experience',
     text: 'How much has your team experimented with AI tools like ChatGPT or Microsoft Copilot?',
@@ -518,12 +528,18 @@ function renderQuestion(index) {
     const card = document.createElement('button');
     card.className = 'option-card';
     card.setAttribute('type', 'button');
+    card.style.pointerEvents = 'none';
     card.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt.label}</span>`;
     card.addEventListener('click', () => selectAnswer(index, i, opt.points, opt.label, q.text));
     container.appendChild(card);
   });
 
-  state.answering = false;
+  // Re-enable after first paint — prevents the card at the previous click position
+  // from immediately inheriting :hover (which looks identical to the selected state)
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    container.querySelectorAll('.option-card').forEach(c => { c.style.pointerEvents = ''; });
+    state.answering = false;
+  }));
 }
 
 function selectAnswer(qIndex, optIndex, points, label, questionText) {

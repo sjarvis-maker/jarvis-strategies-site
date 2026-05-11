@@ -9,6 +9,7 @@ const TIERS = [
 ];
 
 const QUESTION_LABELS = [
+  'Industry',
   'AI Experience',
   'Process Maturity',
   'Data Accessibility',
@@ -32,33 +33,45 @@ function escapeHtml(str) {
 async function generateReport({ name, company, score, tier, answers }) {
   const client = new Anthropic();
 
-  const answersSummary = answers.map((a, i) =>
-    `${QUESTION_LABELS[i] || a.key}: "${a.answer}" (${a.points} points out of a possible ${getMaxPoints(i)})`
+  const industryAnswer = answers.find(a => a.key === 'industry');
+  const industry = industryAnswer ? industryAnswer.answer : 'Not specified';
+  const scoredAnswers = answers.filter(a => a.key !== 'industry');
+
+  const answersSummary = scoredAnswers.map((a, i) =>
+    `${QUESTION_LABELS[i + 1] || a.key}: "${a.answer}" (${a.points} points out of a possible ${getMaxPoints(i)})`
   ).join('\n');
 
-  const prompt = `You are writing a personalized AI Readiness Assessment report on behalf of Scott Jarvis at Jarvis Strategies, an AI implementation consultancy serving small and mid-size businesses in Western Canada. Write in a professional, direct, and encouraging tone — like a trusted advisor, not a salesperson.
+  const prompt = `You are writing a personalized AI Readiness Assessment report on behalf of Scott Jarvis at Jarvis Strategies, an AI implementation consultancy serving small and mid-size businesses in the Okanagan.
 
 ASSESSMENT RESULTS:
 Name: ${name}
 Company: ${company || 'their company'}
+Industry: ${industry || 'Not specified'}
 Overall Score: ${score}/100
 Tier: ${tier}
 
 QUESTION-BY-QUESTION BREAKDOWN:
 ${answersSummary}
 
-TIER CONTEXT:
-- Foundation Stage (0-30): Just starting to explore AI. Focus on education, identifying quick wins, governance basics.
-- Building Momentum (31-55): Some exposure, ready to move from experimentation to structured implementation.
-- AI Ready (56-80): Strong foundation. Ready for meaningful AI projects with measurable ROI.
-- Advanced Adopter (81-100): Leading the curve. Focus on scaling, governance, and competitive differentiation.
+TIER-SPECIFIC TONE INSTRUCTIONS — follow these exactly based on their tier:
+- Foundation Stage (0-30): Encouraging and clarifying. They need a clear starting point, not a list of problems. Focus on one concrete first step.
+- Building Momentum (31-55): Direct and practical. They have some exposure. Name what's holding them back from moving faster and what to fix first.
+- AI Ready (56-80): Sharp and challenging. They already know the general direction. Your job is to identify the specific gaps their score reveals that they may be overlooking, and name the operational consequence of leaving those gaps unaddressed. Do not validate what they already know — focus on what's blocking them.
+- Advanced Adopter (81-100): Peer-level. Assume sophistication. Focus on scaling, governance, and competitive differentiation opportunities specific to their profile.
+Reference their industry where relevant in the area analysis and recommendations. A construction firm and a professional services firm have different AI use cases — name the specific ones that apply.
+
+RULES FOR ALL TIERS:
+- Never write generic AI advice that could apply to any business.
+- Every insight must reference their specific answer, not just their score.
+- For any area scoring below 50% of its maximum points, name the specific operational problem that gap creates — not just that it's a gap.
+- Recommendations must name a concrete action, not a category. Bad: "Improve data accessibility." Good: "Audit where your critical business data lives and whether it can be queried or exported — AI tools can only work with data they can reach."
 
 Write a personalized assessment report with exactly these four sections. Return ONLY valid JSON with no markdown formatting or code fences:
 
 {
-  "executiveSummary": "2-3 sentences. Name their tier. Be specific about what their score means for their business right now — what they are positioned to do and what gaps are worth addressing first. Avoid generic language.",
+  "executiveSummary": "2-3 sentences. Name their tier. Identify the most important tension or opportunity their specific score combination reveals — not just their overall number. For AI Ready and Advanced tiers, lead with the gap, not the strength.",
   "areaAnalysis": [
-    {"area": "AI Experience", "insight": "1-2 sentences of specific commentary based on their actual answer. Acknowledge where they are and what it means practically."},
+    {"area": "AI Experience", "insight": "1-2 sentences referencing their exact answer. For low scores, name the practical consequence. For high scores, name what that enables or what risk it creates if other areas are weak."},
     {"area": "Process Maturity", "insight": "..."},
     {"area": "Data Accessibility", "insight": "..."},
     {"area": "Team Readiness", "insight": "..."},
@@ -66,11 +79,11 @@ Write a personalized assessment report with exactly these four sections. Return 
     {"area": "Budget Range", "insight": "..."}
   ],
   "recommendations": [
-    "Specific, actionable recommendation — prioritized based on their lowest-scoring areas. Name the action, not just the category.",
-    "Second recommendation.",
-    "Third recommendation."
+    "Concrete action tied to their lowest-scoring area. Name the action, the reason, and what it unblocks.",
+    "Second recommendation — next priority gap.",
+    "Third recommendation — momentum builder given their tier and urgency."
   ],
-  "closingParagraph": "2-3 sentences on what a discovery call with Scott Jarvis would specifically help them accomplish, tied directly to their results. Make it feel worth 30 minutes of their time."
+  "closingParagraph": "2-3 sentences. Name one specific thing a discovery call would accomplish for them based on their actual results — not a generic offer. Make it feel like the call has an agenda already."
 }`;
 
   const message = await client.messages.create({
