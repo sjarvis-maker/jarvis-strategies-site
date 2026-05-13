@@ -83,23 +83,16 @@ export default async function handler(req, res) {
 
 /** Returns a Date representing 00:00:00 tomorrow in America/Vancouver, expressed as UTC. */
 function startOfTomorrowPacific() {
-  // Use Intl to get today's date parts in Pacific time
   const now = new Date();
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Vancouver',
-    year: 'numeric', month: '2-digit', day: '2-digit'
-  }).formatToParts(now);
-  const map = Object.fromEntries(parts.map(p => [p.type, p.value]));
-  // Build midnight tomorrow in Pacific by constructing an ISO string with offset assumption,
-  // then let the IANA zone handle it properly via the slot-checking logic.
-  // Easier: just add 1 day to today's Pacific midnight.
-  const pacificMidnightToday = new Date(`${map.year}-${map.month}-${map.day}T00:00:00-08:00`);
-  // Adjust for PDT vs PST by checking actual UTC offset
-  const utcOffset = getPacificUtcOffsetMs(now);
-  const todayPacificMidnightUtc = new Date(
-    Date.UTC(Number(map.year), Number(map.month) - 1, Number(map.day)) - utcOffset
-  );
-  return new Date(todayPacificMidnightUtc.getTime() + 24 * 60 * 60 * 1000);
+  // en-CA locale gives YYYY-MM-DD format, making parsing unambiguous
+  const todayPacific = now.toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+  const [year, month, day] = todayPacific.split('-').map(Number);
+  // Use noon UTC tomorrow as a stable reference to determine the Pacific UTC offset
+  // (avoids DST edge case at midnight itself)
+  const tomorrowNoonUtc = new Date(Date.UTC(year, month - 1, day + 1, 12, 0, 0));
+  const offset = getPacificUtcOffsetMs(tomorrowNoonUtc);
+  // Midnight tomorrow Pacific = midnight tomorrow UTC + Pacific UTC offset (7h PDT or 8h PST)
+  return new Date(Date.UTC(year, month - 1, day + 1) + offset);
 }
 
 /** Returns the UTC offset in milliseconds for America/Vancouver at a given moment. */

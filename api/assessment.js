@@ -171,12 +171,12 @@ function buildReportHtml(report, scoredAnswers) {
 
   return `
     <div style="margin-bottom: 28px;">
-      <h2 style="font-family: Georgia, serif; font-size: 1.05rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Executive Summary</h2>
+      <h2 style="font-family: Georgia, serif; font-size: 1.15rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Executive Summary</h2>
       <p style="margin: 0; color: #444; font-size: 0.9rem; line-height: 1.7;">${escapeHtml(report.executiveSummary)}</p>
     </div>
 
     <div style="margin-bottom: 28px;">
-      <h2 style="font-family: Georgia, serif; font-size: 1.05rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Area-by-Area Analysis</h2>
+      <h2 style="font-family: Georgia, serif; font-size: 1.15rem; color: #1a2332; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #e8a44d;">Area-by-Area Analysis</h2>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #e0e6ed;">
         <tbody>${areasHtml}</tbody>
       </table>
@@ -189,7 +189,7 @@ function buildReportHtml(report, scoredAnswers) {
 
     ${bulletsHtml ? `
     <div style="margin-bottom: 28px; background: #f7f9fc; border: 1px solid #e0e6ed; border-radius: 4px; padding: 18px 20px;">
-      <p style="margin: 0 0 12px; font-size: 0.75rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">Key Takeaways</p>
+      <p style="margin: 0 0 12px; font-size: 0.8rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">Key Takeaways</p>
       <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%;">
         <tbody>${bulletsHtml}</tbody>
       </table>
@@ -208,7 +208,7 @@ function buildReportHtml(report, scoredAnswers) {
     </table>
 
     <div style="padding: 16px 20px; background: #fffbf5; border: 1px solid #f0ddb8; border-radius: 4px;">
-      <p style="margin: 0 0 10px; font-size: 0.75rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">What we'll cover on the call</p>
+      <p style="margin: 0 0 10px; font-size: 0.8rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">What we'll cover on the call</p>
       <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%;">
         <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6; padding: 0 0 7px 0;">Review the specific gaps your score revealed and what to do about them first</td></tr>
         <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6; padding: 0 0 7px 0;">Match AI use cases to how your business operates, not generic examples</td></tr>
@@ -283,9 +283,9 @@ export default async function handler(req, res) {
       subject: `Your AI Readiness Score: ${score}/100 — ${tier}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-          <div style="background: #1a2332; padding: 32px; border-radius: 6px 6px 0 0;">
-            <p style="font-family: Georgia, serif; font-size: 1.1rem; color: #e8a44d; font-style: italic; margin: 0 0 4px;">Jarvis Strategies</p>
-            <p style="color: #a8bcc8; font-size: 0.8rem; margin: 0;">AI Readiness Assessment Report</p>
+          <div style="background: #1a2332; padding: 28px 32px; border-radius: 6px 6px 0 0;">
+            <img src="https://jarvisstrategies.com/logo.png" alt="Jarvis Strategies" width="180" style="display:block;border:0;max-width:180px;" />
+            <p style="color: #a8bcc8; font-size: 0.85rem; margin: 10px 0 0; letter-spacing: 0.04em;">AI Readiness Assessment Report</p>
           </div>
           <div style="background: #f7f9fc; padding: 32px; border-radius: 0 0 6px 6px; border: 1px solid #e0e6ed; border-top: none;">
 
