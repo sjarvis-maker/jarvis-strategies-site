@@ -474,7 +474,9 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
 
       <div style="margin-bottom:20px">
         <label style="display:block;margin-bottom:8px;color:var(--primary)">Preferred Date & Time *</label>
-        <input type="datetime-local" id="requestedTime" name="requestedTime" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px">
+        <select id="requestedTime" name="requestedTime" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px;appearance:none">
+          <option value="" disabled selected>Loading available times…</option>
+        </select>
       </div>
 
       <div style="margin-bottom:24px">
@@ -636,30 +638,30 @@ document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
 // Booking System Functions
 async function updateAvailability() {
+  const select = document.getElementById('requestedTime');
+  const textEl = document.getElementById('availabilityText');
+
   try {
     const response = await fetch('/api/get-availability');
     const data = await response.json();
 
-    const textEl = document.getElementById('availabilityText');
-    if (data.available && !data.fallback) {
-      textEl.textContent = data.text;
-      if (data.datetime) {
-        // Convert UTC to local time for datetime-local input
-        const date = new Date(data.datetime);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const localTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-        document.getElementById('requestedTime').value = localTime;
-      }
+    if (data.available && data.slots && data.slots.length > 0) {
+      textEl.textContent = 'Select a Time';
+      select.innerHTML = '<option value="" disabled selected>Choose a time…</option>';
+      data.slots.forEach(slot => {
+        const opt = document.createElement('option');
+        opt.value = slot.datetime;
+        opt.textContent = slot.label;
+        select.appendChild(opt);
+      });
     } else {
       textEl.textContent = 'Book a Call';
+      select.innerHTML = '<option value="" disabled selected>No times available — email directly</option>';
     }
   } catch (error) {
     console.error('Failed to fetch availability:', error);
-    document.getElementById('availabilityText').textContent = 'Book a Call';
+    textEl.textContent = 'Book a Call';
+    if (select) select.innerHTML = '<option value="" disabled selected>Unable to load times — try again</option>';
   }
 }
 

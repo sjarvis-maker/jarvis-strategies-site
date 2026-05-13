@@ -77,12 +77,12 @@ export default async function handler(req, res) {
             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           </div>
 
-          <form method="GET" action="/api/suggest-alternate">
+          <form id="altForm" method="GET" action="/api/suggest-alternate">
             <input type="hidden" name="data" value="${escapeHtml(data)}" />
             <input type="hidden" name="sig" value="${escapeHtml(sig || '')}" />
 
             <div class="form-group">
-              <label for="alternateTime">Propose Alternate Date &amp; Time:</label>
+              <label for="alternateTime">Propose Alternate Date &amp; Time (Pacific):</label>
               <input
                 type="datetime-local"
                 id="alternateTime"
@@ -93,6 +93,18 @@ export default async function handler(req, res) {
 
             <button type="submit">Send Alternate Time Proposal</button>
           </form>
+          <script>
+            document.getElementById('altForm').addEventListener('submit', function(e) {
+              var raw = document.getElementById('alternateTime').value;
+              if (raw) {
+                var localDate = new Date(raw);
+                var utcStr = localDate.toLocaleString('en-US', { timeZone: 'UTC' });
+                var pacStr = localDate.toLocaleString('en-US', { timeZone: 'America/Vancouver' });
+                var offsetMs = new Date(utcStr) - new Date(pacStr);
+                document.getElementById('alternateTime').value = new Date(localDate.getTime() + offsetMs).toISOString();
+              }
+            });
+          </script>
         </body>
       </html>
     `);

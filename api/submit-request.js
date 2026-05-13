@@ -39,6 +39,40 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Validate requested time
+    const requestedDate = new Date(requestedTime);
+    if (isNaN(requestedDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid date/time' });
+    }
+
+    const now = new Date();
+    if (requestedDate <= now) {
+      return res.status(400).json({ error: 'Requested time must be in the future' });
+    }
+
+    // Block same-day bookings — require at least tomorrow Pacific
+    const todayPacific = new Date(now.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
+    const reqPacific   = new Date(requestedDate.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
+    const todayDate = new Date(todayPacific.getFullYear(), todayPacific.getMonth(), todayPacific.getDate());
+    const reqDate   = new Date(reqPacific.getFullYear(),   reqPacific.getMonth(),   reqPacific.getDate());
+    if (reqDate <= todayDate) {
+      return res.status(400).json({ error: 'Same-day bookings are not accepted. Please choose a time starting tomorrow.' });
+    }
+
+    // Validate business hours: 9:30–12:00 and 13:30–15:00 Pacific
+    const reqHour = reqPacific.getHours();
+    const reqMin  = reqPacific.getMinutes();
+    const reqDay  = reqPacific.getDay(); // 0=Sun, 6=Sat
+    if (reqDay === 0 || reqDay === 6) {
+      return res.status(400).json({ error: 'Bookings are only available on weekdays' });
+    }
+    const reqMins = reqHour * 60 + reqMin;
+    const inMorning   = reqMins >= 9 * 60 + 30 && reqMins < 12 * 60;
+    const inAfternoon = reqMins >= 13 * 60 + 30 && reqMins < 15 * 60;
+    if (!inMorning && !inAfternoon) {
+      return res.status(400).json({ error: 'Requested time is outside available business hours (9:30–12:00 or 13:30–15:00 Pacific)' });
+    }
+
     if (!process.env.APPROVE_SECRET) {
       console.warn('APPROVE_SECRET not set — admin action links will be unsigned. Set this env var in Vercel immediately.');
     }

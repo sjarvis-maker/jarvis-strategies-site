@@ -18,6 +18,8 @@ const QUESTION_LABELS = [
   'Budget Range'
 ];
 
+const MAX_POINTS = [20, 20, 15, 15, 15, 15];
+
 function getTier(score) {
   return (TIERS.find(t => score <= t.max) || TIERS[TIERS.length - 1]).label;
 }
@@ -30,18 +32,33 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-async function generateReport({ name, company, score, tier, answers }) {
+function generateLeadProfile(scoredAnswers) {
+  const aiExpPts   = Number(scoredAnswers[0]?.points) || 0; // AI Experience, max 20
+  const urgencyPts = Number(scoredAnswers[4]?.points) || 0; // Urgency / Driver, max 15
+
+  const aiLevel  = aiExpPts  <= 7 ? 'naive' : aiExpPts  <= 14 ? 'aware' : 'sophisticated';
+  const urgLevel = urgencyPts <= 5 ? 'low'   : 'high';
+
+  const profiles = {
+    'naive-low':          'Lead profile: AI-naive, low urgency — start with education, establish why this matters now',
+    'naive-high':         'Lead profile: AI-naive, motivated — start with education, move quickly to a quick win',
+    'aware-low':          'Lead profile: AI-aware, low urgency — validate the business case before recommending next steps',
+    'aware-high':         'Lead profile: AI-aware, pain-driven — lead with ROI and a concrete use case, skip the basics',
+    'sophisticated-low':  'Lead profile: Sophisticated, exploring — peer-level conversation, they will drive the agenda',
+    'sophisticated-high': 'Lead profile: Sophisticated, ready to move — give them a roadmap, skip the pitch',
+  };
+
+  return profiles[`${aiLevel}-${urgLevel}`] || 'Lead profile: Review answers manually';
+}
+
+async function generateReport({ name, company, score, tier, industry, scoredAnswers }) {
   const client = new Anthropic();
 
-  const industryAnswer = answers.find(a => a.key === 'industry');
-  const industry = industryAnswer ? industryAnswer.answer : 'Not specified';
-  const scoredAnswers = answers.filter(a => a.key !== 'industry');
-
   const answersSummary = scoredAnswers.map((a, i) =>
-    `${QUESTION_LABELS[i + 1] || a.key}: "${a.answer}" (${a.points} points out of a possible ${getMaxPoints(i)})`
+    `${QUESTION_LABELS[i + 1] || a.key}: "${a.answer}" (${a.points} points out of a possible ${MAX_POINTS[i] || 20})`
   ).join('\n');
 
-  const prompt = `You are writing a personalized AI Readiness Assessment report on behalf of Scott Jarvis at Jarvis Strategies, an AI implementation consultancy serving small and mid-size businesses in the Okanagan.
+  const prompt = `You are writing a personalized AI Readiness Assessment report on behalf of Scott Jarvis at Jarvis Strategies, an AI implementation consultancy serving trades and construction companies in the Okanagan.
 
 ASSESSMENT RESULTS:
 Name: ${name}
@@ -53,23 +70,35 @@ Tier: ${tier}
 QUESTION-BY-QUESTION BREAKDOWN:
 ${answersSummary}
 
-TIER-SPECIFIC TONE INSTRUCTIONS — follow these exactly based on their tier:
-- Foundation Stage (0-30): Encouraging and clarifying. They need a clear starting point, not a list of problems. Focus on one concrete first step.
-- Building Momentum (31-55): Direct and practical. They have some exposure. Name what's holding them back from moving faster and what to fix first.
-- AI Ready (56-80): Sharp and challenging. They already know the general direction. Your job is to identify the specific gaps their score reveals that they may be overlooking, and name the operational consequence of leaving those gaps unaddressed. Do not validate what they already know — focus on what's blocking them.
-- Advanced Adopter (81-100): Peer-level. Assume sophistication. Focus on scaling, governance, and competitive differentiation opportunities specific to their profile.
-Reference their industry where relevant in the area analysis and recommendations. A construction firm and a professional services firm have different AI use cases — name the specific ones that apply.
+TIER-SPECIFIC APPROACH — match your approach exactly to their tier:
+- Foundation Stage (0-30): Encouraging without being patronizing. Focus on one quick win they can act on this week. Do not list everything wrong. Name the single AI use case closest to their current capability and explain what doing it would produce.
+- Building Momentum (31-55): Direct and diagnostic. Skip the encouragement — they do not need it. Name the one specific thing holding them back based on their lowest-scoring area. Tell them what fixing it first would unblock.
+- AI Ready (56-80): Gap analysis only. Do not validate what they already know. Look at the combination of scores, find the specific weakness they are likely overlooking, name the operational consequence of leaving it unaddressed, and tell them what fixing it unlocks. Do not lead with their strengths.
+- Advanced Adopter (81-100): Peer-level. Assume they know what they are doing. Address scaling, governance risk, or competitive differentiation specific to their scores. No beginner framing.
+
+INDUSTRY REQUIREMENT:
+The respondent works in: ${industry || 'Not specified'}
+Name at least one specific AI use case for their industry in the area analysis and at least one in the recommendations. Not as a suggestion or example — as a direct statement. A plumbing company and a chartered accounting firm have different AI use cases. Name the ones that apply to this respondent.
 
 RULES FOR ALL TIERS:
 - Never write generic AI advice that could apply to any business.
 - Every insight must reference their specific answer, not just their score.
-- For any area scoring below 50% of its maximum points, name the specific operational problem that gap creates — not just that it's a gap.
+- For any area scoring below 50% of its maximum points, name the specific operational problem that gap creates — not just that it is a gap.
 - Recommendations must name a concrete action, not a category. Bad: "Improve data accessibility." Good: "Audit where your critical business data lives and whether it can be queried or exported — AI tools can only work with data they can reach."
+- Each area insight must be 1-2 sentences maximum. Make the point, then stop.
 
-Write a personalized assessment report with exactly these four sections. Return ONLY valid JSON with no markdown formatting or code fences:
+VOICE AND STYLE:
+Write like a direct, knowledgeable person — not like AI-generated content. Vary sentence length. Use plain language throughout.
+Never use these words or phrases: crucial, pivotal, delve, enhance, fostering, tapestry, testament, underscore, showcase, vibrant, align with, interplay, intricate, key (as adjective), valuable, landscape (abstract), additionally, emphasizing.
+Do not use em dashes. Use commas, periods, or parentheses instead.
+Do not use rule-of-three sentence structures.
+Do not end with a generic positive conclusion.
+Every sentence must be true specifically for this respondent — no statement that could apply to any business.
+
+Write a personalized assessment report with exactly these sections. Return ONLY valid JSON with no markdown formatting or code fences:
 
 {
-  "executiveSummary": "2-3 sentences. Name their tier. Identify the most important tension or opportunity their specific score combination reveals — not just their overall number. For AI Ready and Advanced tiers, lead with the gap, not the strength.",
+  "executiveSummary": "2-3 sentences. Name their tier. Identify the most important tension or opportunity their specific score combination reveals. For AI Ready and Advanced tiers, lead with the gap, not the strength.",
   "areaAnalysis": [
     {"area": "AI Experience", "insight": "1-2 sentences referencing their exact answer. For low scores, name the practical consequence. For high scores, name what that enables or what risk it creates if other areas are weak."},
     {"area": "Process Maturity", "insight": "..."},
@@ -83,39 +112,62 @@ Write a personalized assessment report with exactly these four sections. Return 
     "Second recommendation — next priority gap.",
     "Third recommendation — momentum builder given their tier and urgency."
   ],
-  "closingParagraph": "2-3 sentences. Name one specific thing a discovery call would accomplish for them based on their actual results — not a generic offer. Make it feel like the call has an agenda already."
+  "keySummaryBullets": [
+    "One line, specific to their scores. State a finding or direction, not a compliment. Max 18 words.",
+    "Second bullet.",
+    "Third bullet — only include if there is a genuinely distinct third point worth stating."
+  ],
+  "closingMessage": "1-2 sentences written as Scott speaking directly to the person. Plain, conversational, no jargon. Name one specific thing a call would accomplish for them based on their actual results — not a generic offer. Example tone: Your data accessibility score is the sticking point — that is what the first call would focus on."
 }`;
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1200,
+    max_tokens: 1400,
     messages: [{ role: 'user', content: prompt }]
   });
 
   let text = message.content[0].text.trim();
-  // Strip markdown code fences if the model wraps its response
   text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
   return JSON.parse(text);
 }
 
-function getMaxPoints(questionIndex) {
-  // Max points per question — matches assessment.html option values
-  return [20, 20, 15, 15, 15, 15][questionIndex] || 20;
-}
+function buildReportHtml(report, scoredAnswers) {
+  const areasHtml = report.areaAnalysis.map((a, i) => {
+    const pts = (scoredAnswers && scoredAnswers[i]) ? Number(scoredAnswers[i].points) : 0;
+    const max = MAX_POINTS[i] || 20;
+    const pct = Math.min(100, Math.round((pts / max) * 100));
+    const empty = 100 - pct;
 
-function buildReportHtml(report) {
-  const areasHtml = report.areaAnalysis.map(a => `
+    return `
     <tr>
-      <td style="padding: 10px 14px; color: #1a2332; font-size: 0.83rem; font-weight: 600; white-space: nowrap; vertical-align: top; border-bottom: 1px solid #e8edf3; width: 130px;">${escapeHtml(a.area)}</td>
-      <td style="padding: 10px 14px; color: #555; font-size: 0.85rem; line-height: 1.6; border-bottom: 1px solid #e8edf3;">${escapeHtml(a.insight)}</td>
-    </tr>
-  `).join('');
+      <td style="padding: 12px 14px; color: #1a2332; font-size: 0.83rem; font-weight: 600; white-space: nowrap; vertical-align: top; border-bottom: 1px solid #e8edf3; width: 140px;">
+        ${escapeHtml(a.area)}
+        <div style="margin-top: 5px; font-size: 0.68rem; color: #999; font-family: monospace; letter-spacing: 0.04em;">${pts} / ${max} pts</div>
+        <table width="110" cellpadding="0" cellspacing="0" style="border-collapse: collapse; margin-top: 5px;">
+          <tr>
+            <td width="${pct}%" style="height: 5px; background: #e8a44d; padding: 0; font-size: 0;"></td>
+            <td width="${empty}%" style="height: 5px; background: #dde3ea; padding: 0; font-size: 0;"></td>
+          </tr>
+        </table>
+      </td>
+      <td style="padding: 12px 14px; color: #555; font-size: 0.85rem; line-height: 1.6; border-bottom: 1px solid #e8edf3;">${escapeHtml(a.insight)}</td>
+    </tr>`;
+  }).join('');
 
   const recsHtml = report.recommendations.map((r, i) => `
     <p style="margin: 0 0 10px; color: #444; font-size: 0.88rem; line-height: 1.6;">
       <strong style="color: #e8a44d;">${i + 1}.</strong> ${escapeHtml(r)}
     </p>
   `).join('');
+
+  const bullets = Array.isArray(report.keySummaryBullets) ? report.keySummaryBullets : [];
+  const bulletsHtml = bullets.map(b => `
+    <tr>
+      <td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td>
+      <td style="color: #444; font-size: 0.88rem; line-height: 1.6; padding: 0 0 7px 0;">${escapeHtml(b)}</td>
+    </tr>`).join('');
+
+  const closingMsg = report.closingMessage || report.closingParagraph || '';
 
   return `
     <div style="margin-bottom: 28px;">
@@ -135,8 +187,34 @@ function buildReportHtml(report) {
       ${recsHtml}
     </div>
 
-    <div style="border-left: 3px solid #e8a44d; padding: 12px 16px; background: #fffbf5; border-radius: 0 4px 4px 0; margin-bottom: 4px;">
-      <p style="margin: 0; color: #555; font-size: 0.9rem; line-height: 1.7;">${escapeHtml(report.closingParagraph)}</p>
+    ${bulletsHtml ? `
+    <div style="margin-bottom: 28px; background: #f7f9fc; border: 1px solid #e0e6ed; border-radius: 4px; padding: 18px 20px;">
+      <p style="margin: 0 0 12px; font-size: 0.75rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">Key Takeaways</p>
+      <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+        <tbody>${bulletsHtml}</tbody>
+      </table>
+    </div>` : ''}
+
+    <table cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+      <tr>
+        <td width="80" valign="top" style="padding: 0 0 0 0;">
+          <img src="https://jarvisstrategies.com/headshot.jpg" alt="Scott Jarvis" width="64" height="80" style="border-radius: 3px; display: block; border: 0;" />
+        </td>
+        <td valign="top" style="padding: 0 0 0 16px;">
+          <p style="margin: 0 0 8px; color: #333; font-size: 0.9rem; line-height: 1.7;">${escapeHtml(closingMsg)}</p>
+          <p style="margin: 0; font-size: 0.8rem; color: #888;">Scott Jarvis &middot; Jarvis Strategies</p>
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding: 16px 20px; background: #fffbf5; border: 1px solid #f0ddb8; border-radius: 4px;">
+      <p style="margin: 0 0 10px; font-size: 0.75rem; color: #999; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: monospace;">What we'll cover on the call</p>
+      <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+        <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6; padding: 0 0 7px 0;">Review the specific gaps your score revealed and what to do about them first</td></tr>
+        <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6; padding: 0 0 7px 0;">Match AI use cases to how your business operates, not generic examples</td></tr>
+        <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 7px 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6; padding: 0 0 7px 0;">Be direct about where you're ready and where you're not</td></tr>
+        <tr><td width="14" valign="top" style="color: #e8a44d; font-weight: 700; font-size: 1rem; padding: 0 6px 0 0; line-height: 1.5;">&#8250;</td><td style="font-size: 0.88rem; color: #555; line-height: 1.6;">Leave with a clear sense of whether and how to move forward</td></tr>
+      </table>
     </div>
   `;
 }
@@ -144,7 +222,7 @@ function buildReportHtml(report) {
 function buildFallbackReportHtml() {
   return `
     <div style="border-left: 3px solid #e8a44d; padding: 12px 16px; background: #fffbf5; border-radius: 0 4px 4px 0; margin-bottom: 4px;">
-      <p style="margin: 0; color: #555; font-size: 0.9rem; line-height: 1.7;">A discovery call is the best next step — we'll walk through your results together and map out exactly where AI can deliver the fastest ROI for your firm.</p>
+      <p style="margin: 0; color: #555; font-size: 0.9rem; line-height: 1.7;">A discovery call is the best next step — we'll walk through your results together and map out exactly where AI can deliver the fastest ROI for your business.</p>
     </div>
   `;
 }
@@ -164,15 +242,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Calculate score server-side — don't trust client value
+    // Extract industry and scored answers
+    const industryAnswer = answers.find(a => a.key === 'industry');
+    const industry = industryAnswer ? industryAnswer.answer : 'Not specified';
+    const scoredAnswers = answers.filter(a => a.key !== 'industry');
+
+    // Calculate score server-side — do not trust client value
     const score = answers.reduce((sum, a) => sum + (Number(a.points) || 0), 0);
     const tier = getTier(score);
+
+    // Lead profile note for Scott's internal email
+    const leadProfile = generateLeadProfile(scoredAnswers);
 
     // Generate personalized report via Claude — fall back gracefully if it fails
     let reportHtml;
     try {
-      const report = await generateReport({ name, company, score, tier, answers });
-      reportHtml = buildReportHtml(report);
+      const report = await generateReport({ name, company, score, tier, industry, scoredAnswers });
+      reportHtml = buildReportHtml(report, scoredAnswers);
     } catch (reportError) {
       console.error('Report generation failed, using fallback:', reportError);
       reportHtml = buildFallbackReportHtml();
@@ -190,7 +276,7 @@ export default async function handler(req, res) {
     const safeEmail   = escapeHtml(email);
     const safePhone   = escapeHtml(phone);
 
-    // ── Email to user ─────────────────────────────────────────────────────────
+    // ── Email to prospect ─────────────────────────────────────────────────────
     await transporter.sendMail({
       from: `"Jarvis Strategies" <${process.env.SMTP_USER}>`,
       to: email,
@@ -222,7 +308,7 @@ export default async function handler(req, res) {
             </div>
 
             <p style="color: #999; font-size: 0.78rem; border-top: 1px solid #e0e6ed; padding-top: 16px; margin: 28px 0 0; line-height: 1.6;">
-              Scott Jarvis &nbsp;&middot;&nbsp; Jarvis Strategies &nbsp;&middot;&nbsp;
+              Jarvis Strategies &nbsp;&middot;&nbsp;
               <a href="mailto:sjarvis@jarvisstrategies.com" style="color: #999;">sjarvis@jarvisstrategies.com</a>
             </p>
           </div>
@@ -250,6 +336,10 @@ export default async function handler(req, res) {
             <p style="color: #a8bcc8; font-size: 0.8rem; margin: 0;">Jarvis Strategies AI Readiness Assessment</p>
           </div>
           <div style="background: #f7f9fc; padding: 28px; border-radius: 0 0 6px 6px; border: 1px solid #e0e6ed; border-top: none;">
+
+            <div style="border-left: 3px solid #e8a44d; padding: 10px 14px; background: #fffbf5; border-radius: 0 4px 4px 0; margin-bottom: 20px;">
+              <p style="margin: 0; font-size: 0.85rem; color: #555;">${escapeHtml(leadProfile)}</p>
+            </div>
 
             <table style="width:100%; border-collapse:collapse; margin-bottom: 24px;">
               <tr><td style="padding:6px 0; color:#777; font-size:0.82rem; width:110px;">Name</td><td style="padding:6px 0; font-weight:600;">${safeName}</td></tr>
