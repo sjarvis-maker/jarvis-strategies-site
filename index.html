@@ -35,6 +35,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; width: 100%; height: 100%; }
 body { background: var(--black); color: var(--primary); font-family: 'DM Sans', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; }
+p { font-size: 20px; }
 #network-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; display: block; }
 #page-content { position: relative; z-index: 1; }
 ::selection { background: var(--accent); color: var(--black); }
@@ -60,7 +61,7 @@ nav a.nav-link:hover { color: var(--accent); }
 .mono { font-family: 'JetBrains Mono', monospace; }
 .serif { font-family: 'Instrument Serif', Georgia, serif; }
 .tag { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; }
-.tag-sm { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; background: var(--accent-glow); padding: 4px 12px; border-radius: 2px; }
+.tag-sm { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; background: var(--accent-glow); padding: 4px 12px; border-radius: 2px; }
 h1 { font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.5rem); color: var(--white); line-height: 1.1; font-weight: 400; }
 h2 { font-family: 'Instrument Serif', Georgia, serif; font-size: 2.4rem; color: var(--white); line-height: 1.2; font-weight: 400; }
 h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; color: var(--white); }
@@ -104,7 +105,7 @@ section { padding: 100px 40px; }
 .stats { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 60px 40px; background: rgba(45, 62, 80, 0.7); }
 .stat-num { font-family: 'Instrument Serif', Georgia, serif; font-size: 2.8rem; color: var(--accent); font-style: italic; margin-bottom: 8px; }
 .stat-label { font-size: 0.95rem; color: var(--primary); line-height: 1.5; margin-bottom: 8px; }
-.stat-source { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.stat-source { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* Discovery highlight */
 .discovery-card { border: 1px solid var(--accent); border-radius: 4px; padding: 48px; background: var(--dark); margin-bottom: 32px; position: relative; overflow: hidden; }
@@ -196,7 +197,7 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
 <!-- HERO -->
 <div class="hero">
   <div class="hero-glow"></div>
-  <div class="fade"><p class="tag" style="font-size:0.75rem">AI Implementation for trades and construction companies across the Okanagan</p></div>
+  <div class="fade"><p class="tag" style="font-size:20px">AI Implementation for trades and construction companies across the Okanagan</p></div>
   <div class="fade d1"><h1 style="max-width:800px;margin-bottom:32px">Your competitors are starting to <span class="accent-i">figure this out.</span><br>Don't be the last one in.</h1></div>
   <div class="fade d2"><p style="font-size:1.15rem;color:var(--secondary);line-height:1.7;max-width:600px;margin-bottom:48px">69% of businesses say they can't find a clear use case for AI. That's exactly where I start. I help companies in the Okanagan figure out where AI fits, implement it properly, and make sure the right governance is in place so it doesn't create new problems.</p></div>
   <div class="fade d3" style="display:flex;gap:16px;flex-wrap:wrap">
@@ -246,19 +247,19 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
         <h3 style="font-size:2rem;margin-bottom:16px">AI Use Case Discovery</h3>
         <p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;margin-bottom:32px;max-width:700px">69% of B.C. businesses say they can't identify a clear use case for AI. This is how we find it. A structured, data driven assessment that tells you exactly where AI fits in your business, what to prioritize, and what governance needs to be in place before you start.</p>
 
-        <p class="mono" style="font-size:0.85rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">What's included</p>
+        <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">What's included</p>
         <div class="grid-2" style="margin-bottom:32px;gap:20px">
-          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:0.95rem;color:var(--white);font-weight:600">Discovery Call</h4><span class="mono" style="font-size:0.6rem;color:var(--muted)">30-60 min</span></div><p style="font-size:0.88rem;color:var(--secondary);line-height:1.6">A structured conversation about how your business operates: workflows, friction points, who owns what, and where time and money are leaking. Not a sales call.</p></div>
-          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:0.95rem;color:var(--white);font-weight:600">AI Readiness Survey</h4><span class="mono" style="font-size:0.6rem;color:var(--muted)">Private & branded</span></div><p style="font-size:0.88rem;color:var(--secondary);line-height:1.6">A customized online assessment scored across 6 dimensions: Leadership & Alignment, Process Maturity, Data Readiness, Technology Foundation, People & Change Readiness, and Governance & Risk Controls.</p></div>
-          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:0.95rem;color:var(--white);font-weight:600">AI Readiness Score</h4><span class="mono" style="font-size:0.6rem;color:var(--muted)">Quantified /100</span></div><p style="font-size:0.88rem;color:var(--secondary);line-height:1.6">A deterministic score based on your survey data, not opinion, not vibes. You'll know exactly where you stand and where the gaps are, backed by evidence.</p></div>
-          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:0.95rem;color:var(--white);font-weight:600">Pain Point Diagnostic</h4><span class="mono" style="font-size:0.6rem;color:var(--muted)">Cross-referenced</span></div><p style="font-size:0.88rem;color:var(--secondary);line-height:1.6">Your highest-impact challenges, biggest time sinks, and lowest-maturity processes cross-referenced to surface the use cases hiding in your operations.</p></div>
+          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:1rem;color:var(--white);font-weight:600">Discovery Call</h4><span class="mono" style="font-size:0.75rem;color:var(--muted)">30-60 min</span></div><p style="font-size:1rem;color:var(--secondary);line-height:1.6">A structured conversation about how your business operates: workflows, friction points, who owns what, and where time and money are leaking. Not a sales call.</p></div>
+          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:1rem;color:var(--white);font-weight:600">AI Readiness Survey</h4><span class="mono" style="font-size:0.75rem;color:var(--muted)">Private & branded</span></div><p style="font-size:1rem;color:var(--secondary);line-height:1.6">A customized online assessment scored across 6 dimensions: Leadership & Alignment, Process Maturity, Data Readiness, Technology Foundation, People & Change Readiness, and Governance & Risk Controls.</p></div>
+          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:1rem;color:var(--white);font-weight:600">AI Readiness Score</h4><span class="mono" style="font-size:0.75rem;color:var(--muted)">Quantified /100</span></div><p style="font-size:1rem;color:var(--secondary);line-height:1.6">A deterministic score based on your survey data, not opinion, not vibes. You'll know exactly where you stand and where the gaps are, backed by evidence.</p></div>
+          <div class="card-inner"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><h4 style="font-size:1rem;color:var(--white);font-weight:600">Pain Point Diagnostic</h4><span class="mono" style="font-size:0.75rem;color:var(--muted)">Cross-referenced</span></div><p style="font-size:1rem;color:var(--secondary);line-height:1.6">Your highest-impact challenges, biggest time sinks, and lowest-maturity processes cross-referenced to surface the use cases hiding in your operations.</p></div>
         </div>
 
-        <p class="mono" style="font-size:0.85rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">What you walk away with</p>
+        <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">What you walk away with</p>
         <div class="grid-3" style="margin-bottom:32px;gap:16px">
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Readiness Assessment Report</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">A written report combining your discovery call findings with your scored survey data, including your readiness score, identified use cases, and where your call answers aligned with or diverged from your survey responses.</p></div>
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">Prioritized Roadmap</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">What to do first, what to avoid, and the right sequence for implementation. Based on evidence from your assessment, not assumptions.</p></div>
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">Governance Baseline</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">A clear picture of where you stand on accountability, data boundaries, quality controls, and transparency, AND what needs to be in place before you implement anything.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Readiness Assessment Report</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">A written report combining your discovery call findings with your scored survey data, including your readiness score, identified use cases, and where your call answers aligned with or diverged from your survey responses.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">Prioritized Roadmap</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">What to do first, what to avoid, and the right sequence for implementation. Based on evidence from your assessment, not assumptions.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">Governance Baseline</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">A clear picture of where you stand on accountability, data boundaries, quality controls, and transparency, AND what needs to be in place before you implement anything.</p></div>
         </div>
       </div>
     </div>
@@ -290,10 +291,10 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
         <h3 style="font-size:1.6rem;margin-bottom:16px">AI Workshops for Your Team</h3>
         <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:16px">Your team doesn't need to become AI experts. They need to understand what AI can and can't do, where it fits in their day-to-day, and how to use it responsibly. These workshops are built for the people who do the work, not just leadership.</p>
         <div class="grid-2" style="margin-bottom:16px;gap:16px">
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Fundamentals</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">What AI is, what it's good at, where it falls short, and how to evaluate whether a tool is worth your time. No jargon, no hype.</p></div>
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">Hands-On with AI Tools</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">Your team works with real AI tools on real tasks from their own workflows. They leave knowing how to use it, not just what it is.</p></div>
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Governance & Responsibility</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">What your team needs to know about data, privacy, quality control, and when a human needs to stay in the loop. The stuff most workshops skip.</p></div>
-          <div class="card-sm"><h4 style="font-size:0.9rem;color:var(--white);font-weight:600;margin-bottom:8px">Custom to Your Business</h4><p style="font-size:0.85rem;color:var(--secondary);line-height:1.6">Every workshop is tailored to your industry, your tools, and the specific workflows your people deal with every day.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Fundamentals</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">What AI is, what it's good at, where it falls short, and how to evaluate whether a tool is worth your time. No jargon, no hype.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">Hands-On with AI Tools</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">Your team works with real AI tools on real tasks from their own workflows. They leave knowing how to use it, not just what it is.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">AI Governance & Responsibility</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">What your team needs to know about data, privacy, quality control, and when a human needs to stay in the loop. The stuff most workshops skip.</p></div>
+          <div class="card-sm"><h4 style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:8px">Custom to Your Business</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.6">Every workshop is tailored to your industry, your tools, and the specific workflows your people deal with every day.</p></div>
         </div>
         <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;font-style:italic">Available for teams of 5-30. In-person (Okanagan) or virtual (Anywhere). Pricing based on group size and format.</p>
       </div>
@@ -309,10 +310,10 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
     <div class="fade d2"><p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;max-width:700px;margin-bottom:56px">Most AI implementations skip governance entirely. That works until it doesn't, until AI sends something wrong to a client, touches data it shouldn't, or makes a decision nobody can explain. I build governance into every engagement from the start, not as an afterthought.</p></div>
     <div class="fade d3">
       <div class="grid-2">
-        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Accountability</h4><p style="font-size:0.92rem;color:var(--secondary);line-height:1.7">Who's responsible when AI makes a decision in your business? Clear ownership from the start, not after something goes wrong.</p></div>
-        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Data Boundaries</h4><p style="font-size:0.92rem;color:var(--secondary);line-height:1.7">What data is AI touching? What stays off-limits? Your client information, your IP, and your team's work all need clear lines.</p></div>
-        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Quality Control</h4><p style="font-size:0.92rem;color:var(--secondary);line-height:1.7">AI outputs need human review. I build checkpoints into every workflow so your team stays in control of what goes out the door.</p></div>
-        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Transparency</h4><p style="font-size:0.92rem;color:var(--secondary);line-height:1.7">Your team and your clients should know where AI is being used and where it isn't. No black boxes. No surprises.</p></div>
+        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Accountability</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.7">Who's responsible when AI makes a decision in your business? Clear ownership from the start, not after something goes wrong.</p></div>
+        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Data Boundaries</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.7">What data is AI touching? What stays off-limits? Your client information, your IP, and your team's work all need clear lines.</p></div>
+        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Quality Control</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.7">AI outputs need human review. I build checkpoints into every workflow so your team stays in control of what goes out the door.</p></div>
+        <div class="card-sm" style="padding:32px"><h4 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Transparency</h4><p style="font-size:1rem;color:var(--secondary);line-height:1.7">Your team and your clients should know where AI is being used and where it isn't. No black boxes. No surprises.</p></div>
       </div>
     </div>
   </div>
@@ -325,7 +326,7 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
     <div class="fade d1"><h2 style="margin-bottom:64px">What this looks like <span class="muted">in practice.</span></h2></div>
     <div class="fade d2">
       <div class="case-study"><div class="bar"></div>
-        <p class="mono" style="font-size:0.8rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Case Study: Excavation Company</p>
+        <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Case Study: Excavation Company</p>
         <h3 style="font-size:1.8rem;margin-bottom:24px">Proposal turnaround: <span class="accent-i">days → 90 minutes</span></h3>
         <div style="font-size:1rem;color:var(--secondary);line-height:1.8;display:flex;flex-direction:column;gap:16px">
           <p>An excavation company was spending days turning around proposals. By the time they got back to potential clients, they were often already talking to someone else.</p>
@@ -336,7 +337,7 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
     </div>
     <div class="fade d3" style="margin-top:32px">
       <div class="case-study"><div class="bar"></div>
-        <p class="mono" style="font-size:0.8rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Case Study: Avionics Company</p>
+        <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Case Study: Avionics Company</p>
         <h3 style="font-size:1.8rem;margin-bottom:24px">Engineering time recovered: <span class="accent-i">80/20 → 50/50</span></h3>
         <div style="font-size:1rem;color:var(--secondary);line-height:1.8;display:flex;flex-direction:column;gap:16px">
           <p>An avionics company's engineers were spending 80% of their time creating, updating, and maintaining documentation and only 20% on the hardware design and software development they were hired to do.</p>
@@ -356,14 +357,14 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
     <div class="fade d2">
       <div class="grid-2">
         <div>
-          <h4 style="font-size:0.85rem;color:var(--accent);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px">Good fit</h4>
-          <div style="font-size:0.95rem;color:var(--secondary);line-height:1.9;display:flex;flex-direction:column;gap:8px">
+          <h4 style="font-size:0.95rem;color:var(--accent);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px">Good fit</h4>
+          <div style="font-size:1rem;color:var(--secondary);line-height:1.9;display:flex;flex-direction:column;gap:8px">
             <p>Construction contractors and GCs</p><p>Accountants and Bookkeepers</p><p>Manufacturing and fabrication</p><p>Trades businesses scaling up</p><p>SMEs with 5-50 employees</p><p>Owners who want results, not reports</p>
           </div>
         </div>
         <div>
-          <h4 style="font-size:0.85rem;color:var(--muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px">Not the right fit</h4>
-          <div style="font-size:0.95rem;color:var(--muted);line-height:1.9;display:flex;flex-direction:column;gap:8px">
+          <h4 style="font-size:0.95rem;color:var(--muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px">Not the right fit</h4>
+          <div style="font-size:1rem;color:var(--muted);line-height:1.9;display:flex;flex-direction:column;gap:8px">
             <p>Enterprise companies needing custom platforms</p><p>Businesses looking for a chatbot and nothing else</p><p>Anyone expecting AI to replace their whole team</p><p>Companies not ready to change how they work</p>
           </div>
         </div>
@@ -391,7 +392,7 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
       </div>
     </div>
     <div class="fade d3">
-      <div class="location-bar"><p style="font-size:0.9rem;color:var(--secondary);line-height:1.6"><span style="color:var(--accent);font-weight:600">Based in Vernon, B.C.</span> I work with companies across the Okanagan.</p></div>
+      <div class="location-bar"><p style="font-size:1rem;color:var(--secondary);line-height:1.6"><span style="color:var(--accent);font-weight:600">Based in Vernon, B.C.</span> I work with companies across the Okanagan.</p></div>
     </div>
   </div>
 </section>
@@ -402,9 +403,9 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
     <div class="fade"><p class="tag">Insights</p></div>
     <div class="fade d1"><h2 style="margin-bottom:64px">Thinking out loud.</h2></div>
     <div class="grid-3">
-      <div class="fade d2"><div class="insight-card"><span class="mono" style="font-size:0.75rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Market Data</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Construction is dead last in B.C. for AI adoption</h3><p style="font-size:0.9rem;color:var(--muted);line-height:1.6;flex:1">The Greater Vancouver Board of Trade found that construction lags every other sector in B.C. for AI adoption, 11% below the Canadian average. Here's what that means for contractors.</p></div></div>
-      <div class="fade d3"><div class="insight-card"><span class="mono" style="font-size:0.75rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">How To</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Where to start with AI if you run a trades business</h3><p style="font-size:0.9rem;color:var(--muted);line-height:1.6;flex:1">You don't need a strategy deck. You need to know which part of your day-to-day is eating the most time for the least return. That's where AI goes first.</p></div></div>
-      <div class="fade d4"><div class="insight-card"><span class="mono" style="font-size:0.75rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Industry</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Edmonton just bet big on AI in construction</h3><p style="font-size:0.9rem;color:var(--muted);line-height:1.6;flex:1">The Edmonton Chamber of Commerce launched an initiative to make the region a North American hub for AI in construction and engineering. Here's why it matters for contractors in construction and engineering.</p></div></div>
+      <div class="fade d2"><div class="insight-card"><span class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Market Data</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Construction is dead last in B.C. for AI adoption</h3><p style="font-size:1rem;color:var(--muted);line-height:1.6;flex:1">The Greater Vancouver Board of Trade found that construction lags every other sector in B.C. for AI adoption, 11% below the Canadian average. Here's what that means for contractors.</p></div></div>
+      <div class="fade d3"><div class="insight-card"><span class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">How To</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Where to start with AI if you run a trades business</h3><p style="font-size:1rem;color:var(--muted);line-height:1.6;flex:1">You don't need a strategy deck. You need to know which part of your day-to-day is eating the most time for the least return. That's where AI goes first.</p></div></div>
+      <div class="fade d4"><div class="insight-card"><span class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Industry</span><h3 style="font-size:1.55rem;margin-bottom:12px;line-height:1.3">Edmonton just bet big on AI in construction</h3><p style="font-size:1rem;color:var(--muted);line-height:1.6;flex:1">The Edmonton Chamber of Commerce launched an initiative to make the region a North American hub for AI in construction and engineering. Here's why it matters for contractors in construction and engineering.</p></div></div>
     </div>
   </div>
 </section>
@@ -420,20 +421,20 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
         <div class="card" style="text-align:center;padding:48px">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><rect x="3" y="4" width="18" height="16" rx="2"/><polyline points="3,4 12,13 21,4"/></svg>
           <h3 style="font-size:1.4rem;margin-bottom:12px">Send an Email</h3>
-          <p style="font-size:0.95rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">Have a question or want to share some context before we talk? Drop me a line and I'll get back to you within one business day.</p>
-          <a href="#" class="btn btn-primary" style="font-size:0.95rem" onclick="window.location.href='mailto:sjarvis@jarvisstrategies.com'; return false;">sjarvis@jarvisstrategies.com</a>
+          <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">Have a question or want to share some context before we talk? Drop me a line and I'll get back to you within one business day.</p>
+          <a href="mailto:sjarvis@jarvisstrategies.com" class="btn btn-primary" style="font-size:1rem">sjarvis@jarvisstrategies.com</a>
         </div>
         <div class="card" style="text-align:center;padding:48px">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
           <h3 style="font-size:1.4rem;margin-bottom:12px">Book a Call</h3>
-          <p style="font-size:0.95rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">30 minutes. I'll ask a few direct questions about how your business runs. If there's a fit, we'll talk next steps. If not, I'll tell you honestly.</p>
-          <button id="bookingBtn" class="btn btn-primary" style="font-size:0.95rem;border:none;cursor:pointer" onclick="openBookingModal()">
+          <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">30 minutes. I'll ask a few direct questions about how your business runs. If there's a fit, we'll talk next steps. If not, I'll tell you honestly.</p>
+          <button id="bookingBtn" class="btn btn-primary" style="font-size:1rem;border:none;cursor:pointer" onclick="openBookingModal()">
             <span id="availabilityText">Book a Free 30-Min Call</span>
           </button>
         </div>
       </div>
     </div>
-    <div class="fade d4"><p style="font-size:0.85rem;color:var(--muted);margin-top:24px;text-align:center">No pitch. No pressure. Just a conversation.</p></div>
+    <div class="fade d4"><p style="font-size:1rem;color:var(--muted);margin-top:24px;text-align:center">No pitch. No pressure. Just a conversation.</p></div>
   </div>
 </section>
 
@@ -442,8 +443,8 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
   <div style="display:flex;align-items:center;gap:10px">
     <a href="/"><img src="/logo.png" alt="Jarvis Strategies" style="height:36px;width:auto"></a>
   </div>
-  <div style="font-size:0.8rem;color:var(--muted)">Vernon, B.C., AI implementation for construction & manufacturing</div>
-  <div class="mono" style="font-size:0.7rem;color:var(--muted)">© 2026</div>
+  <div style="font-size:1rem;color:var(--muted)">Vernon, B.C., AI implementation for construction & manufacturing</div>
+  <div class="mono" style="font-size:1rem;color:var(--muted)">© 2026</div>
   <a href="/privacy" style="font-size:0.8rem;color:var(--muted);">Privacy Policy</a>
 </footer>
 <a id="floatingCta" href="/assessment">Free Assessment &rarr;</a>
