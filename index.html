@@ -475,9 +475,14 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
       </div>
 
       <div style="margin-bottom:20px">
-        <label style="display:block;margin-bottom:8px;color:var(--primary)">Preferred Date & Time *</label>
-        <select id="requestedTime" name="requestedTime" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px;appearance:none">
-          <option value="" disabled selected>Loading available times…</option>
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Preferred Date *</label>
+        <input type="date" id="preferredDate" required style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px;cursor:pointer;color-scheme:dark">
+      </div>
+
+      <div id="timePickerWrap" style="margin-bottom:20px;display:none">
+        <label style="display:block;margin-bottom:8px;color:var(--primary)">Available Time *</label>
+        <select id="requestedTime" name="requestedTime" style="width:100%;padding:12px;background:var(--med);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:16px;appearance:none">
+          <option value="" disabled selected>Choose a time…</option>
         </select>
       </div>
 
@@ -639,16 +644,32 @@ document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 })();
 
 // Booking System Functions
-async function updateAvailability() {
+function tomorrowPacific() {
+  const pacToday = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+  const [y, m, d] = pacToday.split('-').map(Number);
+  const tomorrow = new Date(y, m - 1, d + 1);
+  return [tomorrow.getFullYear(), String(tomorrow.getMonth() + 1).padStart(2, '0'), String(tomorrow.getDate()).padStart(2, '0')].join('-');
+}
+
+function maxBookingDate() {
+  const pacToday = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+  const [y, m, d] = pacToday.split('-').map(Number);
+  const maxDate = new Date(y, m - 1, d + 30);
+  return [maxDate.getFullYear(), String(maxDate.getMonth() + 1).padStart(2, '0'), String(maxDate.getDate()).padStart(2, '0')].join('-');
+}
+
+async function fetchTimesForDate(dateStr) {
+  const wrap = document.getElementById('timePickerWrap');
   const select = document.getElementById('requestedTime');
-  const textEl = document.getElementById('availabilityText');
+
+  wrap.style.display = 'block';
+  select.innerHTML = '<option value="" disabled selected>Loading times…</option>';
 
   try {
-    const response = await fetch('/api/get-availability');
-    const data = await response.json();
+    const res = await fetch('/api/get-availability?date=' + dateStr);
+    const data = await res.json();
 
     if (data.available && data.slots && data.slots.length > 0) {
-      textEl.textContent = 'Select a Time';
       select.innerHTML = '<option value="" disabled selected>Choose a time…</option>';
       data.slots.forEach(slot => {
         const opt = document.createElement('option');
@@ -657,33 +678,41 @@ async function updateAvailability() {
         select.appendChild(opt);
       });
     } else {
-      textEl.textContent = 'Book a Call';
-      select.innerHTML = '<option value="" disabled selected>No times available — email directly</option>';
+      select.innerHTML = '<option value="" disabled selected>No availability — try another day</option>';
     }
-  } catch (error) {
-    console.error('Failed to fetch availability:', error);
-    textEl.textContent = 'Book a Call';
-    if (select) select.innerHTML = '<option value="" disabled selected>Unable to load times — try again</option>';
+  } catch (err) {
+    select.innerHTML = '<option value="" disabled selected>Unable to load — try again</option>';
   }
 }
 
 function openBookingModal() {
+  const dateInput = document.getElementById('preferredDate');
+  dateInput.min = tomorrowPacific();
+  dateInput.max = maxBookingDate();
+  dateInput.value = '';
+  document.getElementById('timePickerWrap').style.display = 'none';
+  document.getElementById('requestedTime').innerHTML = '<option value="" disabled selected>Choose a time…</option>';
+
   document.getElementById('bookingModal').style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
 
-// Auto-open modal if ?booking=true is in URL
 window.addEventListener('DOMContentLoaded', function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('booking') === 'true') {
+  // Auto-open modal if ?booking=true is in URL
+  if (new URLSearchParams(window.location.search).get('booking') === 'true') {
     openBookingModal();
   }
+  // Load times when date is picked
+  document.getElementById('preferredDate').addEventListener('change', function() {
+    if (this.value) fetchTimesForDate(this.value);
+  });
 });
 
 function closeBookingModal() {
   document.getElementById('bookingModal').style.display = 'none';
   document.body.style.overflow = 'auto';
   document.getElementById('bookingForm').reset();
+  document.getElementById('timePickerWrap').style.display = 'none';
   document.getElementById('formMessage').style.display = 'none';
 }
 
@@ -697,11 +726,23 @@ async function submitBooking(event) {
   submitBtn.textContent = 'Submitting...';
 
   const formData = new FormData(event.target);
+
+  const requestedTime = formData.get('requestedTime');
+  if (!requestedTime) {
+    formMessage.style.display = 'block';
+    formMessage.style.background = 'rgba(244,67,54,0.15)';
+    formMessage.style.color = '#f44336';
+    formMessage.textContent = 'Please select a date and available time.';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Request';
+    return;
+  }
+
   const data = {
     name: formData.get('name'),
     email: formData.get('email'),
     company: formData.get('company'),
-    requestedTime: new Date(formData.get('requestedTime')).toISOString(),
+    requestedTime: new Date(requestedTime).toISOString(),
     context: formData.get('context')
   };
 
@@ -737,11 +778,6 @@ async function submitBooking(event) {
   }
 }
 
-// Update availability when page loads
-window.addEventListener('load', updateAvailability);
-
-// Refresh availability every 10 minutes
-setInterval(updateAvailability, 10 * 60 * 1000);
 </script>
 </body>
 </html>

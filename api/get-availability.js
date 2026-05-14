@@ -47,19 +47,34 @@ export default async function handler(req, res) {
       // Fall through to hardcoded fallback
     }
 
-    const startFrom = startOfTomorrowPacific();
-    const tenDaysOut = new Date(startFrom.getTime() + 10 * 24 * 60 * 60 * 1000);
+    // Determine search window — single date or next 10 days
+    const requestedDate = req.query.date; // Optional YYYY-MM-DD Pacific
+    let startFrom, endTime, maxSlots;
+    if (requestedDate && /^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) {
+      const [year, month, day] = requestedDate.split('-').map(Number);
+      startFrom = pacificMidnight(year, month, day);
+      endTime = new Date(startFrom.getTime() + 24 * 60 * 60 * 1000);
+      maxSlots = 20;
+      // Reject past dates and today — no same-day bookings
+      if (startFrom < startOfTomorrowPacific()) {
+        return res.status(200).json({ available: false, slots: [], fallback: false });
+      }
+    } else {
+      startFrom = startOfTomorrowPacific();
+      endTime = new Date(startFrom.getTime() + 10 * 24 * 60 * 60 * 1000);
+      maxSlots = 8;
+    }
 
     const freeBusy = await calendar.freebusy.query({
       requestBody: {
         timeMin: startFrom.toISOString(),
-        timeMax: tenDaysOut.toISOString(),
+        timeMax: endTime.toISOString(),
         items: [{ id: CALENDAR_ID }],
         timeZone: 'America/Vancouver'
       }
     });
     const busySlots = freeBusy.data.calendars[CALENDAR_ID]?.busy || [];
-    const slots = findFreeSlots(startFrom, tenDaysOut, busySlots, windows, slotDurationMs, 8);
+    const slots = findFreeSlots(startFrom, endTime, busySlots, windows, slotDurationMs, maxSlots);
 
     if (slots.length === 0) {
       return res.status(200).json({ available: false, slots: [], fallback: true });
@@ -140,6 +155,13 @@ function toTimeObj(t) {
     return { hour: t.hours ?? t.hour ?? 0, minute: t.minutes ?? t.minute ?? 0 };
   }
   return null;
+}
+
+/** Returns a Date representing 00:00:00 of the given Pacific date, expressed as UTC. */
+function pacificMidnight(year, month, day) {
+  const noonUtc = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+  const offset = getPacificUtcOffsetMs(noonUtc);
+  return new Date(Date.UTC(year, month - 1, day) + offset);
 }
 
 /** Returns a Date representing 00:00:00 tomorrow in America/Vancouver, expressed as UTC. */
