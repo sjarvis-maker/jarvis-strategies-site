@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jarvis Strategies Blog</title>
+    <link>https://jarvisstrategies.com/blog/</link>
+    <description>Practical thinking on AI implementation for trades and construction companies in the Okanagan.</description>
+    <language>en-ca</language>
+    <managingEditor>sjarvis@jarvisstrategies.com (Scott Jarvis)</managingEditor>
+    <atom:link href="https://jarvisstrategies.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <!-- ADD NEW POSTS AT THE TOP, NEWEST FIRST -->
+
+    <item>
+      <title>Where AI Actually Fits in a Trades Business</title>
+      <link>https://jarvisstrategies.com/blog/where-ai-fits-in-a-trades-business</link>
+      <description>Most AI tools are built for tech companies. Here's how to find the handful that genuinely work for estimating, scheduling, and client communication in the trades.</description>
+      <pubDate>Tue, 13 May 2026 08:00:00 -0700</pubDate>
+      <guid>https://jarvisstrategies.com/blog/where-ai-fits-in-a-trades-business</guid>
+    </item>
+
+  </channel>
+</rss>
