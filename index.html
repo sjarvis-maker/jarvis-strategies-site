@@ -526,10 +526,15 @@ footer { padding: 40px; border-top: 1px solid var(--border); display: flex; just
 // Nav scroll effect + floating CTA
 const nav = document.getElementById('navbar');
 const floatingCta = document.getElementById('floatingCta');
+const footerEl = document.querySelector('footer');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
   if (floatingCta) {
     floatingCta.classList.toggle('visible', window.scrollY > window.innerHeight * 0.9);
+    if (footerEl) {
+      const gap = window.innerHeight - footerEl.getBoundingClientRect().top + 5;
+      floatingCta.style.bottom = gap > 0 ? gap + 'px' : '';
+    }
   }
 });
 
