@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Models, Distillation Wars, and the Inevitable Convergence — Jarvis Strategies</title>
+<meta name="description" content="While Western and Chinese AI labs fight over distilled model outputs, the actual next frontier requires something no single country can build alone.">
+<link rel="canonical" href="https://jarvisstrategies.com/blog/world-models-distillation-wars">
+<link rel="alternate" type="application/rss+xml" title="Jarvis Strategies Blog" href="https://jarvisstrategies.com/blog/rss.xml">
+<meta property="og:title" content="World Models, Distillation Wars, and the Inevitable Convergence">
+<meta property="og:description" content="While Western and Chinese AI labs fight over distilled model outputs, the actual next frontier requires something no single country can build alone.">
+<meta property="og:url" content="https://jarvisstrategies.com/blog/world-models-distillation-wars">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-01">
+<meta property="article:author" content="Scott Jarvis">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "World Models, Distillation Wars, and the Inevitable Convergence",
+  "description": "While Western and Chinese AI labs fight over distilled model outputs, the actual next frontier requires something no single country can build alone.",
+  "author": { "@type": "Person", "name": "Scott Jarvis" },
+  "publisher": { "@type": "Organization", "name": "Jarvis Strategies", "url": "https://jarvisstrategies.com" },
+  "datePublished": "2026-04-01",
+  "url": "https://jarvisstrategies.com/blog/world-models-distillation-wars"
+}
+</script>
+<style>
+:root {
+  --black: #1a2332;
+  --dark: #2d3e50;
+  --med: #3d4f64;
+  --border: #4a5f78;
+  --muted: #7a8fa3;
+  --secondary: #a8bcc8;
+  --primary: #e8f1f8;
+  --white: #f2f4f8;
+  --accent: #e8a44d;
+  --accent-dim: #d4933d;
+  --accent-glow: rgba(232,164,77,0.1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 90px; }
+body { background: var(--black); color: var(--primary); font-family: 'DM Sans', sans-serif; overflow-x: hidden; min-height: 100vh; }
+a { text-decoration: none; color: inherit; }
+
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+nav a.nav-link { color: var(--secondary); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; transition: color 0.2s; }
+nav a.nav-link:hover { color: var(--accent); }
+.nav-cta { color: var(--black) !important; background: var(--accent); padding: 10px 20px; border-radius: 2px; font-weight: 600; }
+.nav-cta:hover { background: var(--accent-dim) !important; }
+#navLinks { display: flex; gap: 32px; align-items: center; }
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--secondary); border-radius: 1px; transition: transform 0.25s ease, opacity 0.25s ease; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Article */
+.article-wrap { padding: 130px 40px 80px; max-width: 720px; margin: 0 auto; }
+.back-link { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 40px; transition: color 0.2s; }
+.back-link:hover { color: var(--accent); }
+.post-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; background: var(--accent-glow); padding: 4px 10px; border-radius: 2px; display: inline-block; margin-bottom: 20px; }
+.post-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 32px; }
+h1 { font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(1.9rem, 4vw, 2.8rem); color: var(--white); line-height: 1.2; font-weight: 400; margin-bottom: 16px; }
+.article-body { margin-top: 48px; border-top: 1px solid var(--border); padding-top: 48px; }
+.article-body p { font-size: 1.05rem; color: var(--secondary); line-height: 1.85; margin-bottom: 28px; }
+.article-body h2 { font-family: 'Instrument Serif', Georgia, serif; font-size: 1.6rem; color: var(--white); font-weight: 400; margin: 48px 0 20px; line-height: 1.25; }
+.article-body h3 { font-family: 'DM Sans', sans-serif; font-size: 1rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 36px 0 14px; }
+.article-body ul, .article-body ol { margin: 0 0 28px 24px; }
+.article-body li { font-size: 1.05rem; color: var(--secondary); line-height: 1.85; margin-bottom: 8px; }
+.article-body strong { color: var(--primary); font-weight: 600; }
+.article-body blockquote { border-left: 3px solid var(--accent); padding: 4px 0 4px 24px; margin: 32px 0; }
+.article-body blockquote p { color: var(--primary); font-style: italic; margin-bottom: 0; }
+
+.article-footer { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 20px; }
+.author-info p { font-size: 0.9rem; color: var(--secondary); }
+.author-info strong { color: var(--white); }
+
+footer { padding: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+footer p { font-size: 0.85rem; color: var(--muted); }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .hamburger { display: flex; }
+  #navLinks { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(26,35,50,0.97); backdrop-filter: blur(12px); padding: 8px 20px 20px; gap: 0; border-bottom: 1px solid var(--border); }
+  #navLinks.open { display: flex; }
+  #navLinks a.nav-link { padding: 14px 0; border-bottom: 1px solid rgba(74,95,120,0.4); font-size: 1rem; }
+  #navLinks a.nav-link:last-child { border-bottom: none; }
+  #navLinks .nav-cta { margin-top: 12px; text-align: center; padding: 12px 20px; border-bottom: none; }
+  html { scroll-padding-top: 36px; }
+  .article-wrap { padding: 110px 20px 60px; }
+  footer { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/"><img src="/logo.png" alt="Jarvis Strategies" class="nav-logo" style="height:56px;width:auto"></a>
+  <button class="hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="navLinks">
+    <a href="/#services" class="nav-link">Services</a>
+    <a href="/#results" class="nav-link">Results</a>
+    <a href="/blog" class="nav-link" style="color:var(--accent)">Blog</a>
+    <a href="/assessment" class="nav-link">Assessment</a>
+    <a href="/#contact" class="nav-link nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <a href="/blog" class="back-link">← Back to Blog</a>
+
+  <span class="post-tag">AI Strategy</span>
+  <h1>World Models, Distillation Wars, and the Inevitable Convergence</h1>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; April 1, 2026 &nbsp;·&nbsp; 3 min read</div>
+
+  <div class="article-body">
+
+    <p>Last month, Anthropic accused DeepSeek, Moonshot AI, and MiniMax of running "industrial-scale" distillation campaigns against Claude. 24,000 fraudulent accounts. 16 million exchanges. All designed to extract capabilities and feed them into Chinese models. OpenAI filed similar allegations, claiming DeepSeek used proxies to bypass geo-restrictions and harvest ChatGPT outputs.</p>
+
+    <p>The response from the AI community? Split right down the middle.</p>
+
+    <p>One side called it theft. IP violation. A national security threat. The other side pointed out the irony: Western AI companies trained their models on the entire internet's copyrighted content without asking, and now they're upset someone is training on their outputs.</p>
+
+    <p>Both sides have a point. Both are also missing the bigger picture.</p>
+
+    <p>Language models are already the wrong battlefield. The actual next step is world models: AI systems that don't just process text, but understand how physical reality works. Gravity, cause and effect, object permanence, spatial relationships. The intuitive sense that lets you know a ball will hit the ground before you drop it.</p>
+
+    <p>Yann LeCun, Fei-Fei Li, Google DeepMind, NVIDIA, and labs across China and the UAE are all racing to build them. LeCun has said that within three to five years, world models will be the dominant AI architecture, and nobody in their right mind would still use today's LLMs.</p>
+
+    <p>Building one won't happen on chatbot transcripts or distilled reasoning chains. It needs video, sensor data, 3D spatial information, physics simulations, and real-world interaction data from every environment on the planet. Every terrain, every climate, every physical interaction between objects, humans, and machines. The data requirements make LLM training sets look like a pamphlet.</p>
+
+    <p>So here we are, fighting over copied chatbot outputs, while the actual destination requires something so massive no single company, no single country, could build the dataset alone.</p>
+
+    <p>Nobody in this conversation seems to want to say that part.</p>
+
+    <p>If the end state of AI is a system that truly understands reality, that can simulate every corner of the physical world, then one nation's language model outputs being sacred territory starts to look small. Not because IP doesn't matter today. It does. But the scale of what's coming makes today's distillation wars look like neighbours arguing over a fence line while a city is being built around them.</p>
+
+    <p>A world model that works needs inputs from every language, every climate, every physical system on earth. No single lab will ever have that on its own. Which means the frame of "stolen outputs" gets smaller the further out you look.</p>
+
+    <p>We're nowhere near that. Probably not in our lifetime. But every headline about "stolen" training data is really a preview of a much bigger question nobody is ready to answer:</p>
+
+    <p>What happens when the AI that understands reality doesn't belong to anyone?</p>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="author-info">
+      <p><strong>Scott Jarvis</strong></p>
+      <p>18 years in the trades. Now helping Okanagan businesses implement AI that actually works. <a href="/#contact" style="color:var(--accent)">Get in touch →</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="/"><img src="/logo.png" alt="Jarvis Strategies" style="height:32px;width:auto"></a>
+  <p>© 2026 Jarvis Strategies</p>
+  <a href="/privacy" style="font-size:0.85rem;color:var(--muted)">Privacy Policy</a>
+</footer>
+
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+</script>
+</body>
+</html>
