@@ -83,31 +83,67 @@ export default async function handler(req, res) {
             <input type="hidden" id="alternateTimeUtc" name="alternateTime" />
 
             <div class="form-group">
-              <label for="alternateTimeLocal">Propose Alternate Date &amp; Time (Pacific):</label>
-              <input
-                type="datetime-local"
-                id="alternateTimeLocal"
-                required
-              />
+              <label for="altDate">Alternate Date:</label>
+              <input type="date" id="altDate" required style="padding:10px;font-size:16px;width:100%;box-sizing:border-box;border:1px solid #ccc;border-radius:4px;" />
+            </div>
+
+            <div class="form-group" id="altTimeWrap" style="display:none">
+              <label for="altTime">Available Time:</label>
+              <select id="altTime" style="padding:10px;font-size:16px;width:100%;box-sizing:border-box;border:1px solid #ccc;border-radius:4px;">
+                <option value="" disabled selected>Choose a time…</option>
+              </select>
             </div>
 
             <button type="submit">Send Alternate Time Proposal</button>
           </form>
           <script>
-            document.getElementById('altForm').addEventListener('submit', function(e) {
-              var raw = document.getElementById('alternateTimeLocal').value;
-              if (!raw) { e.preventDefault(); return; }
-              // Convert the datetime-local value (treated as Pacific) to UTC ISO string
-              var parts = raw.split('T');
-              var d = parts[0].split('-').map(Number);
-              var t = parts[1].split(':').map(Number);
-              var year = d[0], month = d[1] - 1, day = d[2], hour = t[0], min = t[1];
-              var noonUtc = new Date(Date.UTC(year, month, day, 12));
-              var offsetMs = new Date(noonUtc.toLocaleString('en-US', { timeZone: 'UTC' })) -
-                             new Date(noonUtc.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
-              document.getElementById('alternateTimeUtc').value =
-                new Date(Date.UTC(year, month, day, hour, min) + offsetMs).toISOString();
-            });
+            (function() {
+              var pacToday = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+              var dp = pacToday.split('-').map(Number);
+              function fmtDate(date) {
+                return [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0')].join('-');
+              }
+              var altDate = document.getElementById('altDate');
+              altDate.min = fmtDate(new Date(dp[0], dp[1]-1, dp[2]+1));
+              altDate.max = fmtDate(new Date(dp[0], dp[1]-1, dp[2]+30));
+
+              altDate.addEventListener('change', function() {
+                var dateStr = this.value;
+                if (!dateStr) return;
+                var wrap = document.getElementById('altTimeWrap');
+                var sel = document.getElementById('altTime');
+                wrap.style.display = 'block';
+                sel.innerHTML = '<option value="" disabled selected>Loading times…</option>';
+                fetch('/api/get-availability?date=' + dateStr)
+                  .then(function(r) { return r.json(); })
+                  .then(function(data) {
+                    if (data.available && data.slots && data.slots.length > 0) {
+                      sel.innerHTML = '<option value="" disabled selected>Choose a time…</option>';
+                      data.slots.forEach(function(slot) {
+                        var opt = document.createElement('option');
+                        opt.value = slot.datetime;
+                        opt.textContent = slot.label;
+                        sel.appendChild(opt);
+                      });
+                    } else {
+                      sel.innerHTML = '<option value="" disabled selected>No availability — try another day</option>';
+                    }
+                  })
+                  .catch(function() {
+                    sel.innerHTML = '<option value="" disabled selected>Unable to load — try again</option>';
+                  });
+              });
+
+              document.getElementById('altForm').addEventListener('submit', function(e) {
+                var selectedTime = document.getElementById('altTime').value;
+                if (!selectedTime) {
+                  e.preventDefault();
+                  alert('Please select a date and available time.');
+                  return;
+                }
+                document.getElementById('alternateTimeUtc').value = selectedTime;
+              });
+            })();
           </script>
         </body>
       </html>
