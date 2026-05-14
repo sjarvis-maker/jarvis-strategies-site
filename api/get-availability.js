@@ -202,11 +202,81 @@ function inAnyWindow(weekday, hour, minute, windows) {
   });
 }
 
+/** Gregorian Easter Sunday for a given year (UTC midnight). */
+function calcEaster(year) {
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+  const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+/** nth occurrence of weekday (0=Sun…6=Sat) in a month (1-based). */
+function nthWeekday(year, month, dow, n) {
+  const firstDow = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
+  return 1 + (dow - firstDow + 7) % 7 + (n - 1) * 7;
+}
+
+/** Returns a Set of 'YYYY-MM-DD' strings for BC statutory holidays in the given year. */
+function bcHolidays(year) {
+  const set = new Set();
+  const add = (y, m, d) => {
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    set.add(dt.toISOString().split('T')[0]);
+  };
+
+  // Fixed-date holidays
+  add(year, 1, 1);   // New Year's Day
+  add(year, 7, 1);   // Canada Day
+  add(year, 9, 30);  // National Day for Truth and Reconciliation
+  add(year, 11, 11); // Remembrance Day
+  add(year, 12, 25); // Christmas Day
+  add(year, 12, 26); // Boxing Day
+
+  // Family Day — 3rd Monday of February (BC)
+  add(year, 2, nthWeekday(year, 2, 1, 3));
+
+  // Good Friday — Easter minus 2 days
+  const easter = calcEaster(year);
+  const gf = new Date(easter.getTime() - 2 * 86400000);
+  set.add(gf.toISOString().split('T')[0]);
+
+  // Victoria Day — last Monday before May 25
+  const may25dow = new Date(Date.UTC(year, 4, 25)).getUTCDay();
+  add(year, 5, 25 - (may25dow === 1 ? 7 : (may25dow + 6) % 7));
+
+  // BC Day — 1st Monday of August
+  add(year, 8, nthWeekday(year, 8, 1, 1));
+
+  // Labour Day — 1st Monday of September
+  add(year, 9, nthWeekday(year, 9, 1, 1));
+
+  // Thanksgiving — 2nd Monday of October
+  add(year, 10, nthWeekday(year, 10, 1, 2));
+
+  return set;
+}
+
 function findFreeSlots(startFrom, endTime, busySlots, windows, slotDurationMs, maxSlots) {
   const results = [];
   let checkTime = new Date(startFrom);
+  const holidayCache = {};
 
   while (checkTime < endTime && results.length < maxSlots) {
+    const dateStr = checkTime.toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+    const year = parseInt(dateStr, 10);
+    if (!holidayCache[year]) holidayCache[year] = bcHolidays(year);
+
+    if (holidayCache[year].has(dateStr)) {
+      checkTime = new Date(checkTime.getTime() + slotDurationMs);
+      continue;
+    }
+
     const { weekday, hour, minute } = getPacificParts(checkTime);
 
     if (inAnyWindow(weekday, hour, minute, windows)) {
