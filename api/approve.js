@@ -128,15 +128,6 @@ export default async function handler(req, res) {
             <p style="margin: 8px 0;"><strong>Duration:</strong> 30 minutes</p>
           </div>
 
-          <p>A Google Meet link will be shared with you closer to the meeting time via email.</p>
-
-          <p><strong>Please add this to your calendar:</strong></p>
-          <ul>
-            <li>Create a calendar event for ${formattedTime}</li>
-            <li>Set duration to 30 minutes</li>
-            <li>You'll receive the meeting link separately</li>
-          </ul>
-
           <p>Looking forward to speaking with you.</p>
 
           <p>Scott Jarvis<br/>
