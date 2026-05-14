@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 
     const event = {
       summary: `Discovery Call: ${company}`,
-      description: `Discovery call with ${name} from ${company}\n\nEmail: ${email}\n\nContext: ${context || 'None provided'}\n\nGoogle Meet: https://meet.google.com/new`,
+      description: `Discovery call with ${name} from ${company}\n\nEmail: ${email}\n\nContext: ${context || 'None provided'}`,
       start: {
         dateTime: requestedTime,
         timeZone: 'America/Vancouver'
@@ -75,6 +75,9 @@ export default async function handler(req, res) {
         dateTime: new Date(new Date(requestedTime).getTime() + 30 * 60000).toISOString(),
         timeZone: 'America/Vancouver'
       },
+      attendees: [
+        { email: email, displayName: `${name} (${company})` }
+      ],
       reminders: {
         useDefault: false,
         overrides: [
@@ -86,7 +89,8 @@ export default async function handler(req, res) {
 
     await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
-      resource: event
+      resource: event,
+      sendUpdates: 'all'
     });
 
     // Send confirmation email to prospect
@@ -127,6 +131,8 @@ export default async function handler(req, res) {
             <p style="margin: 8px 0;"><strong>Date &amp; Time:</strong> ${formattedTime}</p>
             <p style="margin: 8px 0;"><strong>Duration:</strong> 30 minutes</p>
           </div>
+
+          <p>A Google Meet link will be shared with you shortly via email.</p>
 
           <p>Looking forward to speaking with you.</p>
 
