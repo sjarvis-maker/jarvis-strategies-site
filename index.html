@@ -532,7 +532,7 @@ window.addEventListener('scroll', () => {
   if (floatingCta) {
     floatingCta.classList.toggle('visible', window.scrollY > window.innerHeight * 0.9);
     if (footerEl) {
-      const gap = window.innerHeight - footerEl.getBoundingClientRect().top + 5;
+      const gap = window.innerHeight - footerEl.getBoundingClientRect().top + floatingCta.offsetHeight + 24;
       floatingCta.style.bottom = gap > 0 ? gap + 'px' : '';
     }
   }
