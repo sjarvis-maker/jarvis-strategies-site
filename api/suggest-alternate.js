@@ -80,13 +80,13 @@ export default async function handler(req, res) {
           <form id="altForm" method="GET" action="/api/suggest-alternate">
             <input type="hidden" name="data" value="${escapeHtml(data)}" />
             <input type="hidden" name="sig" value="${escapeHtml(sig || '')}" />
+            <input type="hidden" id="alternateTimeUtc" name="alternateTime" />
 
             <div class="form-group">
-              <label for="alternateTime">Propose Alternate Date &amp; Time (Pacific):</label>
+              <label for="alternateTimeLocal">Propose Alternate Date &amp; Time (Pacific):</label>
               <input
                 type="datetime-local"
-                id="alternateTime"
-                name="alternateTime"
+                id="alternateTimeLocal"
                 required
               />
             </div>
@@ -95,14 +95,18 @@ export default async function handler(req, res) {
           </form>
           <script>
             document.getElementById('altForm').addEventListener('submit', function(e) {
-              var raw = document.getElementById('alternateTime').value;
-              if (raw) {
-                var localDate = new Date(raw);
-                var utcStr = localDate.toLocaleString('en-US', { timeZone: 'UTC' });
-                var pacStr = localDate.toLocaleString('en-US', { timeZone: 'America/Vancouver' });
-                var offsetMs = new Date(utcStr) - new Date(pacStr);
-                document.getElementById('alternateTime').value = new Date(localDate.getTime() + offsetMs).toISOString();
-              }
+              var raw = document.getElementById('alternateTimeLocal').value;
+              if (!raw) { e.preventDefault(); return; }
+              // Convert the datetime-local value (treated as Pacific) to UTC ISO string
+              var parts = raw.split('T');
+              var d = parts[0].split('-').map(Number);
+              var t = parts[1].split(':').map(Number);
+              var year = d[0], month = d[1] - 1, day = d[2], hour = t[0], min = t[1];
+              var noonUtc = new Date(Date.UTC(year, month, day, 12));
+              var offsetMs = new Date(noonUtc.toLocaleString('en-US', { timeZone: 'UTC' })) -
+                             new Date(noonUtc.toLocaleString('en-US', { timeZone: 'America/Vancouver' }));
+              document.getElementById('alternateTimeUtc').value =
+                new Date(Date.UTC(year, month, day, hour, min) + offsetMs).toISOString();
             });
           </script>
         </body>
