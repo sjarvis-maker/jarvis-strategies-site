@@ -1,0 +1,33 @@
+# Jarvis Strategies
+
+> Jarvis Strategies embeds inside trades, construction, and manufacturing companies across the Okanagan (Vernon, Kelowna, Penticton, Kamloops), British Columbia to identify, build, and deploy AI systems connected to real operational workflows — then stays in as an ongoing partner.
+
+Led by Scott Jarvis, 18 years in trades and construction operations before moving into AI implementation. The approach is practical-first: use cases have to connect to real workflows (estimating, proposals, documentation, subcontractor coordination), not generic AI hype. Every workflow ships with governance built in — accountability, data boundaries, quality control, transparency.
+
+## Site
+- [Homepage](https://jarvisstrategies.com/): Services, governance philosophy, results, about Scott Jarvis, and contact
+- [AI Readiness Assessment](https://jarvisstrategies.com/assessment): Free 7-question, 2-minute assessment that scores AI readiness and surfaces use cases
+- [Blog index](https://jarvisstrategies.com/blog/): Practical AI thinking for trades and construction — no hype
+
+## Blog — AI Strategy & Workflow
+- [AI for Subcontractor Coordination: A Practical Workflow for GCs](https://jarvisstrategies.com/blog/ai-subcontractor-coordination): Where AI helps GCs with daily site summaries, RFI triage, and schedule impact analysis — and where it shouldn't touch the sub relationship (July 23, 2026)
+- [AI for Engineering Documentation](https://jarvisstrategies.com/blog/ai-engineering-documentation): How one manufacturing client cut documentation time 30-40% without breaking the audit trail (July 15, 2026)
+- [AI for Construction Estimating: Where It Belongs (and Where It Doesn't)](https://jarvisstrategies.com/blog/ai-construction-estimating): Which of the six jobs inside "estimating" AI actually helps with (July 8, 2026)
+- [How to Cut Construction Proposal Turnaround from Days to Hours with AI](https://jarvisstrategies.com/blog/ai-proposal-turnaround): An AI-assisted workflow that cut turnaround from 3 days to 90 minutes (June 30, 2026)
+- [Where AI Actually Fits in a Trades Business](https://jarvisstrategies.com/blog/where-ai-fits-in-a-trades-business): The handful of AI tools that genuinely work for estimating, scheduling, and client communication (May 13, 2026)
+
+## Blog — Market Data
+- [What the GVBOT AI Report Missed About BC Trades and Construction](https://jarvisstrategies.com/blog/gvbot-ai-report-bc-trades-construction): Why the 69%-can't-find-a-use-case number is misleading for trades (June 23, 2026)
+- [AI Adoption in BC Construction: Why the Okanagan Lags Vancouver](https://jarvisstrategies.com/blog/ai-adoption-bc-construction-okanagan): What the regional adoption gap means for Interior contractors (June 16, 2026)
+- [The Businesses That Jumped In First Are Already Lapping the Ones Still Deciding](https://jarvisstrategies.com/blog/ai-roi-early-movers): A Google Cloud survey found 74% of AI-adopting companies already see ROI (April 13, 2026)
+- [73% of BC Businesses Haven't Thought About AI Yet](https://jarvisstrategies.com/blog/bc-ai-adoption-gap): What the businesses that have considered AI are doing with it (March 21, 2026)
+
+## Blog — AI 101
+- [Is AI Going to Take Your Job?](https://jarvisstrategies.com/blog/is-ai-going-to-take-your-job): What the WEF's 92-million-displaced/170-million-created projection actually means (March 29, 2026)
+- [What Is an AI Agent?](https://jarvisstrategies.com/blog/what-is-an-ai-agent): The distinction between an AI assistant and an agent (April 9, 2026)
+- [Okay, So Where Do You Actually Start?](https://jarvisstrategies.com/blog/where-do-you-actually-start): Why starting with the technology instead of the problem goes badly (April 25, 2026)
+- [Don't Believe Everything the Robot Says](https://jarvisstrategies.com/blog/dont-trust-the-robot): Two habits that keep you from relying on confident-sounding wrong answers (March 14, 2026)
+- [Five Minutes and a Free Account](https://jarvisstrategies.com/blog/getting-started-with-ai): What to do in your first real AI conversation (March 7, 2026)
+
+## Optional
+- [World Models, Distillation Wars, and the Inevitable Convergence](https://jarvisstrategies.com/blog/world-models-distillation-wars): General AI industry/geopolitics commentary — background context, not specific to trades or construction (April 1, 2026)
