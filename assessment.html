@@ -253,7 +253,7 @@ footer a:hover { color: var(--accent); }
         <div class="intro-stat"><div class="intro-stat-dot"></div>2 minutes</div>
         <div class="intro-stat"><div class="intro-stat-dot"></div>Free personalized report</div>
       </div>
-      <p class="lead">Get your AI Readiness Score and a detailed report with a personalized roadmap — built specifically for construction firms over $10M.</p>
+      <p class="lead">Get your AI Readiness Score and a detailed report with a personalized roadmap — built specifically for trades, construction, and manufacturing businesses.</p>
       <button class="btn-primary" onclick="startAssessment()">Start My Assessment &rarr;</button>
       <div class="divider"></div>
       <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Based on the full AI Readiness Assessment used in Jarvis Strategies consulting engagements. Your answers and contact information are shared only with Scott Jarvis and used to prepare your report.</p>
@@ -563,6 +563,29 @@ function selectAnswer(qIndex, optIndex, points, label, questionText) {
   }, 380);
 }
 
+// ─── Teaser handoff from homepage ───────────────────────────────────────────
+// If arriving from the homepage industry teaser (?industry=...&start=2), pre-fill
+// question 1 and jump straight to the next question instead of the intro screen.
+(function initFromTeaser() {
+  const params = new URLSearchParams(window.location.search);
+  const industryParam = params.get('industry');
+  if (!industryParam) return;
+
+  const match = QUESTIONS[0].options.find(o => o.label === industryParam);
+  const industryLabel = match ? match.label : industryParam;
+  state.answers = [{ key: QUESTIONS[0].key, question: QUESTIONS[0].text, answer: industryLabel, points: 0 }];
+
+  const startParam = parseInt(params.get('start'), 10);
+  const startIndex = Number.isInteger(startParam) && startParam > 1
+    ? Math.min(startParam - 1, QUESTIONS.length - 1)
+    : 1;
+
+  state.currentQ = startIndex;
+  state.answering = false;
+  showScreen('screen-question');
+  renderQuestion(startIndex);
+})();
+
 // ─── Contact + Submit ────────────────────────────────────────────────────────
 
 async function submitAssessment(event) {
@@ -595,18 +618,17 @@ async function submitAssessment(event) {
     });
 
     const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Submission failed');
 
-    showResults(data.score ?? score, name, email);
+    // Always show the score — never dead-end the user — but be honest about whether the report actually sent
+    showResults(data.score ?? score, name, email, !!data.prospectEmailSent);
   } catch {
-    // Still show results even if API call fails — don't block the user
-    showResults(score, name, email);
+    showResults(score, name, email, false);
   }
 }
 
 // ─── Results ─────────────────────────────────────────────────────────────────
 
-function showResults(score, name, email) {
+function showResults(score, name, email, emailSent) {
   showScreen('screen-results');
 
   const tier = TIERS.find(t => score <= t.max) || TIERS[TIERS.length - 1];
@@ -635,9 +657,10 @@ function showResults(score, name, email) {
   // Personalized insights
   renderInsights();
 
-  // Email confirmation
-  document.getElementById('email-confirm').innerHTML =
-    `&#10003; Your AI Readiness Report is being sent to <strong>${email}</strong> — check your inbox (and spam folder) in the next few minutes.`;
+  // Email confirmation — only claim the report is coming if it actually sent
+  document.getElementById('email-confirm').innerHTML = emailSent
+    ? `&#10003; Your AI Readiness Report is being sent to <strong>${email}</strong> — check your inbox (and spam folder) in the next few minutes.`
+    : `We couldn't send your report automatically. Call <a href="tel:+12502584465" style="color:inherit;text-decoration:underline">250-258-4465</a> or email <a href="mailto:sjarvis@jarvisstrategies.com" style="color:inherit;text-decoration:underline">sjarvis@jarvisstrategies.com</a> and mention your score of <strong>${score}/100</strong> — Scott will send it over personally.`;
 }
 
 function animateScore(target) {

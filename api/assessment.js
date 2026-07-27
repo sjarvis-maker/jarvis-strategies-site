@@ -276,8 +276,18 @@ export default async function handler(req, res) {
     const safeEmail   = escapeHtml(email);
     const safePhone   = escapeHtml(phone);
 
-    // ── Email to prospect ─────────────────────────────────────────────────────
-    await transporter.sendMail({
+    // Answers table for Scott's email, built up front so it's ready regardless of send outcome
+    const answersHtml = answers.map((a, i) => `
+      <tr style="border-bottom: 1px solid #e0e6ed;">
+        <td style="padding: 8px 12px; color: #555; font-size: 0.85rem; white-space: nowrap;">${escapeHtml(QUESTION_LABELS[i] || a.key)}</td>
+        <td style="padding: 8px 12px; color: #333; font-size: 0.85rem;">${escapeHtml(a.answer)}</td>
+        <td style="padding: 8px 12px; color: #e8a44d; font-size: 0.85rem; font-family: monospace; text-align: right;">${a.points} pts</td>
+      </tr>
+    `).join('');
+
+    // Send both emails independently — a failure in one must not swallow the other
+    const [prospectResult, scottResult] = await Promise.allSettled([
+      transporter.sendMail({
       from: `"Jarvis Strategies" <${process.env.SMTP_USER}>`,
       to: email,
       subject: `Your AI Readiness Score: ${score}/100 — ${tier}`,
@@ -314,18 +324,8 @@ export default async function handler(req, res) {
           </div>
         </div>
       `
-    });
-
-    // ── Email to Scott ────────────────────────────────────────────────────────
-    const answersHtml = answers.map((a, i) => `
-      <tr style="border-bottom: 1px solid #e0e6ed;">
-        <td style="padding: 8px 12px; color: #555; font-size: 0.85rem; white-space: nowrap;">${escapeHtml(QUESTION_LABELS[i] || a.key)}</td>
-        <td style="padding: 8px 12px; color: #333; font-size: 0.85rem;">${escapeHtml(a.answer)}</td>
-        <td style="padding: 8px 12px; color: #e8a44d; font-size: 0.85rem; font-family: monospace; text-align: right;">${a.points} pts</td>
-      </tr>
-    `).join('');
-
-    await transporter.sendMail({
+      }),
+      transporter.sendMail({
       from: process.env.SMTP_USER,
       to: 'sjarvis@jarvisstrategies.com',
       subject: `Assessment Lead: ${safeName}${company ? ` from ${safeCompany}` : ''} — ${score}/100 (${tier})`,
@@ -380,9 +380,16 @@ export default async function handler(req, res) {
           </div>
         </div>
       `
-    });
+      })
+    ]);
 
-    return res.status(200).json({ success: true, score, tier });
+    const prospectEmailSent = prospectResult.status === 'fulfilled';
+    const scottEmailSent = scottResult.status === 'fulfilled';
+
+    if (!prospectEmailSent) console.error('Prospect report email failed:', prospectResult.reason);
+    if (!scottEmailSent) console.error('Scott lead-notification email failed:', scottResult.reason);
+
+    return res.status(200).json({ success: prospectEmailSent, prospectEmailSent, scottEmailSent, score, tier });
 
   } catch (error) {
     console.error('Assessment Error:', error);

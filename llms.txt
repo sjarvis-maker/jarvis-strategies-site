@@ -1,6 +1,6 @@
 # Jarvis Strategies
 
-> Jarvis Strategies embeds inside trades, construction, and manufacturing companies across the Okanagan (Vernon, Kelowna, Penticton, Kamloops), British Columbia to identify, build, and deploy AI systems connected to real operational workflows — then stays in as an ongoing partner.
+> Jarvis Strategies helps trades, construction, and manufacturing companies across the Okanagan (Vernon, Kelowna, Penticton, Kamloops), British Columbia identify, build, and deploy AI systems connected to real operational workflows, and stays on as an ongoing partner.
 
 Led by Scott Jarvis, 18 years in trades and construction operations before moving into AI implementation. The approach is practical-first: use cases have to connect to real workflows (estimating, proposals, documentation, subcontractor coordination), not generic AI hype. Every workflow ships with governance built in — accountability, data boundaries, quality control, transparency.
 
@@ -8,8 +8,18 @@ Led by Scott Jarvis, 18 years in trades and construction operations before movin
 - [Homepage](https://jarvisstrategies.com/): Services, governance philosophy, results, about Scott Jarvis, and contact
 - [AI Readiness Assessment](https://jarvisstrategies.com/assessment): Free 7-question, 2-minute assessment that scores AI readiness and surfaces use cases
 - [Blog index](https://jarvisstrategies.com/blog/): Practical AI thinking for trades and construction — no hype
+- [Solutions index](https://jarvisstrategies.com/solutions): Four specific, implemented AI use cases for trades and construction businesses
+
+## Solutions
+- [Cut Proposal Turnaround](https://jarvisstrategies.com/solutions/proposal-turnaround): Take construction proposal turnaround from three days to about 90 minutes without losing pricing judgment
+- [Fix the Estimating Bottleneck](https://jarvisstrategies.com/solutions/estimating): Which of the six jobs inside "estimating" AI actually helps with, and which it shouldn't touch
+- [Get Engineering Time Back](https://jarvisstrategies.com/solutions/engineering-documentation): Cut documentation time 30-40% and reclaim engineer time from compliance paperwork
+- [Streamline Subcontractor Coordination](https://jarvisstrategies.com/solutions/subcontractor-coordination): Daily site summaries, RFI triage, and schedule impact analysis for GCs
 
 ## Blog — AI Strategy & Workflow
+- [How Long Does AI Implementation Actually Take?](https://jarvisstrategies.com/blog/ai-implementation-timeline): What determines a two-week timeline versus a six-week one (July 27, 2026)
+- [AI Consultant vs. Hiring In-House: How to Decide](https://jarvisstrategies.com/blog/ai-consultant-vs-in-house): Why the math usually doesn't favor a full-time AI hire for most trades and construction businesses (July 26, 2026)
+- [What Does an AI Readiness Assessment Cost?](https://jarvisstrategies.com/blog/assessment-cost): The assessment is free — what actually drives the cost of what comes after it (July 25, 2026)
 - [AI for Subcontractor Coordination: A Practical Workflow for GCs](https://jarvisstrategies.com/blog/ai-subcontractor-coordination): Where AI helps GCs with daily site summaries, RFI triage, and schedule impact analysis — and where it shouldn't touch the sub relationship (July 23, 2026)
 - [AI for Engineering Documentation](https://jarvisstrategies.com/blog/ai-engineering-documentation): How one manufacturing client cut documentation time 30-40% without breaking the audit trail (July 15, 2026)
 - [AI for Construction Estimating: Where It Belongs (and Where It Doesn't)](https://jarvisstrategies.com/blog/ai-construction-estimating): Which of the six jobs inside "estimating" AI actually helps with (July 8, 2026)

@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Implementation Consultant for Construction & Trades | Jarvis Strategies</title>
-<meta name="description" content="Jarvis Strategies embeds inside trades and construction companies across the Okanagan to build and deploy AI systems connected to real workflows. Led by Scott Jarvis. 18 years in operations, now building AI that works.">
+<meta name="description" content="Jarvis Strategies helps trades and construction companies in Vernon, Kelowna, and across the Okanagan implement AI solutions that work, and sticks around to keep them running. Led by Scott Jarvis. 18 years in the trades, now building AI systems that fit how your team operates.">
 <link rel="canonical" href="https://jarvisstrategies.com/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Scott Jarvis">
@@ -26,14 +26,14 @@
 <meta property="og:url" content="https://jarvisstrategies.com/">
 <meta property="og:site_name" content="Jarvis Strategies">
 <meta property="og:title" content="AI Implementation Consultant for Construction & Trades | Jarvis Strategies">
-<meta property="og:description" content="Jarvis Strategies embeds inside trades and construction companies across the Okanagan to build and deploy AI that actually works. 18 years in operations. Based in Vernon, BC.">
+<meta property="og:description" content="Jarvis Strategies helps trades and construction companies in Vernon, Kelowna, and across the Okanagan implement AI solutions that work, and sticks around to keep them running. Led by Scott Jarvis. 18 years in the trades. Based in Vernon, BC.">
 <meta property="og:image" content="https://jarvisstrategies.com/headshot.jpg">
 <meta property="og:locale" content="en_CA">
 
 <!-- Twitter/X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Implementation Consultant for Construction & Trades | Jarvis Strategies">
-<meta name="twitter:description" content="Jarvis Strategies embeds inside trades and construction companies across the Okanagan to build and deploy AI that actually works. 18 years in operations. Based in Vernon, BC.">
+<meta name="twitter:description" content="Jarvis Strategies helps trades and construction companies in Vernon, Kelowna, and across the Okanagan implement AI solutions that work, and sticks around to keep them running. Led by Scott Jarvis. 18 years in the trades. Based in Vernon, BC.">
 <meta name="twitter:image" content="https://jarvisstrategies.com/headshot.jpg">
 
 <!-- JSON-LD Structured Data -->
@@ -42,7 +42,7 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Jarvis Strategies",
-  "description": "Forward Deployed Engineering for trades and construction SMBs across the Okanagan. Scott Jarvis embeds inside client companies to build and deploy AI systems connected to real workflows. Then stays in.",
+  "description": "AI implementation consulting for trades and construction companies in the Okanagan. Scott Jarvis builds AI systems that fit how your team actually works, then stays on to make sure they keep delivering.",
   "url": "https://jarvisstrategies.com",
   "logo": "https://jarvisstrategies.com/logo.png",
   "image": "https://jarvisstrategies.com/headshot.jpg",
@@ -51,8 +51,8 @@
   "founder": {
     "@type": "Person",
     "name": "Scott Jarvis",
-    "jobTitle": "Forward Deployment Strategist",
-    "description": "18 years in trades and construction operations. Now embedding inside companies across the Okanagan to build AI systems that actually work."
+    "jobTitle": "AI Implementation Consultant",
+    "description": "18 years in trades and construction operations. Now helping Okanagan businesses implement AI that works, and staying on to keep it that way."
   },
   "address": {
     "@type": "PostalAddress",
@@ -155,6 +155,8 @@ section { padding: 100px 40px; }
 /* Cards */
 .card { border: 1px solid var(--border); border-radius: 4px; padding: 40px; background: var(--dark); transition: border-color 0.3s; }
 .card:hover { border-color: var(--accent); }
+.teaser-option { font-family: 'DM Sans', sans-serif; font-size: 1rem; color: var(--primary); text-align: left; cursor: pointer; width: 100%; padding: 24px 28px; }
+.teaser-option:hover { background: var(--med); }
 .card-inner { border: 1px solid var(--border); border-radius: 4px; padding: 24px; background: var(--med); }
 .card-sm { border: 1px solid var(--border); border-radius: 4px; padding: 20px; background: var(--med); }
 .case-study { border: 1px solid var(--border); border-radius: 4px; padding: 48px; background: var(--med); position: relative; overflow: hidden; }
@@ -248,10 +250,10 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
   .hero { padding: 120px 20px 60px; min-height: 90vh; }
   h1 { font-size: 1.9rem; }
   h2 { font-size: 1.8rem; }
-  #contact .grid-2 { display: flex; flex-direction: column; align-items: stretch; }
-  #contact .grid-2 .card { padding: 40px 28px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-  #contact .grid-2 .card svg { display: block; margin: 0 auto 20px; }
-  #contact .grid-2 .btn { display: inline-block; white-space: nowrap; text-align: center; font-size: 0.85rem; padding: 14px 20px; }
+  #contact .grid-2, #contact .grid-3 { display: flex; flex-direction: column; align-items: stretch; }
+  #contact .grid-2 .card, #contact .grid-3 .card { padding: 40px 28px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+  #contact .grid-2 .card svg, #contact .grid-3 .card svg { display: block; margin: 0 auto 20px; }
+  #contact .grid-2 .btn, #contact .grid-3 .btn { display: inline-block; white-space: nowrap; text-align: center; font-size: 0.85rem; padding: 14px 20px; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .card, .case-study, .discovery-card { padding: 32px 24px; }
   .stat-num { font-size: 2.2rem; }
@@ -285,11 +287,13 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
   </button>
   <div id="navLinks" style="gap:32px;align-items:center">
     <a href="#services" class="nav-link">Services</a>
+    <a href="/solutions" class="nav-link">Solutions</a>
     <a href="#governance" class="nav-link">Governance</a>
     <a href="#results" class="nav-link">Results</a>
     <a href="#about" class="nav-link">About</a>
     <a href="#insights" class="nav-link">Insights</a>
     <a href="/blog" class="nav-link">Blog</a>
+    <a href="tel:+12502584465" class="nav-link" title="Call" aria-label="Call 250-258-4465"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
     <a href="#" class="nav-link" title="Email" aria-label="Send an email" onclick="window.location.href='mailto:sjarvis@jarvisstrategies.com'; return false;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></a>
     <a href="https://www.linkedin.com/in/scottjarvispm/" target="_blank" rel="noopener noreferrer" class="nav-link" title="LinkedIn" aria-label="LinkedIn profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
     <a href="https://www.instagram.com/jarvisstrategies" target="_blank" rel="noopener noreferrer" class="nav-link" title="Instagram" aria-label="Instagram profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
@@ -300,15 +304,33 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
 <!-- HERO -->
 <div class="hero">
   <div class="hero-glow"></div>
-  <div class="fade"><p class="tag">Forward Deployment Strategist, embedded AI for trades and construction across the Okanagan</p></div>
-  <div class="fade d1"><h1 style="max-width:800px;margin-bottom:32px">Your competitors are getting AI <span class="accent-i">built into their operations.</span><br>This is how that happens.</h1></div>
-  <div class="fade d2"><p style="font-size:1.15rem;color:var(--secondary);line-height:1.7;max-width:600px;margin-bottom:48px">69% of businesses say they can't find a clear use case for AI. That's exactly where I start. I embed inside your company, identify where AI creates real leverage, then build and deploy the system, connected to your actual data and workflows. I don't hand it off. I stay in.</p></div>
+  <div class="fade"><p class="tag">AI implementation for trades and construction companies across the Okanagan</p></div>
+  <div class="fade d1"><h1 style="max-width:800px;margin-bottom:32px">Your competitors are starting to <span class="accent-i">figure this out.</span><br>Don't be the last one in.</h1></div>
+  <div class="fade d2"><p style="font-size:1.15rem;color:var(--secondary);line-height:1.7;max-width:600px;margin-bottom:48px">69% of businesses say they can't find a clear use case for AI. That's exactly where I start. I help you find where AI fits, build it myself, and stick around to make sure it keeps working instead of collecting dust.</p></div>
   <div class="fade d3" style="display:flex;gap:16px;flex-wrap:wrap">
     <button class="btn btn-primary" style="border:none;cursor:pointer" onclick="openBookingModal()">Book a Call</button>
     <a href="/assessment" class="btn btn-primary">Take the Free Assessment</a>
     <a href="#services" class="btn btn-primary">See How It Works</a>
   </div>
 </div>
+
+<!-- ASSESSMENT TEASER -->
+<section id="teaser">
+  <div class="container">
+    <div class="fade"><p class="tag">Free AI Readiness Assessment</p></div>
+    <div class="fade d1"><h2 style="margin-bottom:16px;max-width:700px">Find out where AI fits <span class="accent-i">in your business.</span></h2></div>
+    <div class="fade d2"><p style="font-size:1.05rem;color:var(--secondary);line-height:1.7;margin-bottom:40px;max-width:600px">7 questions. 2 minutes. A personalized report showing exactly where AI creates value for your business. Start with the first question below.</p></div>
+    <div class="fade d3">
+      <p class="mono" style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">What best describes your business?</p>
+      <div class="grid-2" style="gap:16px">
+        <button type="button" class="card teaser-option" onclick="startTeaser('Construction / Trades')">Construction / Trades</button>
+        <button type="button" class="card teaser-option" onclick="startTeaser('Manufacturing / Industrial')">Manufacturing / Industrial</button>
+        <button type="button" class="card teaser-option" onclick="startTeaser('Professional Services')">Professional Services</button>
+        <button type="button" class="card teaser-option" onclick="startTeaser('Other')">Other</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- STATS -->
 <div class="stats">
@@ -328,7 +350,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
       <p>According to the Greater Vancouver Board of Trade, 69% of B.C. businesses that aren't using AI say the same thing: they can't identify a clear business case. They're not against it. They just don't know where it fits.</p>
       <p>Meanwhile, the ones who jump in often skip governance entirely. Who's responsible when AI gets something wrong? What data is it touching? Where are the boundaries? Without clear answers, you're building on sand.</p>
       <p>The proposal that takes three days when it could take ninety minutes. The estimator buried in spreadsheets instead of landing the next job. The project knowledge that walks out the door every time someone leaves. These are real use cases hiding in plain sight.</p>
-      <p style="color:var(--primary)">I find them. I embed inside your company, build the system connected to your actual data and workflows, and make sure the right guardrails are in place. Then I stay in. This model (Forward Deployed Engineering) is how Palantir, OpenAI, and Anthropic deliver AI to their largest clients. Jarvis Strategies brings it to trades and construction SMBs across the Okanagan.</p>
+      <p style="color:var(--primary)">I find them. I build the solution myself, connected to your actual data and workflows, and make sure the right guardrails are in place. Then I stay on to keep it working as your business changes.</p>
     </div>
   </div>
 </section>
@@ -336,7 +358,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
 <!-- SERVICES -->
 <section id="services">
   <div class="container">
-    <div class="fade"><p class="tag">The engagement model</p></div>
+    <div class="fade"><p class="tag">How it works</p></div>
     <div class="fade d1"><h2 style="margin-bottom:64px;max-width:700px">Practical first. <span class="accent-i">Always.</span></h2></div>
 
     <!-- Discovery -->
@@ -348,7 +370,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
           <span class="mono" style="font-size:0.7rem;color:var(--muted)">1-2 weeks</span>
         </div>
         <h3 style="font-size:2rem;margin-bottom:16px">AI Use Case Discovery</h3>
-        <p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;margin-bottom:32px;max-width:700px">This is where every embedded engagement begins. 69% of B.C. businesses say they can't identify a clear use case for AI. This is how we find it. A structured, data driven assessment that tells you exactly where AI fits in your business, what to prioritize, and what governance needs to be in place before we build anything.</p>
+        <p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;margin-bottom:32px;max-width:700px">This is where we start. 69% of B.C. businesses say they can't identify a clear use case for AI. This is how we find it. A structured, data driven assessment that tells you exactly where AI fits in your business, what to prioritize, and what governance needs to be in place before you start.</p>
 
         <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">What's included</p>
         <div class="grid-2" style="margin-bottom:32px;gap:20px">
@@ -370,9 +392,9 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
     <!-- Implementation -->
     <div class="fade d3">
       <div class="card" style="margin-bottom:32px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px"><span class="tag-sm">Embedded Build Sprint</span><span class="mono" style="font-size:0.7rem;color:var(--muted)">1 month</span></div>
-        <h3 style="font-size:1.6rem;margin-bottom:12px">Embedded Build Sprint</h3>
-        <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:12px">I embed inside your company for a month. Diagnose where AI creates the most value, then design, build, and deploy the system, connected to your actual data, tools, and workflows. Governance built in from the start: clear ownership, data boundaries, quality controls, and team training so it gets used.</p>
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px"><span class="tag-sm">Implementation</span><span class="mono" style="font-size:0.7rem;color:var(--muted)">2-6 weeks</span></div>
+        <h3 style="font-size:1.6rem;margin-bottom:12px">AI Integration + Governance</h3>
+        <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:12px">I build this myself, hands-on. I diagnose where AI creates the most value, then design, build, and deploy the system, connected to your actual data, tools, and workflows. Governance built in from the start: clear ownership, data boundaries, quality controls, and team training so it actually gets used.</p>
         <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;font-style:italic">Proposals, estimating, documentation, client communication, job costing: wherever the highest leverage is. Scope confirmed after your AI Readiness Assessment.</p>
       </div>
     </div>
@@ -382,8 +404,8 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
       <div class="card">
         <div style="display:flex;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px"><span class="tag-sm">Ongoing</span><span class="mono" style="font-size:0.7rem;color:var(--muted)">Monthly</span></div>
         <h3 style="font-size:1.6rem;margin-bottom:12px">Strategic Partnership</h3>
-        <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:12px">At the same monthly value as the build sprint, I stay embedded. Ongoing iteration, new use cases, governance oversight, and continued support as your AI usage grows and the field evolves. The build doesn't end at handoff. It compounds.</p>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;font-style:italic">12-month strategic retainer.</p>
+        <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:12px">AI moves fast, and your business keeps changing. Once the foundation's in place, I stay in your corner: ongoing iteration, new use cases, governance oversight, and support as your needs grow.</p>
+        <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;font-style:italic">Monthly retainer. Cancel anytime.</p>
       </div>
     </div>
 
@@ -410,7 +432,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
   <div class="container">
     <div class="fade"><p class="tag">Governance</p></div>
     <div class="fade d1"><h2 style="margin-bottom:20px;max-width:700px">AI without guardrails <span class="accent-i">is a liability.</span></h2></div>
-    <div class="fade d2"><p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;max-width:700px;margin-bottom:56px">Most AI implementations skip governance entirely. That works until it doesn't, until AI sends something wrong to a client, touches data it shouldn't, or makes a decision nobody can explain. I build governance into every embedded engagement from the start, not as an afterthought.</p></div>
+    <div class="fade d2"><p style="font-size:1.05rem;color:var(--secondary);line-height:1.8;max-width:700px;margin-bottom:56px">Most AI implementations skip governance entirely. That works until it doesn't, until AI sends something wrong to a client, touches data it shouldn't, or makes a decision nobody can explain. I build governance into every engagement from the start, not as an afterthought.</p></div>
     <div class="fade d3">
       <div class="grid-2">
         <div class="card-sm" style="padding:32px"><h3 style="font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:12px">Accountability</h3><p style="font-size:1rem;color:var(--secondary);line-height:1.7">Who's responsible when AI makes a decision in your business? Clear ownership from the start, not after something goes wrong.</p></div>
@@ -426,7 +448,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
 <section id="results">
   <div class="container">
     <div class="fade"><p class="tag">Results</p></div>
-    <div class="fade d1"><h2 style="margin-bottom:64px">What the embedded engagement <span class="muted">delivers.</span></h2></div>
+    <div class="fade d1"><h2 style="margin-bottom:64px">What this looks like <span class="muted">in practice.</span></h2></div>
     <div class="fade d2">
       <div class="case-study"><div class="bar"></div>
         <p class="mono" style="font-size:1rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">Case Study: Excavation Company</p>
@@ -462,7 +484,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
         <div>
           <h3 style="font-size:0.95rem;color:var(--accent);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px">Good fit</h3>
           <div style="font-size:1rem;color:var(--secondary);line-height:1.9;display:flex;flex-direction:column;gap:8px">
-            <p>Construction contractors and GCs</p><p>Accountants and Bookkeepers</p><p>Manufacturing and fabrication</p><p>Trades businesses scaling up</p><p>SMEs with 5-50 employees</p><p>Owners who want results, not reports</p><p>Companies ready for an embedded engagement</p>
+            <p>Construction contractors and GCs</p><p>Accountants and Bookkeepers</p><p>Manufacturing and fabrication</p><p>Trades businesses scaling up</p><p>SMEs with 5-50 employees</p><p>Owners who want results, not reports</p>
           </div>
         </div>
         <div>
@@ -487,7 +509,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
           <h2 style="margin-bottom:32px">I'm Scott.</h2>
           <div style="font-size:1.05rem;color:var(--secondary);line-height:1.8;display:flex;flex-direction:column;gap:20px">
             <p>I spent 18 years in construction and administration operations. I know how a trades business runs: the estimating cycles, the proposal chaos, the knowledge that walks out the door when someone leaves. Most AI consultants don't.</p>
-            <p>I founded Jarvis Strategies as a Forward Deployment Strategist: I embed inside client companies, build AI systems connected to their real data and workflows, and stay in to make sure they work. This is the model Palantir pioneered and that Anthropic and OpenAI now use for their largest enterprise clients. I bring it to trades, construction, and manufacturing SMBs across the Okanagan.</p>
+            <p>I founded Jarvis Strategies to help construction and manufacturing firms find where AI creates real value, build it myself, and stay involved to make sure it keeps working. I've seen firsthand how proper governance and hands-on implementation transform how teams operate, without replacing them.</p>
             <p>I work with mid-size companies with 5–50 employees. Owners who are done experimenting and ready to build something that changes how the work gets done.</p>
             <p style="color:var(--primary)">My goal is simple: help your team work smarter and keep your operation competitive.</p>
           </div>
@@ -523,7 +545,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
     <div class="fade d1"><h2 style="font-size:2.8rem;margin-bottom:24px">Ready to get AI <span class="accent-i">built into your operation?</span></h2></div>
     <div class="fade d2"><p style="font-size:1.1rem;color:var(--secondary);line-height:1.7;margin-bottom:48px;max-width:700px">Whether you want to book a conversation or just ask a quick question. Pick whichever works for you.</p></div>
     <div class="fade d3">
-      <div class="grid-2" style="gap:32px">
+      <div class="grid-3" style="gap:32px">
         <div class="card" style="text-align:center;padding:48px">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><rect x="3" y="4" width="18" height="16" rx="2"/><polyline points="3,4 12,13 21,4"/></svg>
           <h3 style="font-size:1.4rem;margin-bottom:12px">Send an Email</h3>
@@ -538,6 +560,12 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
             <span id="availabilityText">Book a Free 30-Min Call</span>
           </button>
         </div>
+        <div class="card" style="text-align:center;padding:48px">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <h3 style="font-size:1.4rem;margin-bottom:12px">Call Direct</h3>
+          <p style="font-size:1rem;color:var(--secondary);line-height:1.7;margin-bottom:24px">Prefer to just talk? Call the number below and you'll get me, not a receptionist or a menu.</p>
+          <a href="tel:+12502584465" class="btn btn-primary" style="font-size:1rem">250-258-4465</a>
+        </div>
       </div>
     </div>
     <div class="fade d4"><p style="font-size:1rem;color:var(--muted);margin-top:24px;text-align:center">No pitch. No pressure. Just a conversation.</p></div>
@@ -549,7 +577,7 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
   <div class="footer-top">
     <div class="footer-brand">
       <a href="/"><img src="/logo.png" alt="Jarvis Strategies" style="height:36px;width:auto"></a>
-      <p>Vernon, B.C. &nbsp;&middot;&nbsp; Forward Deployment Strategist for construction, trades &amp; manufacturing</p>
+      <p>Vernon, B.C. &nbsp;&middot;&nbsp; AI implementation for construction, trades &amp; manufacturing</p>
     </div>
     <div class="footer-nav">
       <p class="footer-label">Site</p>
@@ -817,6 +845,25 @@ async function fetchTimesForDate(dateStr) {
   }
 }
 
+function startTeaser(industry) {
+  window.location.href = '/assessment?industry=' + encodeURIComponent(industry) + '&start=2';
+}
+
+async function loadNextAvailability() {
+  const span = document.getElementById('availabilityText');
+  if (!span) return;
+  try {
+    const res = await fetch('/api/get-availability');
+    const data = await res.json();
+    if (data.available && data.slots && data.slots.length > 0) {
+      const label = data.slots[0].label.replace(/\s[A-Z]{2,4}$/, '');
+      span.textContent = `Book a Free Call — Next: ${label}`;
+    }
+  } catch (err) {
+    // Fetch failed — keep the static fallback text already in the DOM
+  }
+}
+
 function openBookingModal() {
   const dateInput = document.getElementById('preferredDate');
   dateInput.min = tomorrowPacific();
@@ -838,6 +885,8 @@ window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('preferredDate').addEventListener('change', function() {
     if (this.value) fetchTimesForDate(this.value);
   });
+  // Show the next real available slot on the booking button
+  loadNextAvailability();
 });
 
 function closeBookingModal() {
