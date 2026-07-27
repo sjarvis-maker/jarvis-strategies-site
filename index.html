@@ -660,10 +660,12 @@ footer { max-width: 1100px; margin: 80px auto 0; padding: 56px 40px 32px; }
 const nav = document.getElementById('navbar');
 const floatingCta = document.getElementById('floatingCta');
 const footerEl = document.querySelector('footer');
+const teaserEl = document.getElementById('teaser');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
   if (floatingCta) {
-    floatingCta.classList.toggle('visible', window.scrollY > window.innerHeight * 0.9);
+    const pastTeaser = teaserEl ? teaserEl.getBoundingClientRect().bottom < 0 : window.scrollY > window.innerHeight * 0.9;
+    floatingCta.classList.toggle('visible', pastTeaser);
     if (footerEl) {
       const gap = window.innerHeight - footerEl.getBoundingClientRect().top + 5;
       floatingCta.style.bottom = gap > 0 ? gap + 'px' : '';
