@@ -11,6 +11,38 @@
     <!-- ADD NEW POSTS AT THE TOP, NEWEST FIRST -->
 
     <item>
+      <title>AI for Subcontractor Coordination: A Practical Workflow for GCs</title>
+      <link>https://jarvisstrategies.com/blog/ai-subcontractor-coordination</link>
+      <description>Daily site summaries, RFI triage, and schedule impact analysis eat hours from PMs and supers every day. Here's where AI helps GCs coordinate subs, and where it shouldn't touch the relationship.</description>
+      <pubDate>Thu, 23 Jul 2026 08:00:00 -0700</pubDate>
+      <guid>https://jarvisstrategies.com/blog/ai-subcontractor-coordination</guid>
+    </item>
+
+    <item>
+      <title>AI for Engineering Documentation: Reclaiming Engineer Time from Compliance Paperwork</title>
+      <link>https://jarvisstrategies.com/blog/ai-engineering-documentation</link>
+      <description>One manufacturing client spent 80% of engineering time on documentation, not engineering. Here's how AI cut documentation time 30-40% without breaking the audit trail.</description>
+      <pubDate>Wed, 15 Jul 2026 08:00:00 -0700</pubDate>
+      <guid>https://jarvisstrategies.com/blog/ai-engineering-documentation</guid>
+    </item>
+
+    <item>
+      <title>AI for Construction Estimating: Where It Belongs (and Where It Doesn't)</title>
+      <link>https://jarvisstrategies.com/blog/ai-construction-estimating</link>
+      <description>Construction estimating is six jobs stacked together. Here's which ones AI genuinely helps with, which ones it can't touch, and the workflow pattern that keeps accuracy intact.</description>
+      <pubDate>Wed, 08 Jul 2026 08:00:00 -0700</pubDate>
+      <guid>https://jarvisstrategies.com/blog/ai-construction-estimating</guid>
+    </item>
+
+    <item>
+      <title>How to Cut Construction Proposal Turnaround from Days to Hours with AI</title>
+      <link>https://jarvisstrategies.com/blog/ai-proposal-turnaround</link>
+      <description>Five RFPs a week can eat a full-time estimator's schedule. Here's the AI-assisted proposal workflow that cut turnaround from three days to 90 minutes without losing pricing judgment.</description>
+      <pubDate>Tue, 30 Jun 2026 08:00:00 -0700</pubDate>
+      <guid>https://jarvisstrategies.com/blog/ai-proposal-turnaround</guid>
+    </item>
+
+    <item>
       <title>What the GVBOT AI Report Missed About BC Trades and Construction</title>
       <link>https://jarvisstrategies.com/blog/gvbot-ai-report-bc-trades-construction</link>
       <description>The GVBOT AI report says 69% of BC businesses can't find an AI use case. For trades and construction, that number is misleading — here's what the survey actually missed.</description>
