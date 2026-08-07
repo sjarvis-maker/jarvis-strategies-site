@@ -143,7 +143,7 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI 101</span>
   <h1>What Is an AI Agent?</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; April 9, 2026 &nbsp;·&nbsp; 3 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; April 9, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
@@ -153,15 +153,88 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>Think of a very capable employee. A regular AI assistant is like calling that employee and asking for advice. An agent is like asking them to handle the whole thing. The assistant tells you what to write in the follow-up email to the client who hasn't paid. The agent finds the invoice, drafts the message, sends it, waits three days, sends a second one if there's no reply, and flags it for your attention if it still hasn't moved.</p>
 
-    <p>The tasks agents are already handling in small businesses are familiar ones: scheduling, after-hours customer inquiries, lead follow-up, moving information between systems that don't talk to each other. Old-style automation followed rigid rules: if this, then that, with no room for variation. Agents can read context, handle variations, and make judgment calls within the boundaries you set for them.</p>
+    <h2>A quick vocabulary check</h2>
+
+    <p>The terms get thrown around loosely enough that it's worth pinning them down. An AI assistant, or chatbot, answers one question at a time and stops. You're doing all the steering. An AI agent takes a goal, breaks it into steps, and works through them with limited check-ins, using tools along the way, like sending an email, checking a calendar, or updating a record, rather than just producing text.</p>
+
+    <p>"Agentic AI" is the umbrella term for that whole category of behaviour. You'll also hear "workflow automation," which usually means something older and more rigid: a fixed sequence of steps triggered by a specific event, with no ability to handle anything outside that sequence. The line between the two has gotten blurrier as automation tools bolt AI features onto old rule engines, which is part of why the vocabulary is confusing right now. It'll probably stay confusing for a while yet.</p>
+
+    <h2>Why this isn't just fancier automation</h2>
+
+    <p>Old-style automation followed rigid rules: if this, then that, with no room for variation. It's been around for years, mostly invisible, running quietly behind appointment reminders and auto-replies. It works fine as long as the input never changes shape.</p>
+
+    <p>Say a customer texts a plumbing company after hours. Rule-based automation can send back a canned "we're closed, we'll call you back" message and nothing more. An agent can read the message, recognize the words "no water" and "basement," decide that sounds like it might be urgent, check the on-call schedule, and text the on-call plumber directly instead of waiting until nine the next morning. Same channel, same starting point, completely different outcome, because the agent is reading the content of the message instead of just detecting that a message arrived.</p>
+
+    <p>That's the actual difference. Not smarter typing. The ability to read context, weigh a few options, and act on the one that fits, inside boundaries someone deliberately set for it.</p>
+
+    <p>If you've used a tool like Zapier to connect two pieces of software, that's the rule-based version: reliable, cheap, and completely literal. It does exactly what you told it to and nothing else, which is a feature right up until the situation doesn't match what you told it. An agent built on top of similar connections can notice when a situation doesn't match the pattern and handle it differently instead of either breaking or doing the wrong thing anyway.</p>
+
+    <h2>What agents look like in a trades or construction business</h2>
+
+    <p>The tasks agents are already handling in small businesses are familiar ones, and none of them require replacing a person to be worth doing:</p>
+
+    <ul>
+      <li>Scheduling and rescheduling appointments around a technician's actual availability, not just an open calendar slot</li>
+      <li>Triaging after-hours calls and texts so genuine emergencies reach someone tonight instead of tomorrow</li>
+      <li>Following up on quotes that went quiet, without someone remembering to check a spreadsheet</li>
+      <li>Chasing overdue invoices on a set cadence, the way the example above works</li>
+      <li>Moving information between systems that don't talk to each other, like pulling a signed estimate into the scheduling tool automatically instead of someone retyping it</li>
+    </ul>
+
+    <p>None of that involves an agent deciding how to price a job or how to handle an unhappy client. Those still need a person. What agents remove is the coordination overhead sitting between a job being agreed to and a job actually happening, which in a lot of trades businesses is where hours quietly disappear every week.</p>
+
+    <p>Put a few of those pieces together and the shape of it gets clearer. Say a small electrical contractor sends out a signed estimate on a Tuesday. Right now, someone has to notice it's signed, manually add it to the schedule, text the crew lead the address and scope, and set a reminder to invoice once the work's done. An agent watching that same process can pick up the signed estimate, slot it into the schedule based on crew availability, send the crew lead the job details automatically, and queue the invoice for the day the job's marked complete. Nobody's replaced. The four or five small handoffs that used to depend on someone remembering just happen.</p>
+
+    <h2>Why nearly half of agent projects get abandoned</h2>
 
     <p>About one in ten small business owners already identify as early adopters of agentic AI. The rest are watching, which is probably wise, because the technology is still maturing fast. Gartner's analysis suggests more than 40 percent of AI agent projects launched in the next two years will be abandoned before they deliver value. Pointing an agent at a poorly defined problem tends to produce expensive confusion more reliably than results.</p>
 
-    <p>Agents earn their keep on tasks that are repetitive, clearly defined, and currently eating someone's time with low-value coordination work. They fall apart on anything requiring genuine judgment, relationship context, or the kind of reading between the lines that comes from years in a specific industry. Deploying them into the wrong situation, without the right setup, is how you end up with the wrong messages going to the wrong people at two in the morning. Ask me how anyone knows that.</p>
+    <p>Most of that failure rate traces back to the same handful of mistakes. Someone points an agent at a task nobody's actually mapped out, so the agent has no clear definition of done. Nobody defines what happens when the agent hits something it can't handle, so it either freezes or, worse, guesses. Or the task itself needed judgment the whole time, and no amount of setup was going to fix that, because the problem was the choice of task, not the execution.</p>
+
+    <p>The businesses that avoid that outcome usually spend more time scoping the task than building the agent. That's the unglamorous part, and it's also the part that determines whether the thing actually works six months later or quietly stops getting used.</p>
+
+    <p>A common version of the failure looks like this. Say a business owner hears about agents at a trade show, gets excited, and tells someone to "have it handle customer follow-up." Nobody defines which customers, at what point in the process, with what tone, or what counts as a reply that closes the loop. Three weeks later the agent is sending a fourth follow-up to a customer who already called and complained about the first three, because nobody told it what "stop" looks like. The project gets shelved, and the story that spreads through the office is "we tried AI and it didn't work." What actually happened is nobody wrote down the rules before asking a piece of software to follow them.</p>
+
+    <h2>How much autonomy is too much</h2>
+
+    <p>Autonomy isn't all-or-nothing so much as a dial, and where you set it should depend on how expensive a mistake would be. For a low-stakes task, like drafting a reminder text, letting the agent send it without review is fine; if it's slightly off, nobody's hurt. For anything that touches money, a contract, or a client relationship that took years to build, the dial should sit closer to "draft it and wait for a human to approve," at least until the agent has a track record inside your specific business.</p>
+
+    <p>That track record matters more than people expect. An agent that's handled two hundred routine scheduling changes correctly has earned a longer leash than one that's handled five. Trust should be built the same way you'd extend it to a new employee: a little responsibility at a time, with review, not a blank check on day one because the sales demo looked impressive.</p>
+
+    <h2>The two a.m. text message problem</h2>
+
+    <p>Agents earn their keep on tasks that are repetitive, clearly defined, and currently eating someone's time with low-value coordination work. They fall apart on anything requiring genuine judgment, relationship context, or the kind of reading between the lines that comes from years in a specific industry.</p>
+
+    <p>Deploying one into the wrong situation, without the right setup, is how you end up with the wrong messages going to the wrong people at two in the morning. Ask me how anyone knows that. The fix isn't avoiding agents, but building in a human checkpoint anywhere the cost of a wrong guess is high: anything client-facing before it's proven itself, anything involving money above a small threshold, anything that could damage a relationship if it goes out wrong. An agent that pauses and asks is worth far more than one that never does.</p>
+
+    <p>The instinct once something embarrassing happens is usually to shut the whole thing down and write off the technology. That's an overcorrection in the other direction. The better fix is almost always narrower than that: tighten the specific boundary that got crossed, add a review step at that one point, and keep the rest of the setup running. Most of what looks like an agent "failing" is really a missing guardrail in one spot, not a broken idea.</p>
+
+    <h2>What this actually costs</h2>
+
+    <p>Not in dollars, since that depends entirely on the task and the tools involved, but in where the real cost sits. The software itself is rarely the expensive part. The expensive part is the time spent figuring out exactly what the agent should do, what it shouldn't touch, and who reviews its work early on. Skip that step to save time and you pay for it later, usually in the form of a mess that takes longer to unwind than the setup would have taken to do properly.</p>
+
+    <p>That's the trade worth understanding going in: agents are cheap to run and expensive to scope well. Businesses that treat the scoping as the real work tend to end up glad they did it. Businesses that treat it as a formality tend to end up in the 40 percent.</p>
+
+    <h2>Questions worth asking before you deploy one</h2>
+
+    <p>A short list, and if you can't answer most of these yet, that's the actual work to do before touching a tool:</p>
+
+    <ul>
+      <li>What specific task is this solving, described in one sentence a new hire could understand?</li>
+      <li>What happens when it hits a situation nobody anticipated? Who gets notified?</li>
+      <li>What's the worst plausible outcome if it gets something wrong, and can you live with that while it's still learning your business?</li>
+      <li>Who's checking its work in the first few weeks, and how often?</li>
+    </ul>
+
+    <h2>Where this is headed</h2>
+
+    <p>Agents are going to keep showing up in more places, including places where the label won't be obvious. A scheduling tool that quietly starts making judgment calls about crew assignments, a supplier portal that starts flagging price discrepancies on its own, an invoicing system that starts chasing late payments without being asked. Most of it will arrive as a feature update inside software you already use, not as a separate product called "our new AI agent." That's worth knowing so the decision doesn't sneak past you. Someone in the business should still be deciding how much autonomy each of those features gets, even when the vendor sets it to "on" by default.</p>
+
+    <p>None of that changes the core test for whether an agent belongs in a given part of your business: is the task repetitive and clearly bounded, is the cost of an occasional mistake something you can live with while it learns, and is someone actually going to check its work early on. Answer those honestly and the rest tends to sort itself out.</p>
 
     <p>The businesses that get the most out of agents take the time to understand which problems they're actually trying to solve before pointing new technology at them.</p>
 
-    <p>If you're curious what that process looks like for a business like yours, that's a conversation worth having.</p>
+    <p>If you're curious what that process looks like for a business like yours, the <a href="/assessment" style="color:var(--accent)">free AI Readiness Assessment</a> is a good place to start that conversation.</p>
 
   </div>
 

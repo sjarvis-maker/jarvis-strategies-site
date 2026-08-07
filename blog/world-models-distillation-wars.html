@@ -143,7 +143,7 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI Strategy</span>
   <h1>World Models, Distillation Wars, and the Inevitable Convergence</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; April 1, 2026 &nbsp;·&nbsp; 3 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; April 1, 2026 &nbsp;·&nbsp; 10 min read</div>
 
   <div class="article-body">
 
@@ -155,21 +155,65 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>Both sides have a point. Both are also missing the bigger picture.</p>
 
-    <p>Language models are already the wrong battlefield. The actual next step is world models: AI systems that don't just process text, but understand how physical reality works. Gravity, cause and effect, object permanence, spatial relationships. The intuitive sense that lets you know a ball will hit the ground before you drop it.</p>
+    <h2>What "distillation" actually means</h2>
 
-    <p>Yann LeCun, Fei-Fei Li, Google DeepMind, NVIDIA, and labs across China and the UAE are all racing to build them. LeCun has said that within three to five years, world models will be the dominant AI architecture, and nobody in their right mind would still use today's LLMs.</p>
+    <p>It's worth being precise about the accusation, because the term gets thrown around loosely. Distillation, in the boring technical sense, is a legitimate training method: you take a large, expensive model, run a huge number of prompts through it, and train a smaller model to mimic its outputs. Companies do this to their own models all the time, it's how you get a fast, cheap version of a flagship system without starting from zero.</p>
+
+    <p>What Anthropic and OpenAI are describing is a specific abuse of that method: creating tens of thousands of fake accounts to query a competitor's model at industrial volume, harvesting the responses, and using them to train a rival system, all without a license or an agreement to do so. The mechanism isn't exotic. It's mass automated querying dressed up as normal usage, at a scale that would be obvious to any single account holder but gets lost in aggregate traffic until someone goes looking for the pattern.</p>
+
+    <p>That distinction matters because it's the whole argument. Nobody serious is claiming that studying a competitor's outputs is inherently wrong. The claim is about scale, deception, and whose terms of service got violated to make it happen. Reasonable people can and do disagree about how much that should matter, especially given what came before it.</p>
+
+    <p>There's also a practical reason distillation is attractive, beyond any strategic motive. Training a frontier model from scratch costs an enormous amount of compute and an enormous amount of time. Distilling a smaller model off an existing frontier system's outputs gets you most of the capability at a fraction of the cost, because the hard problem, figuring out what good answers look like, has already been solved by whoever built the model you're copying. It's the AI equivalent of reverse-engineering a competitor's product instead of designing your own from a blank sheet. That's exactly why the labs on the receiving end are furious about it.</p>
+
+    <h2>Why both sides have a point</h2>
+
+    <p>The theft framing isn't wrong. If a company spends hundreds of millions of dollars training a model, and a competitor extracts its behavior through the equivalent of 16 million disguised conversations, that's a real cost being imposed without consent, and calling it what it is doesn't require picking a side in the broader US-China rivalry.</p>
+
+    <p>The hypocrisy framing isn't wrong either. Every major LLM, American and Chinese alike, was built by scraping books, articles, forum posts, and images from across the internet, most of it copyrighted, almost none of it licensed. Publishers and authors have been suing over exactly this since the current generation of chatbots launched, and those cases are still working their way through the courts years later, with no clean resolution in sight. The legal system hasn't caught up to whether the original scraping was permissible, let alone what should happen to a model trained on someone else's model's outputs one layer downstream. Watching the same companies that scraped the open internet turn around and call foul when someone trains on their model's outputs does have a certain irony to it, whether or not the two situations are legally identical.</p>
+
+    <p>Neither observation cancels the other out. You can think the distillation campaigns were a genuine violation and also think the outrage from labs sitting on scraped-internet training sets is a little rich. Both things can be true, and arguing about which one matters more mostly generates heat, not clarity. What it does tell you is that nobody in this industry, on either side of the Pacific, has fully earned the moral high ground yet. Everyone trained on something they didn't strictly have permission to use. The argument now is just about which layer of that stack counts as the crime.</p>
+
+    <h2>The bigger fight nobody's having</h2>
+
+    <p>Here's what gets lost in the back-and-forth: language models are already the wrong battlefield. The actual next step is world models, AI systems that don't just process text, but understand how physical reality works. Gravity, cause and effect, object permanence, spatial relationships. The intuitive sense that lets you know a ball will hit the ground before you drop it.</p>
+
+    <p>Yann LeCun, Fei-Fei Li, Google DeepMind, NVIDIA, and labs across China and the UAE are all racing to build them. LeCun has said that within three to five years, world models will be the dominant AI architecture, and nobody in their right mind would still use today's LLMs. Whether or not that exact timeline holds, the direction he's pointing at is hard to argue with. A model that's only ever seen text can describe a wet road being slippery. It has no actual model of friction, momentum, or what happens when a tire loses grip mid-turn. A world model is supposed to close that gap, learning physics the way a toddler does, by watching things happen and predicting what happens next.</p>
 
     <p>Building one won't happen on chatbot transcripts or distilled reasoning chains. It needs video, sensor data, 3D spatial information, physics simulations, and real-world interaction data from every environment on the planet. Every terrain, every climate, every physical interaction between objects, humans, and machines. The data requirements make LLM training sets look like a pamphlet.</p>
 
-    <p>So here we are, fighting over copied chatbot outputs, while the actual destination requires something so massive no single company, no single country, could build the dataset alone.</p>
+    <h3>Why this is a harder problem than it sounds</h3>
 
-    <p>Nobody in this conversation seems to want to say that part.</p>
+    <p>Text is cheap to collect because humans already produced trillions of words of it and put most of that online for free. Physical-world data doesn't work that way. Nobody's been quietly recording sensor feeds of every construction site, warehouse, and highway on the planet for the last twenty years and posting it to a forum. That data either has to be generated by simulation, which risks teaching a model physics that's subtly wrong, or captured from the real world, which means cameras, sensors, and robots physically present in an enormous number of places, running for years, in conditions nobody controls.</p>
+
+    <p>That's the sim-to-real gap researchers in this field talk about constantly. A model trained entirely on simulated physics can get very good at the simulation and still fail badly the first time it meets a real gravel driveway or a genuinely unpredictable human. Closing that gap is why companies building humanoid robots and autonomous vehicles are also, quietly, some of the biggest players in the world model race. Every mile a self-driving car logs and every task a warehouse robot fumbles through is a data point that no amount of scraped chatbot transcripts can substitute for.</p>
+
+    <h2>Why no one can build this alone</h2>
+
+    <p>So here we are, fighting over copied chatbot outputs, while the actual destination requires something so massive no single company, no single country, could build the dataset alone. Nobody in this conversation seems to want to say that part.</p>
+
+    <p>Think about what a complete physical training set would actually require. Video and sensor data from construction sites in monsoon season and mining operations in the Arctic. Manufacturing floors in a dozen countries running different equipment under different regulations. Traffic patterns in cities that were never designed with sensors in mind. Agricultural data from climates that don't exist anywhere near Silicon Valley or Shenzhen. No lab, however well funded, has people and cameras and sensors in all of those places at once. The raw material for a real world model is scattered across every country that has physical infrastructure, which is all of them.</p>
+
+    <p>This is where the current national framing starts to break down under its own weight. The US-China rivalry makes sense as a story about who controls the best chatbot this quarter. It makes a lot less sense as a story about who controls physical reality, because physical reality doesn't sit inside one country's data centers. A mining operation in Chile, a fishing fleet off the coast of Norway, a rice paddy in Vietnam, a logging operation in this province, all of it is potential training data for a system that actually understands the physical world, and none of it belongs to whichever lab happens to win the current news cycle. Somebody will eventually have to license, partner, or negotiate their way into that data at a scale that dwarfs anything a distillation lawsuit is arguing about today.</p>
 
     <p>If the end state of AI is a system that truly understands reality, that can simulate every corner of the physical world, then one nation's language model outputs being sacred territory starts to look small. Not because IP doesn't matter today. It does. But the scale of what's coming makes today's distillation wars look like neighbours arguing over a fence line while a city is being built around them.</p>
 
-    <p>A world model that works needs inputs from every language, every climate, every physical system on earth. No single lab will ever have that on its own. Which means the frame of "stolen outputs" gets smaller the further out you look.</p>
+    <p>A world model that works needs inputs from every language, every climate, every physical system on earth. No single lab will ever have that on its own. Which means the frame of "stolen outputs" gets smaller the further out you look, even if it's the entirely correct frame for the lawsuits happening right now.</p>
 
-    <p>We're nowhere near that. Probably not in our lifetime. But every headline about "stolen" training data is really a preview of a much bigger question nobody is ready to answer:</p>
+    <h2>What this means if you're not running a lab</h2>
+
+    <p>I write about this stuff because it's genuinely interesting, not because a Vernon electrical contractor needs to have an opinion on Anthropic's litigation strategy. But there's a practical thread worth pulling here, and it's about how fast the ground moves under tools you might already be using.</p>
+
+    <p>Every few months I get asked some version of "should we hold off on AI until things settle down?" I understand the instinct. Nobody wants to build a workflow around a tool that gets leapfrogged in eighteen months. But this industry isn't going to settle down, not this year and probably not this decade, and waiting for a stable landing point means waiting indefinitely. The businesses I see doing well treat the underlying model as replaceable and treat the process around it, how you review output, how you decide what to trust, how you catch mistakes, as the durable investment. The chatbot changes. The discipline doesn't.</p>
+
+    <p>The chatbot you're using today to draft quotes or summarize a spec sheet is built on the architecture at the center of this fight. Within a handful of years, some of that capability may shift toward systems that reason about physical space and sequence differently, which matters if you're evaluating AI for anything involving site layouts, material takeoffs from photos, or equipment monitoring. You don't need to track the research. You need to know that "AI" isn't one static thing you adopt once and forget, it's a category that keeps reshaping itself, and the tool that's impressive this year may be outdated within two.</p>
+
+    <p>That's part of why I push clients toward starting small and building judgment rather than betting everything on one platform. Whatever wins the world model race, the businesses that adapted well to this generation of tools will adapt well to the next one too, because they built the internal habit of testing, reviewing, and correcting AI output instead of trusting it blindly. That habit outlasts any specific architecture.</p>
+
+    <p>There's also a slightly stranger thought worth sitting with, if you run a business that generates exactly the kind of physical-world data these labs are eventually going to need. Site photos, equipment sensor logs, drone footage of a job progressing over months, the day-to-day record of how real materials behave in real conditions. Most of that gets thrown away or buried in an old phone once a job wraps. It's speculative to say any of it will matter to a world model lab someday, but it's not nothing either, and it's one more reason to at least start keeping better digital records of the physical work you already do.</p>
+
+    <p>If you want a clearer read on where your own operation stands amid all this change, the <a href="/assessment" style="color:var(--accent)">free assessment</a> is a good place to start.</p>
+
+    <p>We're nowhere near a world model that actually works. Probably not in our lifetime. But every headline about "stolen" training data is really a preview of a much bigger question nobody is ready to answer:</p>
 
     <p>What happens when the AI that understands reality doesn't belong to anyone?</p>
 

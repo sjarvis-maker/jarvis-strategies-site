@@ -143,7 +143,7 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI Strategy</span>
   <h1>AI for Subcontractor Coordination: A Practical Workflow for GCs</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 23, 2026 &nbsp;·&nbsp; 4 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 23, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
@@ -155,21 +155,49 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>AI for subcontractor coordination strips out the friction around capturing and propagating information. The relationship work stays with the people.</p>
 
+    <h2>Why coordination breaks down before the actual work does</h2>
+
+    <p>Say a framing crew finishes a section two days ahead of schedule. Good news, except the electrician doesn't find out until the framer's foreman happens to mention it on a call about something else entirely. Now there's a two-day gap where nobody's on site, the schedule still shows the old dates, and the GC finds out about the slip when the electrician calls asking why nobody told them.</p>
+
+    <p>None of that happened because anyone did their job badly. It happened because the information that would have prevented it, "we're ahead, someone should come look," existed in one person's head and didn't get anywhere useful in time. That's the actual failure mode in most subcontractor coordination problems. Not incompetence. Information sitting in the wrong place.</p>
+
+    <p>Multiply that by every trade on a mid-size job, every week, and you get the daily grind that eats a PM's morning: piecing together a picture that already exists, scattered across six group chats and a stack of voicemails, into something everyone else on the job can actually act on.</p>
+
+    <h2>What poor coordination actually costs</h2>
+
+    <p>None of this shows up as a line item, which is part of why it's easy to underinvest in fixing it. Nobody bills a change order for "PM found out about a schedule slip four days late." But the cost is real. Say a plumber shows up for a rough-in inspection and the electrician's work isn't done, because a schedule change never reached the right person. That's a wasted trip, a rescheduled inspection, and a week added to a task that should have taken a day, times however many trades are affected downstream.</p>
+
+    <p>Multiply a handful of these misses across a project and you get a pattern most GCs already recognize even if they've never put a number on it: jobs don't usually blow their schedule because of one big failure. They blow it because of a dozen small coordination gaps, each small enough to shrug off individually, that compound into weeks by the time the job wraps.</p>
+
+    <p>It shows up in the sub relationship too. A sub who gets blamed for a delay that was actually caused by a coordination gap on the GC's side doesn't forget that easily. Trust erodes a little every time, and a GC's reputation with good subs, the ones who show up on time and do the work right, is worth more than almost anything else in this business.</p>
+
     <h2>Where AI for subcontractor coordination genuinely helps</h2>
 
     <p>AI works with what the team is already sending. It doesn't know the framer's truck broke down or the slab finisher had a family emergency. That information lives with the people on the ground. What AI handles well is the rote part of coordination, once the underlying facts are known.</p>
 
-    <p>Daily site summaries. A PM gets fifteen status updates a day from different trades, mostly via text or quick calls. AI reads those, extracts what changed, and produces a one-paragraph summary pushed to everyone who needs it. Time saved per PM: about 45 minutes a day, every day.</p>
+    <h3>Daily site summaries</h3>
 
-    <p>RFI triage. RFIs come in unstructured, get logged inconsistently, and sit in inboxes. AI categorizes incoming RFIs by trade, urgency, and which drawing they reference, then routes them to the right person with the right context. Time saved per project: hours.</p>
+    <p>A PM gets fifteen status updates a day from different trades, mostly via text or quick calls. AI reads those, extracts what changed, and produces a one-paragraph summary pushed to everyone who needs it. Time saved per PM: about 45 minutes a day, every day. Over a week, that's close to four hours that used to go into reading, re-reading, and retyping the same information into three different places.</p>
 
-    <p>Schedule impact analysis. When something slips, and something always slips, figuring out the downstream impact across trades is a 30-minute exercise. AI flags affected dependencies in under a minute. The PM still makes the call. The work to figure out what's affected gets shorter.</p>
+    <h3>RFI triage</h3>
+
+    <p>RFIs come in unstructured, get logged inconsistently, and sit in inboxes. AI categorizes incoming RFIs by trade, urgency, and which drawing they reference, then routes them to the right person with the right context. Time saved per project: hours. The bigger win isn't the time, though. It's that fewer RFIs sit unanswered for a week because nobody noticed they'd landed in the wrong inbox in the first place.</p>
+
+    <h3>Schedule impact analysis</h3>
+
+    <p>When something slips, and something always slips, figuring out the downstream impact across trades is normally a 30-minute exercise: pulling up the schedule, tracing dependencies, calling around to confirm. AI flags affected dependencies in under a minute. The PM still makes the call on what to do about it. The work to figure out what's affected just gets shorter, so a problem surfaces in minutes instead of at the end of the day, when it's too late to do much about it.</p>
+
+    <h3>Keeping subs on the current drawing set</h3>
+
+    <p>Revisions happen mid-job, and not every sub gets the memo at the same time. A framer working off last week's set can build something that has to come back apart. AI can flag when a sub's question or photo references a drawing revision that's been superseded, and prompt someone to confirm they're working from the current set before it turns into a demo-and-redo problem. It won't catch every case. It catches enough of them to be worth having.</p>
 
     <h2>Where AI for subcontractor coordination goes sideways</h2>
 
     <p>The temptation is to let AI talk directly to subs. Don't.</p>
 
-    <p>The relationship between a GC and its subs is the part of the job that matters most. Subs need to know there's a human on the other end of the message. Letting AI auto-send schedule updates is how you train your subs to ignore your project communications.</p>
+    <p>The relationship between a GC and its subs is the part of the job that matters most. Subs need to know there's a human on the other end of the message. Letting AI auto-send schedule updates is how you train your subs to ignore your project communications, because the first time an auto-generated message gets something wrong, and it eventually will, that's the moment they stop reading anything with your company's name on it.</p>
+
+    <p>There's a second failure mode that's less obvious: using AI to interpret site photos or documentation as if the interpretation were settled fact. AI can flag that a photo looks like it might show incomplete work. It can't tell you whether that's an actual problem or just an in-progress shot taken from an odd angle. Treating that flag as a finding instead of a prompt to go look is how a GC ends up in an argument with a sub over something that was never actually wrong.</p>
 
     <p>Use AI for the back-office work. Keep humans on the front line.</p>
 
@@ -181,11 +209,45 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>This is the governance pattern across every construction AI use case worth implementing: AI for first-pass and acceleration, humans for the decisions that matter.</p>
 
+    <h2>Who should actually own this</h2>
+
+    <p>Someone on the GC's side needs to own the AI layer: what data it's touching, who sees its output, and what happens if it gets something wrong. On a smaller operation that's usually the PM running the job. On a bigger one it might be an office manager or ops lead supporting several PMs at once.</p>
+
+    <p>What matters isn't the title. It's that one person is answerable for it, the same way one person is answerable for safety on a site, rather than everyone assuming somebody else is watching.</p>
+
+    <h2>"We already have project management software for this"</h2>
+
+    <p>Fair point, and it's usually true. Most GCs running jobs of any size already have Procore, Buildertrend, or something similar. The problem isn't that the software doesn't exist to hold this information. It's that filling it in takes time nobody has in the moment, so people default to the fastest channel, a text, a call, and the software becomes a record of what happened three days ago instead of what's happening now.</p>
+
+    <p>AI doesn't replace that software. It closes the gap between how information actually moves on a job site and how the software wants to receive it. The text thread stays the text thread. AI reads it and pushes a structured summary into the system that's supposed to hold that information anyway. The PM stops being the one manually transcribing a text message into a field in Procore at nine at night.</p>
+
+    <h2>"Our subs won't use another new tool"</h2>
+
+    <p>They don't have to. This is the part that gets missed most often when GCs evaluate AI for coordination: the sub-facing side of this doesn't change. Subs keep texting, calling, and sending photos the way they already do. The AI layer sits on the GC's side, reading and organizing what's already coming in. Nobody on the sub's crew needs to log into anything, learn a new app, or change a habit they've had for fifteen years.</p>
+
+    <p>That matters more than it sounds like it should. Every tool rollout that requires subs to change their behavior is a tool rollout that mostly fails, because a GC has limited leverage over how a sub's crew works day to day. Tools that require zero behavior change from the subcontractor side have a real shot at sticking. Tools that don't usually get used for two weeks and then quietly abandoned.</p>
+
+    <h2>What a rollout actually looks like</h2>
+
+    <p>Most of the GCs I talk to who are curious about this ask the same first question: where do we even start. The answer is smaller than they expect.</p>
+
+    <p>Pick one coordination task, daily summaries are usually the easiest starting point, and run it alongside whatever you're already doing for a few weeks. Don't replace the existing process yet. Let the AI-generated summary sit next to the PM's own notes and compare. Most PMs find within the first week or two whether the summaries are catching what matters or missing things, and that comparison is worth more than any vendor's pitch, because it's based on your actual jobs and your actual subs, not a demo built around somebody else's project.</p>
+
+    <p>Once daily summaries earn some trust, RFI triage is usually the next thing worth trying, because it's contained: RFIs already have a clear structure, a clear owner, and a clear point where a miscategorization gets caught before it does damage. Schedule impact analysis tends to come last, since it touches the most moving parts and benefits most from a PM who already trusts the tool's daily output.</p>
+
+    <p>The mistake to avoid is standing up all three at once. A GC that rolls out daily summaries, RFI triage, and schedule impact analysis in the same week has no way to tell which one is actually working and which one is quietly generating noise nobody's checking.</p>
+
+    <h2>How you'll know it's working</h2>
+
+    <p>The clearest signal isn't a dashboard number. It's what stops happening. Fewer "wait, nobody told me" calls. Fewer trips where a sub shows up and the site isn't ready for them. Fewer moments where the PM finds out about a problem from a client instead of from their own team.</p>
+
+    <p>Track the boring thing too: how much of the PM's day is still going into project management software and text threads after a month. If that two-hour block hasn't moved, either the wrong task got automated first or the summaries aren't earning enough trust to replace the manual check. Both are fixable, but only if someone's actually watching for the second possibility instead of assuming the tool is working because it was expensive.</p>
+
     <h2>When to look at AI for subcontractor coordination</h2>
 
     <p>If you're a PM or super spending more than two hours a day in project management software and text threads, the workflow is probably worth examining.</p>
 
-    <p>The question to ask: where in your coordination work is the rote part, and what would it free up if it took 80% less time? That's what the assessment surfaces.</p>
+    <p>The question to ask: where in your coordination work is the rote part, and what would it free up if it took 80% less time? That's what the <a href="/assessment" style="color:var(--accent)">assessment</a> surfaces.</p>
 
     <p><a href="/#contact" style="color:var(--accent);font-weight:600">Get in Touch →</a></p>
 

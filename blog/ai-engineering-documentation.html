@@ -143,63 +143,101 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI Strategy</span>
   <h1>AI for Engineering Documentation: Reclaiming Engineer Time from Compliance Paperwork</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 15, 2026 &nbsp;·&nbsp; 5 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 15, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
-    <p>In manufacturing the engineers there are exactly the people you'd expect: sharp, trained, the kind that can read a circuit diagram and tell you what's wrong with it in 30 seconds.</p>
+    <p>The engineers at this manufacturing shop are exactly the people you'd expect: sharp, trained, the kind who can read a circuit diagram and tell you what's wrong with it in thirty seconds.</p>
 
-    <p>When we ran the AI readiness assessment with one client, we asked them to track their time for two weeks. The result was uncomfortable.</p>
+    <p>When we ran the AI readiness assessment with them, we asked the team to track their own time for two weeks, hour by hour, no exceptions. Nobody enjoyed the result.</p>
 
-    <p>80% of their week was documentation. Updating drawings. Writing test reports. Maintaining the design history file. Cross-referencing version numbers. Producing the audit trail certification bodies require.</p>
+    <p>Eighty percent of their week was documentation. Updating drawings. Writing test reports. Maintaining the design history file. Cross-referencing version numbers across a dozen linked documents. Producing the audit trail their certification body demands before anything ships.</p>
 
-    <p>20% was actual engineering.</p>
+    <p>Twenty percent was actual engineering.</p>
 
-    <p>These were people who went to school for years to design hardware and write embedded software. They were spending one day a week doing it.</p>
+    <p>These are people who spent years in school learning to design hardware and write embedded software. They were doing it one day a week. The other four went to paperwork that proves the work was done correctly, rather than to the work itself.</p>
 
-    <p>This is the documentation tax. AI for engineering documentation is one of the highest-leverage fixes available.</p>
+    <p>I call this the documentation tax, and it's not unique to this shop. I see some version of it in nearly every regulated manufacturing business I walk into. AI for engineering documentation is one of the highest-leverage fixes I know of, precisely because the ratio is this lopsided. You don't need to reinvent the engineering. You need to stop burning senior engineering time on formatting.</p>
 
-    <h2>Why the engineering documentation burden gets so heavy</h2>
+    <h2>Why the documentation burden gets so heavy</h2>
 
-    <p>In any regulated industry, documentation is a deliverable. The widget you ship has to come with paperwork proving it does what it's supposed to.</p>
+    <p>In any regulated industry, documentation isn't an afterthought, it's a deliverable in its own right. The part you ship has to arrive with paperwork proving it does what it claims to do, built to the spec it claims to be built to, tested the way the standard says it has to be tested. No paperwork, no shipment. Sometimes no paperwork, no company, if an audit goes badly enough.</p>
 
-    <p>Producing that paperwork is mostly administrative: reformatting information that already exists in someone's head, or in a spec, or in an email thread, into the format an auditor wants to see.</p>
+    <p>Producing that paperwork is mostly administrative. The information already exists somewhere: in an engineer's head, in a spec sheet, in an email thread from three weeks ago where a design decision got made and never wrote itself down properly. The work is taking that scattered information and reformatting it into the shape an auditor expects to see, with the right revision numbers, the right cross-references, the right signatures in the right boxes.</p>
 
-    <p>It accumulates fast. A change order comes in. The engineer makes the design change in 20 minutes, then spends three hours updating every downstream document to reflect it. The 20-minute change costs four hours. Multiply by every change in a project, every project, every engineer. That's where the 80/20 ratio comes from.</p>
+    <p>It accumulates fast, and it accumulates in a way that's easy to underestimate until you actually measure it. A change order comes in. The engineer makes the design change itself in twenty minutes. Then they spend the next three hours updating every downstream document that references the part that changed: the bill of materials, the test procedure, the drawing package, the risk assessment if the change touches anything safety-related. The twenty-minute change ends up costing four hours. Multiply that by every change, on every project, for every engineer on the team, and you start to see where an 80/20 ratio comes from. It isn't one bad week. It's the accumulated weight of a process that was never designed to be fast.</p>
 
-    <h2>Where AI for documentation actually fits in the workflow</h2>
+    <h3>Where the hours actually go</h3>
 
-    <p>The documentation problem is structurally what AI is good at: reformatting structured information from one form to another, cross-referencing version numbers, generating prose descriptions from technical specifications, catching where two documents disagree. It's pattern work, and AI handles pattern work well.</p>
+    <ul>
+      <li>Reformatting the same information into different templates for different reviewers or regulatory bodies</li>
+      <li>Manually tracking which version of a document is current across shared drives, email, and printed binders</li>
+      <li>Writing narrative descriptions of design decisions that already exist as notes, sketches, or verbal agreements</li>
+      <li>Cross-checking that a change in one document is reflected everywhere else it needs to be</li>
+      <li>Assembling the final package for submission, with signatures, appendices, and revision history in order</li>
+    </ul>
 
-    <p>For this same client, we built a workflow where the engineer makes the design change, logs the decision and rationale in a structured way, and the downstream documents update automatically. The engineer still reviews the output because this is regulated work and the human is the final check. But four hours of reformatting becomes 30 minutes of review.</p>
+    <p>None of that requires an engineering degree. All of it currently gets done by people who have one, because nobody else on staff is qualified to catch the mistakes if a non-engineer tries to do it instead.</p>
 
-    <p>Documentation time dropped 30 to 40%. The engineering-to-documentation ratio moved from 20/80 to closer to 50/50.</p>
+    <h2>Where AI actually fits in the workflow</h2>
 
-    <p>Same team. Same headcount. Roughly twice the engineering output.</p>
+    <p>The documentation problem is, structurally, close to what AI is good at. Reformatting information from one structure into another. Cross-referencing version numbers across a set of linked documents. Turning a technical specification into the narrative prose a reviewer expects. Catching where two documents disagree with each other. This is pattern work, not judgment work, and AI is genuinely useful at pattern work in a way it is not useful at, say, deciding whether a rough-in is done correctly.</p>
+
+    <p>For this shop, we built a workflow where the engineer still makes the design change. That part doesn't move. What changes is what happens next: the engineer logs the decision and the reasoning behind it in a structured format, rather than a stream-of-consciousness email, and the downstream documents update from that structured input automatically. The bill of materials updates. The draft language for the test report updates. The cross-references get flagged if something doesn't line up.</p>
+
+    <p>The engineer still reviews everything the system produces, because this is regulated work and a human has to be the final check before anything gets signed. But four hours of manual reformatting becomes thirty minutes of review. That's the trade you're actually making: not "AI does the engineering," but "AI does the retyping, and a qualified person checks its work before it goes anywhere near a client or an auditor."</p>
+
+    <p>Documentation time on this project dropped 30 to 40 percent within the first couple of months. The engineering-to-documentation ratio moved from roughly 20/80 to something closer to 50/50. Same team, same headcount, roughly twice the engineering output, measured the same way they measured it before, by tracking hours.</p>
+
+    <p>That number holds up because it isn't a projection. It's what the same engineers reported when we asked them to track their time again after the workflow had been running for a while.</p>
+
+    <h2>A day this actually changes</h2>
+
+    <p>Say a design change comes through on a Tuesday morning. A supplier substitutes a component, and the substitution is close enough electrically but has a different footprint. Under the old process, the engineer updates the schematic, then manually walks through the bill of materials, the assembly drawing, the test procedure, and the risk file, updating each one by hand and hoping nothing gets missed in the shuffle. That's most of a day gone, more if the part touches a safety-critical subsystem and triggers a formal design review.</p>
+
+    <p>Under the new process, the engineer still makes the schematic change and logs why the substitution is acceptable, with the reasoning captured in a form that other documents can pull from. The system flags every downstream document that references the old part number and drafts the updates. The engineer reviews each one, adjusts anything that doesn't sound right or misses context only a person would catch, and signs off. What took most of a day now takes an hour, most of it spent reviewing rather than retyping.</p>
+
+    <p>Nothing about the engineering judgment changed. The substitution still had to be a sound one, and a person still had to decide that it was. What changed is how much of the day got eaten by making sure eleven documents agreed with each other.</p>
 
     <h2>Governance requirements for AI in regulated documentation</h2>
 
-    <p>Every document going out has to be traceable, reviewed, and signed off by a qualified human. AI cannot be the author of record. It's a tool the author uses.</p>
+    <p>Every document going out has to be traceable to a qualified human who is accountable for its contents, reviewed by someone competent to catch errors, and signed off through a process an auditor can follow after the fact. AI cannot be the author of record. It's a tool the author uses, in the same sense a CAD program or a spreadsheet is a tool, except it's a tool that can write plausible-sounding prose about things it got wrong.</p>
 
-    <p>The distinction sounds pedantic until you're in front of an auditor.</p>
+    <p>That distinction sounds pedantic until you're sitting across from an auditor who asks who approved a specific test result and the honest answer is "the software did." That's not an answer that survives an audit, and it shouldn't.</p>
 
-    <p>The workflow we built keeps the human as author and approver at every step. AI runs in the background handling reformatting. The audit trail shows who made the decision, who reviewed it, when, and why, the same trail a paper-based process would produce, just generated faster.</p>
+    <p>The workflow we built keeps a human as author and approver at every step where a decision gets made. AI runs in the background handling reformatting, cross-referencing, and first-draft language. The audit trail records who made each decision, who reviewed it, when, and why, the same kind of trail a fully manual process would produce, just generated faster and with fewer places for something to slip through unnoticed.</p>
 
-    <p>If you're in a regulated industry looking at AI for documentation, build the governance into the workflow, not as a layer bolted on top afterward.</p>
+    <p>If you're in a regulated industry looking at AI for documentation, build the governance into the workflow from day one. Don't build the tool first and figure out sign-off later. I've seen that order cause real problems, mostly because retrofitting accountability into a process that was designed without it is much harder than designing it in from the start.</p>
+
+    <blockquote>
+      <p>The audit trail has to show a person decided, not that a system produced something that sounded right.</p>
+    </blockquote>
+
+    <h2>Objections I hear, and whether they hold up</h2>
+
+    <p>The most common one is some version of "our documentation is too specialized for a general tool to handle." That's usually true of the raw technical content and usually false of the paperwork problem. AI doesn't need to understand your embedded firmware to notice that the revision number on page four doesn't match the one on the cover sheet. Most of what eats engineer time isn't specialized reasoning. It's clerical consistency, and clerical consistency doesn't care how specialized the underlying product is.</p>
+
+    <p>The second one is a fair concern about data. Design files, test data, and proprietary process knowledge are exactly the kind of information a company should be careful about feeding into any third-party system. That's a real constraint, and it's one reason the setup work matters: where the data lives, what leaves your network, what a vendor's terms of service actually say about your information. Skipping that step is how companies end up regretting a tool six months in.</p>
+
+    <p>The third is engineers themselves, and honestly, this is the objection I take most seriously. Nobody wants a piece of software looking over their shoulder, and nobody wants to be told the paperwork they've been careful about for a decade is suddenly "automated." The framing matters here. This isn't automating engineering judgment. It's removing the retyping between the judgment and the record. Most engineers come around once they see that the review step is still theirs, and that thirty minutes of review beats four hours of formatting on any day of the week.</p>
 
     <h2>The same pattern shows up across industries</h2>
 
-    <p>Avionics, for example, is the starkest example because the ratio is so extreme. But every business with regulatory or contractual documentation obligations has the same shape: the work itself is fast, the paperwork is slow, and the people doing it are senior, expensive, and could be working on something more valuable.</p>
+    <p>Avionics is the starkest version of this I've come across, because the documentation ratio there can be even more extreme than in general manufacturing. But every business with regulatory or contractual documentation obligations has roughly the same shape: the actual work is fast, the paperwork proving the work happened is slow, and the people doing that paperwork are senior, expensive, and could be doing something the business actually needs more of.</p>
 
-    <p>Manufacturing SOPs. Construction closeout packages. Quality records. Permit documentation. Inspection reports. ISO compliance. The shape is the same.</p>
+    <p>Manufacturing SOPs. Construction closeout packages. Quality records. Permit documentation. Inspection reports. ISO compliance files. Different industries, different regulators, same underlying shape: a fast decision followed by a slow paper trail proving the decision was sound.</p>
+
+    <p>If you recognize that shape in your own operation, the fix tends to look similar no matter what you build or ship. Find where the retyping happens. Build a workflow that captures the decision once, in structured form, and lets everything downstream draft from it. Keep a qualified person reviewing and signing off on every output. Track the hours before and after so you know the fix actually worked, rather than assuming it did.</p>
 
     <h2>How to start with AI for documentation</h2>
 
-    <p>The question is whether you've mapped your specific workflow well enough to know where AI should help, and whether the governance is in place to make sure the auditor agrees.</p>
+    <p>The real question isn't whether AI can help with documentation. In most regulated shops, it obviously can. The question is whether you've mapped your specific workflow closely enough to know where it should help, and whether your governance is solid enough that an auditor looking at the result would agree it's sound.</p>
 
-    <p>The free AI Readiness Assessment scores your operation across the dimensions that determine whether a documentation workflow is ready, and surfaces the use cases in your current process.</p>
+    <p>That takes more than picking a tool off a shelf. It takes tracking your own time the way this client did, honestly enough to find the uncomfortable number, and then building the workflow around what that number actually shows rather than around what a vendor's demo makes it look like.</p>
 
-    <p><a href="/#contact" style="color:var(--accent);font-weight:600">Get in touch →</a></p>
+    <p>The free AI Readiness Assessment scores your operation across the dimensions that determine whether a documentation workflow like this is ready to build, and it surfaces the specific use cases sitting in your current process, the ones that are probably costing you more engineering time than anyone on your team has bothered to add up.</p>
+
+    <p><a href="/assessment" style="color:var(--accent);font-weight:600">Take the free assessment →</a></p>
 
     <p style="border-top:1px solid var(--border);padding-top:24px;margin-top:8px"><a href="/solutions/engineering-documentation" style="color:var(--accent);font-weight:600">See this as a solution page →</a></p>
 

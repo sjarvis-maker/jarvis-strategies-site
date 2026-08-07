@@ -128,36 +128,105 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI Strategy</span>
   <h1>How Long Does AI Implementation Actually Take?</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 27, 2026 &nbsp;·&nbsp; 4 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 27, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
-    <p>The honest answer is a range, not a number: two to six weeks from a scoped starting point to a working system. Which end of that range you land on comes down to a small number of decisions made before any building starts.</p>
+    <p>The honest answer is a range, not a number: two to six weeks from a scoped starting point to a working system. Which end of that range you land on comes down to a small number of decisions made before any building starts, not to how good the technology happens to be that month.</p>
+
+    <p>I get asked this question on nearly every discovery call, usually early, usually before we've talked about scope at all. That's backwards, and it's worth explaining why, because the order those two conversations happen in tells you almost everything about whether a timeline estimate is going to hold up.</p>
 
     <h2>Where the clock actually starts</h2>
 
-    <p>Implementation timelines don't start on day one of the engagement, they start once the scope is clear. The assessment (1-2 weeks) is what makes that possible: a structured discovery call plus a scored survey that produces a readiness score, a prioritized roadmap, and a governance baseline. Skipping that step doesn't save time, it just moves the scoping work into the middle of the build, where it costs more.</p>
+    <p>Implementation timelines don't start on day one of the engagement. They start once the scope is clear, and getting there usually takes its own week or two before any building begins.</p>
+
+    <p>The assessment is what makes that possible: a structured discovery call plus a scored survey that produces a readiness score, a prioritized roadmap, and a governance baseline. It sounds like a formality. It isn't. Skipping it doesn't save time, it just moves the scoping work into the middle of the build, where it's more expensive to do and where every wrong assumption costs you a redo instead of a conversation.</p>
+
+    <p>I've watched this go both ways. A contractor who spends two hours in an assessment call, answering honestly about where their data lives and how their team actually works day to day, walks into the build phase with almost no surprises left. A business that wants to skip straight to "just build the thing" usually discovers halfway through that nobody agreed on what "the thing" was supposed to do. That discovery costs a week, sometimes two, and it costs it at the worst possible point in the schedule.</p>
 
     <h2>What actually determines two weeks versus six</h2>
 
+    <p>Once scope is set, four factors do almost all the work of predicting where you'll land on the range.</p>
+
     <ul>
-      <li><strong>Number of workflows.</strong> One well-defined workflow, proposal drafting, say, moves faster than integrating AI across estimating, documentation, and coordination simultaneously.</li>
-      <li><strong>Data readiness.</strong> If project data is centralized and accessible, the system can be built against it directly. If it's scattered across email, drives, and paper, part of the timeline goes to organizing that first.</li>
-      <li><strong>Governance complexity.</strong> A regulated documentation workflow needing a full audit trail takes longer to build correctly than a low-stakes internal tool, because the review and approval structure has to be right before anything goes live, not bolted on after.</li>
-      <li><strong>Integration depth.</strong> Plugging into existing project management or CRM tools adds real time. A standalone tool used by one or two people doesn't.</li>
+      <li><strong>Number of workflows.</strong> One well-defined workflow, proposal drafting, say, moves faster than integrating AI across estimating, documentation, and subcontractor coordination all at once. Each additional workflow doesn't just add its own time, it adds coordination time between the pieces.</li>
+      <li><strong>Data readiness.</strong> If project data is centralized and accessible, the system gets built directly against it. If it's scattered across email threads, shared drives, and paper in a filing cabinet, part of the timeline goes to organizing that first, and that part is rarely quick.</li>
+      <li><strong>Governance complexity.</strong> A regulated documentation workflow that needs a full audit trail takes longer to build correctly than a low-stakes internal tool, because the review and approval structure has to be right before anything goes live. Bolting governance on after the fact is how you end up rebuilding the thing twice.</li>
+      <li><strong>Integration depth.</strong> Plugging into existing project management or CRM tools adds real time, because now the system has to work reliably with software you didn't build and don't fully control. A standalone tool used by one or two people skips most of that.</li>
     </ul>
+
+    <p>None of these factors are about how capable the AI itself is. They're about how tangled your existing operation is, and how much of that tangle needs sorting out before a new tool can sit on top of it cleanly. That's usually the part people underestimate going in.</p>
+
+    <p>I understand the instinct to think a faster model or a fancier vendor shortens the timeline. It rarely does, not by much. The bottleneck almost never sits with the AI itself, which can draft a document or answer a query in seconds regardless of which underlying system is running it. The bottleneck sits with your data, your review process, and your team's availability to test and learn the thing. A business that's organized internally will move quickly with almost any competent AI tool behind it. A business that isn't will move slowly no matter how impressive the underlying technology happens to be, and no vendor pitch changes that math.</p>
+
+    <h3>A two-week build, in practice</h3>
+
+    <p>Picture a small excavation company that wants AI help drafting proposals faster. One workflow, one person using it, data already living in a handful of past project folders that are reasonably organized. The assessment confirms the scope in a day or two. The build itself, template setup, testing against real past proposals, a short training session with the estimator, fits into two weeks comfortably, because there's nothing else competing for that time.</p>
+
+    <h3>A six-week build, in practice</h3>
+
+    <p>Now picture a mid-sized manufacturer wanting AI woven into engineering documentation, where a regulator expects a clean audit trail and three separate document types have to update in sync. Data lives across an old shared drive and a newer project management tool that only half the team actually uses. Getting the data question sorted takes real time on its own. Governance has to be designed carefully enough that it survives an audit, not just a demo. None of that is a criticism of the business, it's just a harder problem with more moving parts, and six weeks reflects that honestly rather than being padding.</p>
 
     <h2>What the weeks actually contain</h2>
 
-    <p>It's not weeks of waiting, it's design, build, and deployment against your actual data, tools, and workflows, with governance, ownership, data boundaries, quality checks, team training, built in from the start rather than added afterward. That's also why "two weeks" and "six weeks" both include a working, trained, governed system at the end, not a prototype that needs another engagement to become usable.</p>
+    <p>It isn't weeks of waiting on a vendor. It's design, build, and deployment against your actual data, tools, and workflows, with governance, ownership, data boundaries, quality checks, and team training built in from the start rather than tacked on at the end. That's also why both "two weeks" and "six weeks" include a working, trained, governed system when they're done, not a prototype that needs a second engagement to become something your team can actually use.</p>
+
+    <p>A rough shape for a two-week build looks like this: a few days confirming scope and gathering the specific data the workflow needs, most of a week building and testing against real examples from your own business rather than generic samples, and the final days training your team and fixing whatever the training session surfaces. Longer builds stretch each of those phases and usually add a phase in the middle for integration testing, where the new workflow has to prove it plays well with tools you're already using.</p>
 
     <h3>What happens after launch</h3>
 
-    <p>A system doesn't finish evolving the day it launches. AI moves fast and your business keeps changing, which is why an ongoing monthly arrangement, cancel anytime, exists for continued iteration, new use cases, and governance oversight as usage grows. That's a separate, optional phase from the initial build, not a hidden extension of it.</p>
+    <p>A system doesn't finish evolving the day it launches, and pretending otherwise sets up a bad expectation. AI tools keep improving, your business keeps changing, and the workflow that fit your operation on day one will need adjusting six months later, usually in small ways rather than large ones.</p>
+
+    <p>That's why an ongoing monthly arrangement, cancel anytime, exists for continued iteration, new use cases, and governance oversight as usage grows. It's a separate, optional phase from the initial build, not a hidden extension of it dressed up as something new. Some clients take it. Some don't, and check back in when something specific comes up. Both are reasonable choices depending on how much your operation changes year to year.</p>
+
+    <h2>Why AI timelines get compared to the wrong thing</h2>
+
+    <p>Most business owners have a mental model for how long software projects take, built from experience with ERP rollouts, website rebuilds, or that CRM migration that ran four months over. That experience leads people to expect either instant results, because AI demos always look instant, or a long drawn-out project, because that's what "new software" has meant in the past. Neither model fits well.</p>
+
+    <p>AI implementation for a specific workflow is closer to hiring and training a very capable new employee for one part of your operation than it is to installing a new piece of enterprise software. You wouldn't expect a new hire to be fully productive on day one, and you also wouldn't expect training them to take six months. Two to six weeks, with a real person reviewing the output the whole way through, sits about where that comparison would put it.</p>
+
+    <p>The comparison breaks down eventually, everything does, but it's a more useful starting point than either extreme people usually arrive with.</p>
+
+    <h2>What stretches a timeline past the estimate</h2>
+
+    <p>Sometimes a two-week build turns into four, and it's worth being honest about why, because the reasons are almost always the same handful of things and none of them are exotic.</p>
+
+    <p>Data access delays are the most common. Someone who has to grant access to a shared drive is on vacation. An IT contractor who manages a legacy system takes a week to respond to an email. These aren't AI problems, they're ordinary business logistics problems that happen to sit in the critical path of an AI build.</p>
+
+    <p>Scope creep is the second. Halfway through building a proposal-drafting workflow, it's tempting to add "and also handle the follow-up emails" or "and also pull in the old CRM data." Sometimes that's the right call. More often it's better as a second phase, because bundling it into the first build means neither piece gets finished on time and neither gets tested properly before going live.</p>
+
+    <p>The third is a mismatch between who's available to train and when. If the one person who needs to learn the new proposal workflow is out running job sites all week, the build can be finished and sitting there unused for days before training actually happens. That's not a technology delay, but it shows up as one if nobody accounts for it going in.</p>
+
+    <h2>Questions worth asking before you commit to a timeline</h2>
+
+    <p>A few questions tend to separate a realistic estimate from a hopeful one, and they're worth asking whoever gives you a number.</p>
+
+    <ul>
+      <li>Does the estimate include time for your team to actually learn the system, or does the clock stop the moment the tool technically works?</li>
+      <li>Who owns fixing it when the AI gets something wrong three weeks after launch, and is that covered by the original timeline or a separate conversation?</li>
+      <li>Has anyone actually looked at where your data lives, or is the timeline a guess based on a general idea of what your industry usually needs?</li>
+      <li>What happens to the timeline if a workflow turns out to be more tangled than it looked on the discovery call?</li>
+    </ul>
+
+    <p>If those answers feel vague, the timeline attached to them probably is too.</p>
+
+    <h3>Can you pay to go faster?</h3>
+
+    <p>Sometimes, within limits. Compressing a build usually means running phases in parallel that would otherwise happen in sequence, gathering data while governance gets designed, for instance, instead of one after the other. That works up to a point.</p>
+
+    <p>Past that point, speed stops being a budget question and starts being a risk question. A regulated documentation workflow still needs its review structure tested properly before it touches a real audit trail, and no amount of budget makes that testing take less real-world time. I'll tell a client honestly when a request to go faster is reasonable and when it's asking me to skip a step that exists for a good reason. Usually it's obvious which is which once you're looking at the actual workflow instead of a general idea of it.</p>
+
+    <h3>What if you don't know what you need yet?</h3>
+
+    <p>That's normal, and it's exactly what the assessment is built to sort out. Most people who reach out don't arrive with a fully scoped project. They arrive with a feeling: proposals take too long, the engineers spend all their time on paperwork, nobody knows where a job stands until someone calls to ask.</p>
+
+    <p>Turning that feeling into a scoped workflow with a real timeline is the actual first deliverable, before any building starts. It's also the part that determines everything downstream, which is why rushing past it to get to a number tends to produce a number that doesn't hold.</p>
 
     <h2>Why "how long" is really "how much scope"</h2>
 
-    <p>The honest way to answer "how long will this take" for your business specifically is to first answer "what exactly are we building," which is precisely what the assessment is for. Two weeks and six weeks are both realistic answers. Which one applies to you depends on decisions that haven't been made yet.</p>
+    <p>The honest way to answer "how long will this take" for your specific business is to first answer "what exactly are we building," which is what the assessment exists to sort out before either of us commits to a number. Two weeks and six weeks are both realistic answers to the original question. Which one applies to you depends on decisions that, if you're asking this question today, probably haven't been made yet.</p>
+
+    <p>That's not a dodge. It's the actual shape of the problem. A contractor asking how long a renovation will take gets the same kind of answer, and for the same reason: it depends what's behind the walls.</p>
 
     <p><a href="/assessment" style="color:var(--accent);font-weight:600">Take the free assessment →</a></p>
 

@@ -143,7 +143,7 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI Strategy</span>
   <h1>AI for Construction Estimating: Where It Belongs (and Where It Doesn't)</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 8, 2026 &nbsp;·&nbsp; 5 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; July 8, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
@@ -153,21 +153,53 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>When vendors pitch "AI for construction estimating," they usually mean one of these six and assume the rest don't exist. That's how implementations go off the rails.</p>
 
+    <h2>Why the six-job framing matters</h2>
+
+    <p>Most of the frustration I hear about AI estimating tools traces back to this. An owner buys a tool that's genuinely good at quantity takeoffs, expects it to also handle pricing judgment, gets a number that's wrong for the local market, and concludes the whole category doesn't work. The tool did its job. It just wasn't asked to do the job it's actually good at.</p>
+
+    <p>Separating the six lets you evaluate a tool, or a workflow, on the part it's actually built for, instead of holding it accountable for a job it was never doing.</p>
+
+    <h3>What's actually being sold as "AI for estimating"</h3>
+
+    <p>Vendors selling into construction estimating generally fall into three buckets, and knowing which bucket you're looking at saves a lot of wasted demos. Takeoff-focused tools measure drawings and count quantities, and they're judged on how well they read plan sets, not on how well they write. Drafting-focused tools generate proposal text, cover letters, and templated sections, and they're judged on tone and speed, not on pricing accuracy. A smaller number of platforms try to do both, usually by bolting a chatbot onto an existing takeoff product, and those tend to do neither job particularly well.</p>
+
+    <p>None of the three buckets touch pricing judgment in a way that should replace an estimator's number. Any vendor claiming otherwise is selling something closer to a guess dressed up as a calculation.</p>
+
+    <h3>A note on accuracy claims</h3>
+
+    <p>Plenty of vendor marketing leads with a specific accuracy percentage for takeoff or estimating output. Treat those numbers the way you'd treat a subcontractor's most optimistic schedule: possible under ideal conditions, and worth verifying against your own drawings before you trust it on a bid that matters.</p>
+
     <h2>Where AI for estimating genuinely helps</h2>
 
-    <p>Scope interpretation. AI is good at reading a 140-page spec and pulling out the requirements that affect scope. Human validation is still required, but as a first pass to flag what needs estimator attention, it's faster than starting cold.</p>
+    <p><strong>Scope interpretation.</strong> AI is good at reading a 140-page spec and pulling out the requirements that affect scope. Human validation is still required, but as a first pass to flag what needs estimator attention, it's faster than starting cold. Say a spec buries an unusual insulation requirement on page 87, in a section nobody reads closely under deadline. Flagging it before pricing starts is worth more than the hour it saves, because missing it is the kind of error that turns into a change-order fight three months into the job.</p>
 
-    <p>Quantity takeoffs. AI-assisted takeoff tools work for a defined set of measurement tasks. The estimator still validates, but the early stages of measuring drawings and pulling counts are pattern-matching work AI handles well.</p>
+    <p><strong>Quantity takeoffs.</strong> AI-assisted takeoff tools work for a defined set of measurement tasks. The estimator still validates, but the early stages of measuring drawings and pulling counts are pattern-matching work AI handles well. On a repetitive scope like framing a multi-unit residential building, that's real hours back in an estimator's week, hours that go toward pricing judgment instead of counting studs on a drawing.</p>
 
-    <p>Proposal assembly. This is the highest-leverage spot: drafting prose, applying templates, pulling in past project references, generating the cover letter. Estimator judgment stays in the pricing. AI handles the wrapper.</p>
+    <p><strong>Proposal assembly.</strong> This is the highest-leverage spot: drafting prose, applying templates, pulling in past project references, generating the cover letter. Estimator judgment stays in the pricing. AI handles the wrapper. A proposal that used to take an afternoon to assemble, once the numbers were locked, can be built in twenty minutes and then edited, rather than written from a blank document every time.</p>
 
     <h2>Where AI for estimating doesn't belong</h2>
 
-    <p>Pricing judgment. This is the part of construction estimating that's actually valuable, and it depends on context that isn't written down anywhere. Local labour rates this month. Which supplier is reliable on lead times. Whether the client is the type that fights every change order. An AI doesn't know any of that.</p>
+    <p><strong>Pricing judgment.</strong> This is the part of construction estimating that actually makes or loses you money, and it depends on context that isn't written down anywhere. Local labour rates this month. Which supplier is reliable on lead times. Whether the client is the type that fights every change order. An AI doesn't know any of that. It can suggest a number based on historical averages, but averages flatten exactly the judgment that separates a profitable bid from a break-even one.</p>
 
-    <p>Risk assessment. The risks that bite contractors are the ones that come from knowing the client, the site, and the trade. AI can flag generic risks. It cannot tell you the GC on this job is famously slow on payments, or that the geotechnical conditions on the neighbouring parcel surprised everyone.</p>
+    <p><strong>Risk assessment.</strong> The risks that bite contractors are the ones that come from knowing the client, the site, and the trade. AI can flag generic risks, weather delays, material cost volatility, the kind of thing that shows up in every risk register template. It cannot tell you the GC on this job is famously slow on payments, or that the geotechnical conditions on the neighbouring parcel surprised everyone. That knowledge lives in people who've worked this market for years, not in a training set.</p>
 
-    <p>Follow-up. The relationship part of estimating belongs to the human, full stop. Automated follow-up sequences feel exactly like what they are.</p>
+    <p><strong>Follow-up.</strong> The relationship part of estimating belongs to the human, full stop. Automated follow-up sequences feel exactly like what they are. A client who gets a templated check-in email two days after a big proposal notices, and it tells them something about how much the relationship matters to you.</p>
+
+    <p>Put together, these three are the reason "AI estimator" as a complete replacement doesn't exist yet, and won't for a while. They're also exactly the three things a client is paying your business for when they hire you instead of a lower bidder with a fancier piece of software.</p>
+
+    <h2>Questions I hear from estimators, not just owners</h2>
+
+    <p>Owners tend to ask about ROI. Estimators, the people who'll actually use the tool, ask sharper questions, and they deserve real answers.</p>
+
+    <p><strong>Will it get the quantities wrong?</strong> Sometimes, on unusual drawings or poor scan quality. That's exactly why the workflow keeps a validation step. AI-assisted takeoff isn't meant to replace the estimator checking the count. It's meant to hand them a first pass instead of a blank spreadsheet.</p>
+
+    <p><strong>Who's liable if a number goes out wrong?</strong> The estimator, same as before AI entered the picture. That's not a side effect of the technology, it's the design. The tool drafts. The person whose name is on the bid approves. If that line ever gets blurry, that's a governance failure, not a technology failure.</p>
+
+    <p><strong>Doesn't this just mean estimators do more bids with the same accuracy risk?</strong> Only if speed becomes the only goal. The point of freeing up hours in scope reading and takeoff isn't to chase more volume at the same quality. It's to spend the hours you get back on the pricing and risk judgment that actually determines whether a job makes money.</p>
+
+    <p><strong>Does this replace the need for an estimator?</strong> No. It changes what an estimator spends their week doing. The measuring and the drafting shrink. The pricing, risk judgment, and client relationship stay exactly where they were, because those were never mechanical tasks in the first place.</p>
+
+    <p><strong>What happens on a job with no clean historical comparison?</strong> The tool is least useful there, and that's fine to know going in. AI-assisted estimating leans on pattern recognition from past jobs. A genuinely novel scope, a building type or system you've never priced before, is exactly the kind of job where an experienced estimator's judgment matters most and the AI has the least to offer.</p>
 
     <h2>The AI estimating workflow pattern that works</h2>
 
@@ -175,11 +207,29 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>The human is the bookend. The AI is the middle. That's the pattern.</p>
 
+    <p>It holds regardless of trade or company size, because it's built around where judgment actually lives in the estimating process, rather than around what a particular piece of software happens to do well.</p>
+
+    <h3>What this looks like after six months</h3>
+
+    <p>Say a 12-person electrical contractor rolls this out for commercial bids. Month one is mapping the current process: who touches a bid, in what order, and where the delays actually happen. Month two, AI-assisted takeoff and scope-flagging go live on new bids, with the estimator validating every output before anything moves to pricing. By month four, proposal drafting is folded in, and turnaround on a mid-size commercial bid drops from four days to a day and a half, not because the pricing got faster, but because the drafting and the reviewing don't sit in separate queues anymore. By month six, the estimator isn't working less. They're spending more of their week on the two hours per bid that actually decide whether it's profitable, and less on the six hours that used to go into assembling the document around it.</p>
+
+    <h3>What it looks like when the pattern breaks down</h3>
+
+    <p>Compare that to a shop that skips the sequencing. An owner buys a takeoff-and-drafting bundle, tells the estimator to "use the AI," and doesn't touch the review step. Within a few bids, a drafted proposal goes out referencing the wrong project type, because nobody checked the AI's pull from past-project references before it landed in a client's inbox. The estimator loses trust in the tool, reverts to doing everything manually, and the real question sits unresolved: was the tool bad, or was the rollout the problem? Almost always, it's the second one.</p>
+
+    <h3>The pattern holds across trades</h3>
+
+    <p>The specifics change by trade, but the six-job structure doesn't. An electrical contractor's quantity takeoff means counting devices and circuits instead of stud counts. A mechanical contractor's risk assessment leans heavily on equipment lead times instead of GC payment history. A civil contractor's pricing judgment depends on soil conditions and weather windows more than almost anything else on this list. The categories stay the same. What fills them changes with the trade, which is exactly why a generic "AI for construction" pitch struggles to land with any one of them specifically.</p>
+
     <h2>Governance for AI in construction estimating</h2>
 
     <p>AI-assisted estimating fails badly without a clear review step. The accountability question, who owns the number that goes out the door, has to be answered before any workflow goes live.</p>
 
     <p>The rule is simple: AI drafts, the estimator approves. The signed proposal carries the estimator's name, and the estimator did the work that justifies the signature.</p>
+
+    <p>Governance also means deciding what data the AI tool can see. Historical job costs and pricing are the whole reason these tools get useful, but that same data is often the most sensitive information in the business. A workflow that pulls from your job cost history needs the same access controls you'd put around your bank account, because in a competitive bid market, that's roughly what it's worth.</p>
+
+    <p>Training matters here too. An estimator who doesn't understand what the AI is actually doing under the hood, versus what it's guessing at, will either trust it too much or not at all. A short, honest walkthrough of where the tool is reliable and where it isn't tends to do more for adoption than any feature list.</p>
 
     <p>Get that distinction wrong and you'll find the problems the hard way.</p>
 
@@ -188,6 +238,10 @@ footer p { font-size: 0.85rem; color: var(--muted); }
     <p>If the bigger problem is that you're bidding on jobs you shouldn't be chasing, AI won't solve it. It'll help you produce more proposals for jobs you're going to lose, at speed.</p>
 
     <p>Bid/no-bid discipline comes first. AI in the estimating workflow comes after.</p>
+
+    <p>Cost is often the real first question, even when it arrives dressed up as a technology question. For a two- or three-person estimating team, the math on rolling this out looks different than it does for a firm running six estimators across multiple offices. The workflow pattern is the same either way. The scale of the investment, and how quickly it needs to prove itself, isn't.</p>
+
+    <p>The same goes for a business where the estimating process itself is inconsistent from one job to the next, different templates, different pricing logic depending on who's doing the takeoff. AI trained on inconsistent history produces inconsistent output. Cleaning that up isn't glamorous work, but it's the foundation everything else sits on.</p>
 
     <p>The readiness assessment is built to surface exactly this kind of sequencing decision. Sometimes the right move is AI in estimating. Sometimes it's fixing the bid filter first, then implementing AI. Knowing which is which is the difference between a high-ROI rollout and a frustrated estimator.</p>
 

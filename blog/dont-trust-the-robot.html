@@ -143,7 +143,7 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
   <span class="post-tag">AI 101</span>
   <h1>Don't Believe Everything the Robot Says</h1>
-  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; March 14, 2026 &nbsp;·&nbsp; 2 min read</div>
+  <div class="post-meta">Scott Jarvis &nbsp;·&nbsp; March 14, 2026 &nbsp;·&nbsp; 9 min read</div>
 
   <div class="article-body">
 
@@ -153,17 +153,75 @@ footer p { font-size: 0.85rem; color: var(--muted); }
 
     <p>The technical term is "hallucination," which is a polite way of saying the AI invented something and forgot to mention it.</p>
 
-    <p>Two habits make a real difference.</p>
+    <h2>What's actually happening when it does that</h2>
 
-    <p>First, treat everything AI tells you as a starting point, not a finished answer. Anything specific — a statistic, a name, a regulation, a date — check it somewhere else before you rely on it. AI gets you most of the way there quickly, but the final verification is still yours to do.</p>
+    <p>An AI assistant doesn't look things up the way a search engine does, unless you've specifically given it that ability. Left to itself, it's predicting the next word in a sentence based on patterns it absorbed from an enormous pile of text. Most of the time that produces something accurate, because most patterns hold. Occasionally the most statistically likely answer is also just wrong, and the model has no built-in sense that it happened. It doesn't feel the gap the way a person would if they realized mid-sentence they were guessing.</p>
 
-    <p>Second, think before you type. Whatever goes into an AI tool enters a system you don't fully control. For personal use, this rarely matters. For business use, especially in industries with privacy obligations, it can matter quite a bit. If you wouldn't write something on a sticky note and pin it to a public bulletin board, it probably shouldn't go into an AI tool you haven't researched.</p>
+    <p>That's the part people miss. A person who doesn't know something usually signals it, even faintly. They hedge, they trail off, they say "I think" instead of stating it flat. AI doesn't reliably do that. It can be dead wrong about a product spec or a code reference in exactly the same tone it uses to correctly explain how a term works. There's no built-in tell.</p>
 
-    <p>For everyday tasks, none of this is a big deal. But if you're starting to use AI in your business and you're not sure where the lines are, that's a conversation worth having before something goes sideways.</p>
+    <p>The closest comparison I've found is a keen new apprentice who hates saying "I don't know" more than he hates being wrong. Ask him a question and he'll give you an answer, because giving an answer feels more useful than admitting a gap, even when the honest response would have been to shrug and go find out. Most of the time he's right, or close enough. Every so often he's confidently, cleanly wrong, and unless you already know the answer yourself, there's nothing in his tone to warn you.</p>
+
+    <h2>Where this actually bites people in your line of work</h2>
+
+    <p>The examples that get passed around online are usually harmless: a made-up movie plot, a fake historical date. The ones that matter in a trades or construction business are quieter and more expensive.</p>
+
+    <p>Say a project manager asks an AI tool for the load rating on a specific type of engineered beam. It gives a number, stated plainly, no caveats. If that number is wrong and nobody checks the manufacturer's spec sheet before it goes into a structural calc, that's not a funny story anymore. Or say an office admin asks for the current requirements under a specific building code section. AI can describe code requirements in general terms reasonably well, but codes get amended, jurisdictions vary, and an answer that sounds complete can still be missing the exact clause that applies to your project. Supplier pricing is another one. Ask an AI tool what a certain material typically costs and you'll get a confident number. Whether that number reflects this month, this region, and this supplier is a different question entirely, and the AI has no way of knowing you're about to put it in a quote.</p>
+
+    <p>None of these examples mean the tool is useless for that kind of question. They mean the answer is a starting point, and the checking still has to happen somewhere.</p>
+
+    <h2>Why this catches experienced people, not just beginners</h2>
+
+    <p>You'd think the people most likely to get burned are the ones who don't know the trade well enough to catch a bad answer. Usually it's the opposite. Someone brand new to construction would probably feel uneasy taking any technical answer at face value and check it out of pure caution. It's the twenty-year estimator who reads a plausible-sounding number, recognizes it as roughly the right ballpark, and moves on, because it matched their gut and their gut is usually right.</p>
+
+    <p>That's exactly the failure mode. Deep expertise in one area makes you fast at spotting wrong answers in that same area and, oddly, a little more likely to wave through a wrong answer that's adjacent to it. A framer who's spent two decades on wood-frame residential work has excellent instincts there. Ask an AI tool something about a steel connection detail or a mechanical code clause outside that scope, and the same sharp instincts that make her fast on familiar ground won't necessarily flag an answer that's confidently wrong in unfamiliar territory. The danger zone isn't "I have no idea about this." It's "I know enough to believe it, but not enough to verify it."</p>
+
+    <h2>Habit one: treat every answer as a first draft</h2>
+
+    <p>Anything specific that AI hands you, a statistic, a name, a regulation, a spec, a dollar figure, deserves a second look before it goes anywhere that matters. Not a deep audit every time. Just the same instinct you'd already apply to a number a new hire gave you without double-checking it first.</p>
+
+    <p>In practice, that means keeping a short mental list of what needs verification and what doesn't. A first draft of an email to a supplier: fine to send with a quick read-through. A drafted response summarizing your own internal notes: low risk, because you already know if it sounds wrong. A code citation, a material spec, a legal or safety claim, a number that's going into a quote or a contract: verify it against the actual source before it goes out the door. AI gets you most of the way there fast. The final check is still yours, and treating that step as optional is how a confident wrong answer turns into an expensive mistake with your name on it.</p>
 
     <blockquote>
-      <p>Next week: Is AI going to take your job? The answer is more interesting than either the panic or the reassurances would suggest.</p>
+      <p>AI is fast at getting you most of the way to right. It is not reliably good at telling you when it hasn't.</p>
     </blockquote>
+
+    <h3>How to spot the guessing, if you're paying attention</h3>
+
+    <p>There's no foolproof signal, but a few patterns are worth watching for. An answer that's oddly specific with no source behind it is worth a second look, especially numbers that sound precise but arrive with nothing to back them up. Ask the same question two different ways and if the answer changes meaningfully, that's a sign it wasn't retrieving a fact so much as generating a plausible-sounding one each time. And if something matters enough to act on, just ask directly: "Are you confident about that, or could you be wrong here?" It won't always catch the problem, but the tools have gotten better at flagging genuine uncertainty when asked, and it costs nothing to ask.</p>
+
+    <h2>Habit two: think before you type</h2>
+
+    <p>Whatever goes into an AI tool enters a system you don't fully control. For personal use, this rarely matters. For business use, especially in industries with privacy obligations or competitive pricing information, it can matter quite a bit.</p>
+
+    <p>This comes up more than people expect once they start using AI for real work. Someone drafts a proposal and pastes in a client's full contact details and project budget to save time. Someone summarizes a subcontractor agreement, including rates that are supposed to stay between the two companies. Someone asks for help writing up a personnel issue, typing out an employee's name and the specifics of a disciplinary conversation. None of that is malicious. It's just the normal instinct to give the tool enough context to be useful, without stopping to ask where that context goes.</p>
+
+    <p>The rule of thumb I give people: if you wouldn't write it on a sticky note and pin it to a public bulletin board, it probably shouldn't go into an AI tool you haven't researched. Some tools offer business-tier settings that keep your inputs out of training data. Some don't, or make it unclear. That distinction is worth five minutes of reading before you make a habit of pasting client information into a chat window.</p>
+
+    <p>A simple way to keep this from becoming a daily judgment call is to strip out what doesn't need to be there before you paste anything in. Swap the client's name for "the client." Round the budget instead of pasting the exact figure. Summarize the situation instead of copying the whole email thread with someone's direct contact information still attached. Most of the time the AI doesn't need the specifics to be useful, it needs the shape of the problem, and you can usually add the real details back in yourself once you have a draft you're happy with.</p>
+
+    <h2>What to do when you catch it being wrong</h2>
+
+    <p>This is going to happen, and it shouldn't scare you off the tool. Catching a wrong answer is actually a good sign. It means you were checking. The worse outcome is never catching one at all, which usually means you weren't looking, not that the AI has gotten more careful.</p>
+
+    <p>When it happens, it's worth a beat of curiosity rather than just moving on annoyed. Ask what led it there. Sometimes the AI was working from an outdated version of a code or a spec. Sometimes the question was ambiguous in a way you didn't notice until you saw the answer. Sometimes it really did just guess. Knowing which of those happened tells you something about how much to trust the next answer on a similar topic, and over time you build a rough sense of where a given tool is solid and where it needs a second opinion every time.</p>
+
+    <h3>Do you need a written policy for this?</h3>
+
+    <p>Not on day one. If you're a five-person shop where the owner and maybe one office person are using AI to draft emails and speed up paperwork, a five-minute conversation covers it: don't paste client details in, don't treat anything specific as final without checking it. That's a policy. It doesn't need a document.</p>
+
+    <p>It's worth writing down once more than one or two people are using these tools regularly, or once AI starts touching anything that leaves the building, quotes, proposals, client communication, project documentation. Not because the rules get more complicated, but because "I told everyone once at a team meeting" is a bad foundation once there are six people involved and half of them weren't in the room. A short written guideline, a page at most, covering what's fine to paste in and what isn't, and which kinds of answers need a second check before they go out, closes that gap without turning into a compliance project nobody reads.</p>
+
+    <h2>What this doesn't mean</h2>
+
+    <p>None of this is an argument against using AI. It's an argument against using it the way people use a search engine result they don't bother to click through: skimming the confident-sounding summary and moving on. The businesses getting real value from these tools aren't the ones treating every answer as gospel. They're the ones who've figured out which questions are low-stakes enough to trust on the first pass, and which ones need a second set of eyes before they go anywhere near a client, a contract, or a structural calc.</p>
+
+    <p>For everyday tasks, none of this is a big deal. Draft an email, brainstorm a list, get a plain-English explanation of something confusing. Low stakes, easy to spot if it's off. But if you're starting to fold AI into how your business actually operates, quoting, documentation, communication with clients, that's worth a deliberate conversation about where the lines are, before something goes sideways rather than after.</p>
+
+    <p>The businesses I see get burned aren't the ones using AI too much. They're the ones using it without ever asking where the trust boundary should sit, so nobody notices until a wrong number is already in a client's inbox. That's an easy problem to avoid and an expensive one to clean up after the fact.</p>
+
+    <p>If you want help figuring out where those lines should sit for your business, the <a href="/assessment" style="color:var(--accent)">free assessment</a> is a good place to start.</p>
+
+    <p>Next week: Is AI going to take your job? The answer is more interesting than either the panic or the reassurances would suggest.</p>
 
   </div>
 
